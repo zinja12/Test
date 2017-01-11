@@ -11,6 +11,7 @@ namespace Test
     public class Constant
     {
         public static Texture2D pixel;
+        public static Texture2D particle;
         public static Texture2D spritesheet;
     }
 }

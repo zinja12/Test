@@ -28,7 +28,7 @@ namespace Test
         /// </summary>
         protected override void Initialize()
         {
-            game_overseer = new GameOverseer(0);
+            game_overseer = new GameOverseer(0, graphics.GraphicsDevice.Viewport.Width, graphics.GraphicsDevice.Viewport.Height);
 
             base.Initialize();
         }
@@ -45,6 +45,7 @@ namespace Test
             // TODO: use this.Content to load your game content here
             Constant.pixel = Content.Load<Texture2D>("Sprites/pixel.png");
             Constant.spritesheet = Content.Load<Texture2D>("Sprites/test_spritesheet.png");
+            Constant.particle = Content.Load<Texture2D>("Sprites/particle.png");
         }
 
         /// <summary>
@@ -67,7 +68,7 @@ namespace Test
                 Exit();
 
             // TODO: Add your update logic here
-            game_overseer.update(gameTime);
+            game_overseer.update(gameTime, graphics.GraphicsDevice);
 
             base.Update(gameTime);
         }
