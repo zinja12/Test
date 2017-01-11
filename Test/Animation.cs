@@ -10,7 +10,9 @@ namespace Test
 {
     public class Animation
     {
+        //Define a rectangle that will represent the current frame being drawn
         public Rectangle source_rect;
+        //Variables
         private int x, y, rect_width, rect_height, frame_count, frames;
 
         private float elapsed, delay;
@@ -28,8 +30,11 @@ namespace Test
 
         public void update(GameTime gameTime)
         {
+            //Calulate how much time has passed
             elapsed += (float)gameTime.ElapsedGameTime.TotalMilliseconds;
 
+            //If the time exceeds the delay and the frames variable is greater than the number of frames of the animation, either
+            //set it back to zero or increment the frame currently on
             if (elapsed >= delay)
             {
                 if (frames >= frame_count)
@@ -43,9 +48,11 @@ namespace Test
                 elapsed = 0;
             }
 
+            //Set the rectangle for the current frame of the animation based on the current frame we are at
             source_rect = new Rectangle(x + frames * rect_width, y, rect_width, rect_height);
         }
 
+        //Getters
         public int X()
         {
             return x;

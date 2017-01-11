@@ -10,6 +10,7 @@ namespace Test
 {
     public class Particle
     {
+        //Particle types
         public enum ParticleType
         {
             RAIN = 0,
@@ -17,10 +18,12 @@ namespace Test
             LEAVES = 3,
         }
 
+        //Variables
         Vector2 position;
         Vector2 velocity;
         ParticleType particle_type;
 
+        //Constructor
         public Particle(Vector2 position, Vector2 velocity, ParticleType particle_type)
         {
             this.position = position;
@@ -28,16 +31,19 @@ namespace Test
             this.particle_type = particle_type;
         }
 
+        //Getter
         public Vector2 Position
         {
             get { return position; }
         }
 
+        //Update where we just move the particle along with its velocity
         public void update(GameTime gameTime)
         {
             position += velocity;
         }
 
+        //Draw the right type of particle
         public void draw(SpriteBatch spriteBatch)
         {
             switch (particle_type)

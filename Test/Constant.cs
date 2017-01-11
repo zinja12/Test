@@ -10,6 +10,9 @@ namespace Test
 {
     public class Constant
     {
+        //A constant class to reference textures from
+        //Easier in my mind to keep all the textures in one place and reference them individually at the needed time
+        //instead of have one texture in every class
         public static Texture2D pixel;
         public static Texture2D particle;
         public static Texture2D spritesheet;

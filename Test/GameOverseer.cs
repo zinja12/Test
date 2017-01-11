@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Test
 {
+    //Overseer class to manage the game, load and switch levels and handle generalized overhead
     public class GameOverseer
     {
         Player player;

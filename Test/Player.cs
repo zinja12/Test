@@ -17,6 +17,7 @@ namespace Test
 
     public class Player : IEntity
     {
+        //Variables
         private Vector2 position, velocity, base_position;
         private KeyboardState keyboard;
         private bool is_moving;
@@ -27,8 +28,10 @@ namespace Test
 
         private Animation test_animation;
 
+        //Constructor
         public Player(Vector2 position)
         {
+            //Null check
             if (position == null)
             {
                 position = Vector2.Zero;
@@ -43,6 +46,7 @@ namespace Test
             test_animation = new Animation(100.0f, 4-1, 0, 0, width, height);
         }
 
+        //Getters
         public Vector2 get_base_position()
         {
             return base_position;
