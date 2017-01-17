@@ -46,6 +46,7 @@ namespace Test
             Constant.pixel = Content.Load<Texture2D>("Sprites/pixel.png");
             Constant.spritesheet = Content.Load<Texture2D>("Sprites/test_spritesheet.png");
             Constant.particle = Content.Load<Texture2D>("Sprites/particle.png");
+            Constant.card = Content.Load<Texture2D>("Sprites/tmp_card.png");
         }
 
         /// <summary>
@@ -79,7 +80,7 @@ namespace Test
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Green);
 
             spriteBatch.Begin();
             game_overseer.draw(spriteBatch);
