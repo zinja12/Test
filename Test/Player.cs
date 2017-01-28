@@ -85,11 +85,11 @@ namespace Test
             //Keep base position and feet constant
             base_position = new Vector2(position.X + (width / 2), position.Y + height);
             //left_foot = new Vector2(position.X, position.Y + height * 2);
-            right_foot = new Vector2(position.X + width, position.Y + height * 2);
+            //right_foot = new Vector2(position.X + width, position.Y + height * 2);
             l_hip = new Vector2(position.X, position.Y + height);
             r_hip = new Vector2(position.X + width, position.Y + height);
             //l_knee = new Vector2(position.X, position.Y + height*2 - (height / 2));
-            r_knee = new Vector2(position.X + width, position.Y + height*2 - (height / 2));
+            //r_knee = new Vector2(position.X + width, position.Y + height*2 - (height / 2));
             test_animation.update(gameTime);
         }
 
@@ -182,33 +182,59 @@ namespace Test
         private void handle_ik()
         {
             //Inverse kinematics for the left leg
-            float direction_x = left_foot.X - l_hip.X;
-            float direction_y = left_foot.Y - l_hip.Y;
-            float length = (float)Math.Sqrt(direction_x * direction_x + direction_y * direction_y);
-            direction_x = (direction_x / length);
-            direction_y = (direction_y / length);
+            float l_leg_direction_x = left_foot.X - l_hip.X;
+            float l_leg_direction_y = left_foot.Y - l_hip.Y;
+            float l_leg_length = (float)Math.Sqrt(l_leg_direction_x * l_leg_direction_x + l_leg_direction_y * l_leg_direction_y);
+            l_leg_direction_x = (l_leg_direction_x / l_leg_length);
+            l_leg_direction_y = (l_leg_direction_y / l_leg_length);
 
-            float disc = leg_bone_length * leg_bone_length - length * length / 4;
-            if (disc < 0)
+            float l_leg_disc = leg_bone_length * leg_bone_length - l_leg_length * l_leg_length / 4;
+            if (l_leg_disc < 0)
             {
-                l_knee.X = l_hip.X + direction_x * leg_bone_length;
-                l_knee.Y = l_hip.Y + direction_y * leg_bone_length;
-                left_foot.X = l_hip.X + direction_x * leg_bone_length * 2;
-                left_foot.Y = l_hip.Y + direction_y * leg_bone_length * 2;
+                l_knee.X = l_hip.X + l_leg_direction_x * leg_bone_length;
+                l_knee.Y = l_hip.Y + l_leg_direction_y * leg_bone_length;
+                left_foot.X = l_hip.X + l_leg_direction_x * leg_bone_length * 2;
+                left_foot.Y = l_hip.Y + l_leg_direction_y * leg_bone_length * 2;
             } else
             {
-                l_knee.X = l_hip.X + direction_x * length / 2;
-                l_knee.Y = l_hip.Y + direction_y * length / 2;
-                disc = (float)Math.Sqrt(disc);
+                l_knee.X = l_hip.X + l_leg_direction_x * l_leg_length / 2;
+                l_knee.Y = l_hip.Y + l_leg_direction_y * l_leg_length / 2;
+                l_leg_disc = (float)Math.Sqrt(l_leg_disc);
                 if (pref_rotation < 0)
                 {
-                    disc = -disc;
+                    l_leg_disc = -l_leg_disc;
                 }
-                l_knee.X -= direction_y * disc;
-                l_knee.Y += direction_x * disc;
+                l_knee.X -= l_leg_direction_y * l_leg_disc;
+                l_knee.Y += l_leg_direction_x * l_leg_disc;
             }
-            
-            //TODO: Implement inverse kinematics for the right leg
+
+            //Inverse kinematics for the right leg
+            float r_leg_direction_x = right_foot.X - r_hip.X;
+            float r_leg_direction_y = right_foot.Y - r_hip.Y;
+            float r_leg_length = (float)Math.Sqrt(r_leg_direction_x * r_leg_direction_x + r_leg_direction_y * r_leg_direction_y);
+            r_leg_direction_x = (r_leg_direction_x / r_leg_length);
+            r_leg_direction_y = (r_leg_direction_y / r_leg_length);
+
+            float r_leg_disc = leg_bone_length * leg_bone_length - r_leg_length * r_leg_length / 4;
+            if (r_leg_disc < 0)
+            {
+                r_knee.X = r_hip.X + r_leg_direction_x * leg_bone_length;
+                r_knee.Y = r_hip.Y + r_leg_direction_y * leg_bone_length;
+                right_foot.X = r_hip.X + r_leg_direction_x * leg_bone_length * 2;
+                right_foot.Y = r_hip.Y + r_leg_direction_y * leg_bone_length * 2;
+            }
+            else
+            {
+                r_knee.X = r_hip.X + r_leg_direction_x * r_leg_length / 2;
+                r_knee.Y = r_hip.Y + r_leg_direction_y * r_leg_length / 2;
+                r_leg_disc = (float)Math.Sqrt(r_leg_disc);
+                if (pref_rotation < 0)
+                {
+                    r_leg_disc = -r_leg_disc;
+                }
+                r_knee.X -= r_leg_direction_y * r_leg_disc;
+                r_knee.Y += r_leg_direction_x * r_leg_disc;
+            }
         }
 
         public void draw(SpriteBatch spriteBatch)
@@ -228,6 +254,8 @@ namespace Test
             //Draw legs?
             Renderer.DrawALine(spriteBatch, Constant.pixel, 1, Color.LightCyan, l_hip, l_knee);
             Renderer.DrawALine(spriteBatch, Constant.pixel, 1, Color.LightCyan, l_knee, left_foot);
+            Renderer.DrawALine(spriteBatch, Constant.pixel, 1, Color.LightCyan, r_hip, r_knee);
+            Renderer.DrawALine(spriteBatch, Constant.pixel, 1, Color.LightCyan, r_knee, right_foot);
         }
     }
 }
