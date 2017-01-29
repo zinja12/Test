@@ -17,5 +17,7 @@ namespace Test
         public static Texture2D particle;
         public static Texture2D spritesheet;
         public static Texture2D card;
+
+        public static bool debug = true;
     }
 }

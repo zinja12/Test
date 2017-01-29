@@ -245,12 +245,16 @@ namespace Test
             //Renderer.FillRectangle(spriteBatch, origin, 5, 5, Color.Blue);
             //Draw hitbox
             spriteBatch.Draw(Constant.spritesheet, position, test_animation.source_rect, Color.White);
-            Renderer.FillRectangle(spriteBatch, left_foot, 5, 5, Color.Cyan);
-            Renderer.FillRectangle(spriteBatch, right_foot, 5, 5, Color.Cyan);
-            Renderer.FillRectangle(spriteBatch, l_hip, 5, 5, Color.Cyan);
-            Renderer.FillRectangle(spriteBatch, r_hip, 5, 5, Color.Cyan);
-            Renderer.FillRectangle(spriteBatch, l_knee, 5, 5, Color.Cyan);
-            Renderer.FillRectangle(spriteBatch, r_knee, 5, 5, Color.Cyan);
+            if (Constant.debug)
+            {
+                Renderer.FillRectangle(spriteBatch, left_foot, 5, 5, Color.Cyan);
+                Renderer.FillRectangle(spriteBatch, right_foot, 5, 5, Color.Cyan);
+                Renderer.FillRectangle(spriteBatch, l_hip, 5, 5, Color.Cyan);
+                Renderer.FillRectangle(spriteBatch, r_hip, 5, 5, Color.Cyan);
+                Renderer.FillRectangle(spriteBatch, l_knee, 5, 5, Color.Cyan);
+                Renderer.FillRectangle(spriteBatch, r_knee, 5, 5, Color.Cyan);
+            }
+
             //Draw legs?
             Renderer.DrawALine(spriteBatch, Constant.pixel, 1, Color.LightCyan, l_hip, l_knee);
             Renderer.DrawALine(spriteBatch, Constant.pixel, 1, Color.LightCyan, l_knee, left_foot);
