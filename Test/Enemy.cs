@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Test
 {
-    class Enemy
+    public class Enemy
     {
 
         protected Texture2D texture;
