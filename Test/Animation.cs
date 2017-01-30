@@ -50,7 +50,7 @@ namespace Test
             }
 
             //Set the rectangle for the current frame of the animation based on the current frame we are at
-            source_rect = new Rectangle(x + frames * rect_width, y, rect_width, rect_height);
+            source_rect = new Rectangle(x + frames * rect_width, y * rect_height, rect_width, rect_height);
         }
 
         //Getters

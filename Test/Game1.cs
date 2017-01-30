@@ -18,6 +18,15 @@ namespace Test
         {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            if (!Constant.debug)
+            {
+                graphics.IsFullScreen = true;
+            } else
+            {
+                graphics.PreferredBackBufferWidth = 1000;
+                graphics.PreferredBackBufferHeight = 600;
+            }
+            graphics.ApplyChanges();
         }
 
         /// <summary>
