@@ -15,12 +15,9 @@ namespace Test
         MouseState mouse;
         Vector2 mouse_position;
         Rectangle mouse_collision_rect;
-        bool mouse_left_click = false;
-        Object mouse_parent = null;
 
         Player player;
         ParticleGenerator particle_generator;
-        List<Card> cards;
 
         int test_level = 0;
 
@@ -35,8 +32,6 @@ namespace Test
             {
                 //Debug mode
             }
-            cards = new List<Card>();
-            cards.Add(new Card(new Vector2(300, 150)));
         }
 
         public void update(GameTime gameTime, GraphicsDevice graphics)
@@ -44,22 +39,6 @@ namespace Test
             get_mouse_input();
             player.update(gameTime);
             particle_generator.update(gameTime, graphics);
-            foreach (Card c in cards){
-                if (mouse_collision_rect.Intersects(c.card_collision_rect) && mouse_left_click)
-                {
-                    mouse_parent = c;
-                } else
-                {
-                    mouse_parent = null;
-                }
-                c.update(gameTime);
-            }
-
-            if (mouse_parent != null)
-            {
-                Card c = (Card)mouse_parent;
-                c.position = new Vector2(mouse_position.X - (Card.card_width / 2), mouse_position.Y - (Card.card_height / 2));
-            }
         }
 
         private void get_mouse_input()
@@ -80,10 +59,6 @@ namespace Test
 
         public void draw(SpriteBatch spriteBatch)
         {
-            foreach (Card c in cards)
-            {
-                c.draw(spriteBatch);
-            }
             player.draw(spriteBatch);
             spriteBatch.Draw(Constant.particle, mouse_position, Color.Red);
             particle_generator.draw(spriteBatch);
