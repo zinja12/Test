@@ -19,17 +19,19 @@ namespace Test
     {
         //Variables
         private Vector2 position, velocity, base_position, left_foot, right_foot, l_hip, r_hip, l_knee, r_knee;
+        private Vector2 l_foot_anchor_point, r_foot_anchor_point;
         private KeyboardState keyboard;
         private bool is_moving;
         private volatile bool shine;
         private float top_speed = 2.0f, friction = 0.1f;
+        private bool move_l_foot = false, move_r_foot = false;
 
-        int pref_rotation = -1;
+        private int pref_rotation = -1;
 
         public static int width = 32, height = 32;
         private int leg_bone_length = (width / 2);
 
-        private Animation test_animation;
+        //private Animation test_animation;
 
         //Constructor
         public Player(Vector2 position)
@@ -47,13 +49,15 @@ namespace Test
             base_position = new Vector2(position.X + (width / 2), position.Y + height);
             //Initial left and right foot positions and leg positions
             left_foot = new Vector2(position.X, position.Y + height * 2 - 5);
+            l_foot_anchor_point = new Vector2(position.X, position.Y + height * 2 - 5);
             right_foot = new Vector2(position.X + width, position.Y + height * 2 - 5);
+            r_foot_anchor_point = new Vector2(position.X + width, position.Y + height * 2 - 5);
             l_hip = new Vector2(position.X, position.Y + height);
             r_hip = new Vector2(position.X + width, position.Y + height);
             l_knee = new Vector2(position.X + 5, position.Y + height - (height / 2));
             r_knee = new Vector2(position.X + width + 5, position.Y + height - (height / 2));
             //Initialize animation
-            test_animation = new Animation(100.0f, 4-1, 0, 0, width, height);
+            //test_animation = new Animation(100.0f, 4-1, 0, 0, width, height);
         }
 
         //Getters
@@ -84,13 +88,45 @@ namespace Test
             position += velocity;
             //Keep base position and feet constant
             base_position = new Vector2(position.X + (width / 2), position.Y + height);
-            //left_foot = new Vector2(position.X, position.Y + height * 2);
-            //right_foot = new Vector2(position.X + width, position.Y + height * 2);
+            l_foot_anchor_point = new Vector2(position.X, position.Y + height * 2 - 5);
+            r_foot_anchor_point = new Vector2(position.X + width, position.Y + height * 2 - 5);
             l_hip = new Vector2(position.X, position.Y + height);
             r_hip = new Vector2(position.X + width, position.Y + height);
             //l_knee = new Vector2(position.X, position.Y + height*2 - (height / 2));
             //r_knee = new Vector2(position.X + width, position.Y + height*2 - (height / 2));
-            test_animation.update(gameTime);
+            //test_animation.update(gameTime);
+
+            //Procedural left leg move
+            if (Vector2.Distance(left_foot, l_foot_anchor_point) > 15)
+            {
+                move_l_foot = true;
+            }
+
+            //Procedural right leg move
+            if (Vector2.Distance(right_foot, r_foot_anchor_point) > 15)
+            {
+                move_r_foot = true;
+            }
+
+            if (move_l_foot)
+            {
+                left_foot += Vector2.Normalize(l_foot_anchor_point - left_foot) * 0.001f * 0.01f;
+                if (Vector2.Distance(left_foot, l_foot_anchor_point) >= 1)
+                {
+                    left_foot = l_foot_anchor_point;
+                    move_l_foot = false;
+                }
+            }
+
+            if (move_r_foot)
+            {
+                right_foot += Vector2.Normalize(r_foot_anchor_point - right_foot) * 0.001f * 0.01f;
+                if (Vector2.Distance(right_foot, r_foot_anchor_point) >= 1)
+                {
+                    right_foot = r_foot_anchor_point;
+                    move_r_foot = false;
+                }
+            }
         }
 
         public void poll_input()
@@ -102,10 +138,12 @@ namespace Test
             if (keyboard.IsKeyDown(Keys.Left) || keyboard.IsKeyDown(Keys.A))
             {
                 velocity.X = -top_speed;
+                pref_rotation = 1;
             }
             else if (keyboard.IsKeyDown(Keys.Right) || keyboard.IsKeyDown(Keys.D))
             {
                 velocity.X = top_speed;
+                pref_rotation = -1;
             }
             else
             {
@@ -244,22 +282,32 @@ namespace Test
             //Renderer.FillRectangle(spriteBatch, point_orbit, 5, 5, Color.Green);
             //Renderer.FillRectangle(spriteBatch, origin, 5, 5, Color.Blue);
             //Draw hitbox
-            spriteBatch.Draw(Constant.spritesheet, position, test_animation.source_rect, Color.White);
+            
+            //Draw animation
+            //spriteBatch.Draw(Constant.spritesheet, position, test_animation.source_rect, Color.White);
+            //Draw body
+            spriteBatch.Draw(Constant.spritesheet, position, new Rectangle(2 * width, 1 * height, width, height), Color.White);
+            //Draw eyes
+            Renderer.FillRectangle(spriteBatch, new Vector2(position.X + 11, position.Y + 10), 5, 5, Color.Black);
+            Renderer.FillRectangle(spriteBatch, new Vector2(position.X + width - 11, position.Y + 10), 5, 5, Color.Black);
+            //Draw debug points depending on flag
             if (Constant.debug)
             {
-                Renderer.FillRectangle(spriteBatch, left_foot, 5, 5, Color.Cyan);
-                Renderer.FillRectangle(spriteBatch, right_foot, 5, 5, Color.Cyan);
-                Renderer.FillRectangle(spriteBatch, l_hip, 5, 5, Color.Cyan);
-                Renderer.FillRectangle(spriteBatch, r_hip, 5, 5, Color.Cyan);
-                Renderer.FillRectangle(spriteBatch, l_knee, 5, 5, Color.Cyan);
-                Renderer.FillRectangle(spriteBatch, r_knee, 5, 5, Color.Cyan);
+                Renderer.FillRectangle(spriteBatch, left_foot, 5, 5, Color.Red);
+                Renderer.FillRectangle(spriteBatch, right_foot, 5, 5, Color.Red);
+                Renderer.FillRectangle(spriteBatch, l_hip, 5, 5, Color.Red);
+                Renderer.FillRectangle(spriteBatch, r_hip, 5, 5, Color.Red);
+                Renderer.FillRectangle(spriteBatch, l_knee, 5, 5, Color.Red);
+                Renderer.FillRectangle(spriteBatch, r_knee, 5, 5, Color.Red);
+                Renderer.FillRectangle(spriteBatch, l_foot_anchor_point, 5, 5, Color.Orange);
+                Renderer.FillRectangle(spriteBatch, r_foot_anchor_point, 5, 5, Color.Orange);
             }
 
             //Draw legs?
-            Renderer.DrawALine(spriteBatch, Constant.pixel, 1, Color.LightCyan, l_hip, l_knee);
-            Renderer.DrawALine(spriteBatch, Constant.pixel, 1, Color.LightCyan, l_knee, left_foot);
-            Renderer.DrawALine(spriteBatch, Constant.pixel, 1, Color.LightCyan, r_hip, r_knee);
-            Renderer.DrawALine(spriteBatch, Constant.pixel, 1, Color.LightCyan, r_knee, right_foot);
+            Renderer.DrawALine(spriteBatch, Constant.pixel, 1, Color.Blue, l_hip, l_knee);
+            Renderer.DrawALine(spriteBatch, Constant.pixel, 1, Color.Blue, l_knee, left_foot);
+            Renderer.DrawALine(spriteBatch, Constant.pixel, 1, Color.Blue, r_hip, r_knee);
+            Renderer.DrawALine(spriteBatch, Constant.pixel, 1, Color.Blue, r_knee, right_foot);
         }
     }
 }

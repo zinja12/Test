@@ -46,15 +46,6 @@ namespace Test
             mouse = Mouse.GetState();
             mouse_position = new Vector2(mouse.X, mouse.Y);
             mouse_collision_rect = new Rectangle((int)mouse_position.X, (int)mouse_position.Y, 5, 5);
-
-            if (mouse.LeftButton == ButtonState.Pressed)
-            {
-                mouse_left_click = true;
-            }
-            else
-            {
-                mouse_left_click = false;
-            }
         }
 
         public void draw(SpriteBatch spriteBatch)
