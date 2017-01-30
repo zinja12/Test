@@ -1,6 +1,8 @@
 ﻿using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using System;
+using System.Collections.Generic;
 
 namespace Test
 {
@@ -13,6 +15,10 @@ namespace Test
         SpriteBatch spriteBatch;
 
         GameOverseer game_overseer;
+
+        List<Enemy> enemies = new List<Enemy>();
+        Random random = new Random();
+
 
         public Game1()
         {
@@ -72,14 +78,22 @@ namespace Test
         /// checking for collisions, gathering input, and playing audio.
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
+
+        float spawn = 0;
+
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
+            spawn += (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+            foreach (Enemy enemy in enemies)
+                enemy.Update(graphics.GraphicsDevice, gameTime);
+
             // TODO: Add your update logic here
             game_overseer.update(gameTime, graphics.GraphicsDevice);
-
+            LoadEnemies();
             base.Update(gameTime);
         }
 
@@ -87,12 +101,39 @@ namespace Test
         /// This is called when the game should draw itself.
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
+
+        public void LoadEnemies() {
+
+            int randY = random.Next(100, 400);
+            // enemy spawns every second
+            if (spawn >= 1)
+            {
+                spawn = 0;
+                // number of enemies
+                if (enemies.Count < 1)
+                {
+                    enemies.Add(new Enemy(Content.Load<Texture2D>("Sprites/particle.png"), new Vector2(1100, randY), Content.Load<Texture2D>("Sprites/particle.png")));
+                }
+            }
+
+            for (int i = 0; i < enemies.Count; i++)
+            {
+                if (!enemies[i].isVisible)
+                {
+                    enemies.RemoveAt(i);
+                    i--;
+                }
+            }
+        }
+
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.Green);
 
             spriteBatch.Begin();
             game_overseer.draw(spriteBatch);
+            foreach (Enemy enemy in enemies)
+                enemy.Draw(spriteBatch);
             spriteBatch.End();
 
             base.Draw(gameTime);

@@ -40,6 +40,8 @@
   <ItemGroup>
     <Compile Include="Animation.cs" />
     <Compile Include="Card.cs" />
+    <Compile Include="Bullets.cs" />
+    <Compile Include="Enemy.cs" />
     <Compile Include="Constant.cs" />
     <Compile Include="Game1.cs" />
     <Compile Include="GameOverseer.cs" />
