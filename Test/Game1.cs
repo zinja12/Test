@@ -112,7 +112,7 @@ namespace Test
                 // number of enemies
                 if (enemies.Count < 1)
                 {
-                    enemies.Add(new Enemy(Content.Load<Texture2D>("Sprites/particle.png"), new Vector2(1100, randY), Content.Load<Texture2D>("Sprites/particle.png")));
+                    enemies.Add(new Enemy(Content.Load<Texture2D>("Sprites/box.png"), new Vector2(600, randY), Content.Load<Texture2D>("Sprites/particle.png")));
                 }
             }
 

@@ -76,16 +76,18 @@ namespace Test
 
         public void Update(GraphicsDevice graphics, GameTime gameTime)
         {
+            /*
             position += velocity;
             if (position.Y <= 0 || position.Y >= graphics.Viewport.Height - texture.Height)
             {
                 velocity.Y = -velocity.Y;
             }
-
+            
             if (position.X < 0 - texture.Width)
             {
                 isVisible = false;
             }
+            */
             shoot += (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (shoot > 1)
             {
