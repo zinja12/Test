@@ -99,7 +99,7 @@ namespace Test
             for (int x = 0; x < blocks.GetLength(0); x++)
             {
                 //Decrease the y
-                for (int y = blocks.GetLength(1); y > 0; y--)
+                for (int y = blocks.GetLength(1); y >= 0; y--)
                 {
                     //Do not draw outside the world
                     if (x >= 0 && y >= 0 && x < 10 && y < 10)
