@@ -18,6 +18,9 @@ namespace Test
         public static Texture2D spritesheet;
         public static Texture2D card;
 
+        public static int[] test_block = { 3, 3 };
+        public static int[] other_test_block = { 0, 0 };
+
         public static bool debug = true;
     }
 }

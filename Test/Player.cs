@@ -24,7 +24,9 @@ namespace Test
         private bool is_moving;
         private volatile bool shine;
         private float top_speed = 2.0f, friction = 0.1f;
-        private bool move_l_foot = false, move_r_foot = false;
+
+        private Vector2 sin_point = new Vector2(200, 200);
+        private float n = 0;
 
         private int pref_rotation = -1;
 
@@ -96,36 +98,40 @@ namespace Test
             //r_knee = new Vector2(position.X + width, position.Y + height*2 - (height / 2));
             //test_animation.update(gameTime);
 
-            //Procedural left leg move
-            if (Vector2.Distance(left_foot, l_foot_anchor_point) > 15)
+            if (is_moving)
             {
-                move_l_foot = true;
-            }
+                //Need to add to not do anything to the foot position if the value the sin gives back is negative
+                //This will help the foot look like it is staying on the ground
+                float sin_value = (float)Math.Sin(n) * 0.5f;
+                float sin_a_value = (float)Math.Sin(n+1f) * 0.5f;
+                float cos_value = (float)Math.Cos(n) * 0.5f;
 
-            //Procedural right leg move
-            if (Vector2.Distance(right_foot, r_foot_anchor_point) > 15)
+                sin_point += new Vector2((float)Math.Cos(n), (float)Math.Sin(n));
+                left_foot.X = l_foot_anchor_point.X + cos_value;
+                left_foot.Y += sin_value;
+                right_foot.X = r_foot_anchor_point.X + cos_value;
+                right_foot.Y += sin_a_value;
+                n += 0.1f;
+            } else
             {
-                move_r_foot = true;
-            }
-
-            if (move_l_foot)
-            {
-                left_foot += Vector2.Normalize(l_foot_anchor_point - left_foot) * 0.001f * 0.01f;
-                if (Vector2.Distance(left_foot, l_foot_anchor_point) >= 1)
+                float sin_value = (float)Math.Sin(n) * 0.5f;
+                float sin_a_value = (float)Math.Sin(n + 1f) * 0.5f;
+                float cos_value = (float)Math.Cos(n) * 0.5f;
+                if (Vector2.Distance(left_foot, l_foot_anchor_point) >= 0.5f)
                 {
-                    left_foot = l_foot_anchor_point;
-                    move_l_foot = false;
-                }
-            }
+                    left_foot.Y += sin_a_value;
 
-            if (move_r_foot)
-            {
-                right_foot += Vector2.Normalize(r_foot_anchor_point - right_foot) * 0.001f * 0.01f;
-                if (Vector2.Distance(right_foot, r_foot_anchor_point) >= 1)
-                {
-                    right_foot = r_foot_anchor_point;
-                    move_r_foot = false;
+                    n += 0.1f;
                 }
+
+                if (Vector2.Distance(right_foot, r_foot_anchor_point) >= 0.5f)
+                {
+                    right_foot.Y += sin_a_value;
+
+                    n += 0.1f;
+                }
+
+                n = 0f;
             }
         }
 
@@ -308,6 +314,9 @@ namespace Test
             Renderer.DrawALine(spriteBatch, Constant.pixel, 1, Color.Blue, l_knee, left_foot);
             Renderer.DrawALine(spriteBatch, Constant.pixel, 1, Color.Blue, r_hip, r_knee);
             Renderer.DrawALine(spriteBatch, Constant.pixel, 1, Color.Blue, r_knee, right_foot);
+
+            //Draw sin point
+            Renderer.FillRectangle(spriteBatch, sin_point, 5, 5, Color.Purple);
         }
     }
 }
