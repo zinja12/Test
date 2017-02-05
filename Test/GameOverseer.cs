@@ -22,7 +22,7 @@ namespace Test
         //ParticleGenerator particle_generator;
 
         public Texture2D level;
-        int current_level = 0;
+        int current_level = 0, level_width, level_height;
 
         public GameOverseer(int test_level, int screen_width, int screen_height, ContentManager content)
         {
@@ -30,7 +30,9 @@ namespace Test
 
             //Load a level
             level = content.Load<Texture2D>("Levels/lvl" + current_level + ".png");
-            blocks = new Block[10, 10];
+            level_width = level.Width;
+            level_height = level.Height;
+            blocks = new Block[level_width, level_height];
             generate_level();
 
             player = new Player(new Vector2(100, 100));
@@ -45,9 +47,9 @@ namespace Test
         public void generate_level()
         {
             //Define a color array
-            Color[,] colors2d = new Color[10, 10];
+            Color[,] colors2d = new Color[level_width, level_height];
             //Define and set a 1d color array
-            Color[] colors1d = new Color[10 * 10];
+            Color[] colors1d = new Color[level_width * level_height];
             //get colors out of texture
             level.GetData(colors1d);
 
@@ -82,8 +84,26 @@ namespace Test
         public void update(GameTime gameTime, GraphicsDevice graphics)
         {
             get_mouse_input();
+            apply_gravity(gameTime);
             player.update(gameTime);
             //particle_generator.update(gameTime, graphics);
+        }
+
+        public void apply_gravity(GameTime gameTime)
+        {
+            int tile_x = (int)(player.get_base_position().X / Constant.tile_size);
+            int tile_y = (int)(player.get_base_position().Y / Constant.tile_size);
+
+            if (blocks[tile_x, tile_y].collision_rect.Contains((int)player.get_base_position().X, (int)player.get_base_position().Y) && blocks[tile_x, tile_y].id == Constant.test_block)
+            {
+                player.has_jumped = false;
+                player.velocity.Y = 0f;
+            }
+            else
+            {
+                float i = 1;
+                player.velocity.Y += 0.15f * i;
+            }
         }
 
         private void get_mouse_input()
@@ -102,7 +122,7 @@ namespace Test
                 for (int y = blocks.GetLength(1); y >= 0; y--)
                 {
                     //Do not draw outside the world
-                    if (x >= 0 && y >= 0 && x < 10 && y < 10)
+                    if (x >= 0 && y >= 0 && x < level_width && y < level_height)
                     {
                         //Draw the blocks
                         blocks[x, y].draw(spriteBatch);

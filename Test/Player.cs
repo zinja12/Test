@@ -18,12 +18,16 @@ namespace Test
     public class Player : IEntity
     {
         //Variables
-        private Vector2 position, velocity, base_position, left_foot, right_foot, l_hip, r_hip, l_knee, r_knee;
+        private Vector2 base_position, left_foot, right_foot, l_hip, r_hip, l_knee, r_knee;
+        public Vector2 position, velocity;
         private Vector2 l_foot_anchor_point, r_foot_anchor_point;
         private KeyboardState keyboard;
         private bool is_moving;
         private volatile bool shine;
         private float top_speed = 2.0f, friction = 0.1f;
+        private Rectangle collision_rectangle;
+
+        public bool has_jumped;
 
         private Vector2 sin_point = new Vector2(200, 200);
         private float n = 0;
@@ -58,6 +62,9 @@ namespace Test
             r_hip = new Vector2(position.X + width, position.Y + height);
             l_knee = new Vector2(position.X + 5, position.Y + height - (height / 2));
             r_knee = new Vector2(position.X + width + 5, position.Y + height - (height / 2));
+            //Collision rectangles
+            collision_rectangle = new Rectangle((int)this.position.X, (int)this.position.Y, width, 2 * height);
+            has_jumped = false;
             //Initialize animation
             //test_animation = new Animation(100.0f, 4-1, 0, 0, width, height);
         }
@@ -65,12 +72,17 @@ namespace Test
         //Getters
         public Vector2 get_base_position()
         {
-            return base_position;
+            return new Vector2(base_position.X, base_position.Y + height);
         }
 
         public bool is_player_moving()
         {
             return is_moving;
+        }
+
+        public Rectangle get_collision_rect()
+        {
+            return collision_rectangle;
         }
 
         public bool is_shine()
@@ -80,6 +92,10 @@ namespace Test
 
         public void update(GameTime gameTime)
         {
+            //Update collision rectangle
+            collision_rectangle.X = (int)position.X;
+            collision_rectangle.Y = (int)position.Y;
+
             //Handle polling input and velocity
             poll_input();
             handle_ik();
@@ -98,13 +114,23 @@ namespace Test
             //r_knee = new Vector2(position.X + width, position.Y + height*2 - (height / 2));
             //test_animation.update(gameTime);
 
+            //Ensure feet don't move above knee position other wise IK gets weird
+            if (left_foot.Y <= l_knee.Y)
+            {
+                left_foot.Y += 10f;
+            }
+            if (right_foot.Y <= r_knee.Y)
+            {
+                right_foot.Y += 10f;
+            }
+
             if (is_moving)
             {
                 //Need to add to not do anything to the foot position if the value the sin gives back is negative
                 //This will help the foot look like it is staying on the ground
-                float sin_value = (float)Math.Sin(n) * 0.5f;
-                float sin_a_value = (float)Math.Sin(n+1f) * 0.5f;
-                float cos_value = (float)Math.Cos(n) * 0.5f;
+                float sin_value = 2f*(float)Math.Sin(2*n) * 0.5f;
+                float sin_a_value = 2f * (float)Math.Sin(2*n + 2f) * 0.5f;
+                float cos_value = (float)Math.Cos(2*n) * 0.5f;
 
                 sin_point += new Vector2((float)Math.Cos(n), (float)Math.Sin(n));
                 left_foot.X = l_foot_anchor_point.X + cos_value;
@@ -114,9 +140,9 @@ namespace Test
                 n += 0.1f;
             } else
             {
-                float sin_value = (float)Math.Sin(n) * 0.5f;
-                float sin_a_value = (float)Math.Sin(n + 1f) * 0.5f;
-                float cos_value = (float)Math.Cos(n) * 0.5f;
+                float sin_value = 2f * (float)Math.Sin(2*n) * 0.5f;
+                float sin_a_value = 2f * (float)Math.Sin(2*n + 2f) * 0.5f;
+                float cos_value = (float)Math.Cos(2*n) * 0.5f;
                 if (Vector2.Distance(left_foot, l_foot_anchor_point) >= 0.5f)
                 {
                     left_foot.Y += sin_a_value;
@@ -157,32 +183,12 @@ namespace Test
                 velocity.X = i -= friction * i;
             }
 
-            if (keyboard.IsKeyDown(Keys.Up) || keyboard.IsKeyDown(Keys.W))
+            //Jumping
+            if (keyboard.IsKeyDown(Keys.Space) && !has_jumped)
             {
-                velocity.Y = -top_speed;
-            }
-            else if (keyboard.IsKeyDown(Keys.Down) || keyboard.IsKeyDown(Keys.S))
-            {
-                velocity.Y = top_speed;
-            }
-            else
-            {
-                float i = velocity.Y;
-                velocity.Y = i -= friction * i;
-            }
-
-            if (keyboard.IsKeyDown(Keys.K))
-            {
-                left_foot.Y += 1.5f;
-            } else if (keyboard.IsKeyDown(Keys.I))
-            {
-                left_foot.Y -= 1.5f;
-            } else if (keyboard.IsKeyDown(Keys.J))
-            {
-                left_foot.X -= 1.5f;
-            } else if (keyboard.IsKeyDown(Keys.L))
-            {
-                left_foot.X += 1.5f;
+                position.Y -= 10f;
+                velocity.Y = -5f;
+                has_jumped = true;
             }
 
             //Check if the player is moving
@@ -307,6 +313,12 @@ namespace Test
                 Renderer.FillRectangle(spriteBatch, r_knee, 5, 5, Color.Red);
                 Renderer.FillRectangle(spriteBatch, l_foot_anchor_point, 5, 5, Color.Orange);
                 Renderer.FillRectangle(spriteBatch, r_foot_anchor_point, 5, 5, Color.Orange);
+
+                //Draw collision rect
+                Renderer.DrawALine(spriteBatch, Constant.pixel, 1, Color.Purple, position, new Vector2(position.X + width, position.Y));
+                Renderer.DrawALine(spriteBatch, Constant.pixel, 1, Color.Purple, position, new Vector2(position.X, position.Y + 2*height));
+                Renderer.DrawALine(spriteBatch, Constant.pixel, 1, Color.Purple, new Vector2(position.X + width, position.Y), new Vector2(position.X + width, position.Y + 2*height));
+                Renderer.DrawALine(spriteBatch, Constant.pixel, 1, Color.Purple, new Vector2(position.X, position.Y + 2*height), new Vector2(position.X + width, position.Y + 2*height));
             }
 
             //Draw legs?

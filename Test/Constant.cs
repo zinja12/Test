@@ -10,16 +10,20 @@ namespace Test
 {
     public class Constant
     {
-        //A constant class to reference textures from
-        //Easier in my mind to keep all the textures in one place and reference them individually at the needed time
+        //A constant class to reference textures and non changing variables from
+        //Easier in my mind to keep all the variables in one place and reference them individually at the needed time
         //instead of have one texture in every class
         public static Texture2D pixel;
         public static Texture2D particle;
         public static Texture2D spritesheet;
         public static Texture2D card;
 
-        public static int[] test_block = { 3, 3 };
-        public static int[] other_test_block = { 0, 0 };
+        public static readonly Vector2 gravity = new Vector2(0, 9.8f);
+
+        public static int tile_size = 32;
+
+        public static int[] test_block = { 2, 0 };
+        public static int[] other_test_block = { 4, 0 };
 
         public static bool debug = true;
     }

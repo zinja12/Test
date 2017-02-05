@@ -20,8 +20,8 @@ namespace Test
         {
             this.id = id;
             this.position = position;
-            source_rect = new Rectangle(id[0] * 32, id[1] * 32, 32, 32);
-            collision_rect = new Rectangle((int)position.X, (int)position.Y, 32, 32);
+            source_rect = new Rectangle(id[0] * Constant.tile_size, id[1] * Constant.tile_size, Constant.tile_size, Constant.tile_size);
+            collision_rect = new Rectangle((int)position.X, (int)position.Y, Constant.tile_size, Constant.tile_size);
         }
 
         public void draw(SpriteBatch spriteBatch)
