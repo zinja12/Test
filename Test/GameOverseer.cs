@@ -103,6 +103,7 @@ namespace Test
             {
                 float i = 1;
                 player.velocity.Y += 0.15f * i;
+                player.has_jumped = true;
             }
         }
 
