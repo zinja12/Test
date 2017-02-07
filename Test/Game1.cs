@@ -62,6 +62,7 @@ namespace Test
             Constant.spritesheet = Content.Load<Texture2D>("Sprites/test_spritesheet.png");
             Constant.particle = Content.Load<Texture2D>("Sprites/particle.png");
             Constant.card = Content.Load<Texture2D>("Sprites/tmp_card.png");
+            Constant.bird = Content.Load<Texture2D>("Sprites/bird.png");
         }
 
         /// <summary>

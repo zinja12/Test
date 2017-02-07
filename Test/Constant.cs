@@ -17,6 +17,7 @@ namespace Test
         public static Texture2D particle;
         public static Texture2D spritesheet;
         public static Texture2D card;
+        public static Texture2D bird;
 
         public static readonly Vector2 gravity = new Vector2(0, 9.8f);
 

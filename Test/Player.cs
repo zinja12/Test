@@ -27,6 +27,9 @@ namespace Test
         private float top_speed = 2.0f, friction = 0.1f;
         private Rectangle collision_rectangle;
 
+        private Vector2 other_pos, other_vel;
+        private float other_rotation;
+
         public bool has_jumped;
 
         private Vector2 sin_point = new Vector2(200, 200);
@@ -67,6 +70,10 @@ namespace Test
             has_jumped = false;
             //Initialize animation
             //test_animation = new Animation(100.0f, 4-1, 0, 0, width, height);
+
+            other_pos = new Vector2(400, 200);
+            other_vel = Vector2.Zero;
+            other_rotation = 0f;
         }
 
         //Getters
@@ -159,6 +166,10 @@ namespace Test
 
                 n = 0f;
             }
+
+            //Add gravity to bird
+            other_vel.Y += 0.15f * 1;
+            other_pos += other_vel;
         }
 
         public void poll_input()
@@ -225,6 +236,22 @@ namespace Test
             else
             {
                 shine = false;
+            }
+
+            //Control rotation
+            if (keyboard.IsKeyDown(Keys.L))
+            {
+                other_rotation += 0.08f;
+            }
+            if (keyboard.IsKeyDown(Keys.J))
+            {
+                other_rotation += -0.08f;
+            }
+            if (keyboard.IsKeyDown(Keys.I))
+            {
+                Vector2 direction = new Vector2((float)Math.Cos(other_rotation), (float)Math.Sin(other_rotation));
+                direction.Normalize();
+                other_vel += direction * 0.3f;
             }
         }
 
@@ -329,6 +356,10 @@ namespace Test
 
             //Draw sin point
             Renderer.FillRectangle(spriteBatch, sin_point, 5, 5, Color.Purple);
+
+            //draw other
+            spriteBatch.Draw(Constant.bird, other_pos, null, Color.White, other_rotation, new Vector2(Constant.bird.Width / 2, Constant.bird.Height / 2), 1f, SpriteEffects.None, 0f);
+            Renderer.FillRectangle(spriteBatch, other_pos, 5, 5, Color.Purple);
         }
     }
 }
