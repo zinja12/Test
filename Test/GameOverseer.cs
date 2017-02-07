@@ -127,8 +127,8 @@ namespace Test
             else
             {
                 float i = 1;
-                player.velocity.Y += 0.15f * i;
-            } 
+                player.velocity.Y += 0.10f * i;
+            }
         }
 
         public void draw(SpriteBatch spriteBatch)

@@ -95,7 +95,7 @@ namespace Test
             {
                 Vector2 direction = new Vector2((float)Math.Cos(other_rotation), (float)Math.Sin(other_rotation));
                 direction.Normalize();
-                velocity += direction * 0.3f;
+                velocity += direction * 0.2f;
             }
         }
 
