@@ -84,27 +84,28 @@ namespace Test
         public void update(GameTime gameTime, GraphicsDevice graphics)
         {
             get_mouse_input();
-            apply_gravity(gameTime);
+            apply_gravity();
             player.update(gameTime);
             //particle_generator.update(gameTime, graphics);
         }
 
-        public void apply_gravity(GameTime gameTime)
+        public void apply_gravity()
         {
             int tile_x = (int)(player.get_base_position().X / Constant.tile_size);
             int tile_y = (int)(player.get_base_position().Y / Constant.tile_size);
 
             if (blocks[tile_x, tile_y].collision_rect.Contains((int)player.get_base_position().X, (int)player.get_base_position().Y) && blocks[tile_x, tile_y].id == Constant.test_block)
             {
-                player.has_jumped = false;
                 player.velocity.Y = 0f;
+                float i = player.velocity.X;
+                //Handle friction on the ground
+                player.velocity.X = i -= player.friction * i;
             }
             else
             {
                 float i = 1;
                 player.velocity.Y += 0.15f * i;
-                player.has_jumped = true;
-            }
+            } 
         }
 
         private void get_mouse_input()
