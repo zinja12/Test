@@ -13,9 +13,6 @@ namespace Test
     //Overseer class to manage the game, load and switch levels and handle generalized overhead
     public class GameOverseer
     {
-        MouseState mouse;
-        Vector2 mouse_position;
-        Rectangle mouse_collision_rect;
 
         Block[,] blocks;
         Player player;
@@ -26,8 +23,6 @@ namespace Test
 
         public GameOverseer(int test_level, int screen_width, int screen_height, ContentManager content)
         {
-            mouse_collision_rect = new Rectangle(0, 0, 5, 5);
-
             //Load a level
             level = content.Load<Texture2D>("Levels/lvl" + current_level + ".png");
             level_width = level.Width;
@@ -83,7 +78,6 @@ namespace Test
 
         public void update(GameTime gameTime, GraphicsDevice graphics)
         {
-            get_mouse_input();
             apply_gravity();
             player_level_collision();
             player.update(gameTime);
@@ -92,6 +86,7 @@ namespace Test
 
         public void player_level_collision()
         {
+            //Calculate tile positions of the points
             int left_pt_tile_x = (int)(player.left_side_pt.X / Constant.tile_size);
             int left_pt_tile_y = (int)(player.left_side_pt.Y / Constant.tile_size);
             int top_pt_tile_x = (int)(player.top_side_pt.X / Constant.tile_size);
@@ -136,13 +131,6 @@ namespace Test
             } 
         }
 
-        private void get_mouse_input()
-        {
-            mouse = Mouse.GetState();
-            mouse_position = new Vector2(mouse.X, mouse.Y);
-            mouse_collision_rect = new Rectangle((int)mouse_position.X, (int)mouse_position.Y, 5, 5);
-        }
-
         public void draw(SpriteBatch spriteBatch)
         {
             //Increase the x
@@ -161,7 +149,6 @@ namespace Test
             }
 
             player.draw(spriteBatch);
-            spriteBatch.Draw(Constant.particle, mouse_position, Color.Red);
             //particle_generator.draw(spriteBatch);
         }
     }

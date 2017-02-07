@@ -29,6 +29,8 @@ namespace Test
         public static int width = 32, height = 32;
         private int leg_bone_length = (width / 2);
 
+        public bool player_debug = false;
+
         //private Animation test_animation;
 
         //Constructor
@@ -104,7 +106,7 @@ namespace Test
             //draw other
             spriteBatch.Draw(Constant.bird, position, null, Color.White, other_rotation, new Vector2(Constant.bird.Width / 2, Constant.bird.Height / 2), 1f, SpriteEffects.None, 0f);
             //Other collision rect
-            if (Constant.debug)
+            if (Constant.debug && player_debug)
             {
                 //Draw position point
                 Renderer.FillRectangle(spriteBatch, position, 5, 5, Color.Purple);
