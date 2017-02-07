@@ -124,7 +124,7 @@ namespace Test
 
             if (blocks[tile_x, tile_y].collision_rect.Contains((int)player.get_base_position().X, (int)player.get_base_position().Y) && blocks[tile_x, tile_y].id == Constant.test_block)
             {
-                player.velocity.Y = 0f;
+                player.velocity.Y = -0.1f;
                 float i = player.velocity.X;
                 //Handle friction on the ground
                 player.velocity.X = i -= player.friction * i;

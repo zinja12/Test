@@ -63,8 +63,7 @@ namespace Test
             //Handle polling input and velocity
             poll_input();
 
-            //Apply gravity to bird
-            //other_vel.Y += 0.15f * 1;
+            //Update points and collision rectangle
             position += velocity;
             base_position += velocity;
             left_side_pt += velocity;
@@ -82,7 +81,7 @@ namespace Test
             //Adjust velocity being added to the players position accordingly
             
             //Control rotation
-            if (keyboard.IsKeyDown(Keys.D) || keyboard.IsKeyDown(Keys.Left))
+            if (keyboard.IsKeyDown(Keys.D) || keyboard.IsKeyDown(Keys.Right))
             {
                 other_rotation += 0.08f;
             }
@@ -104,11 +103,11 @@ namespace Test
             //spriteBatch.Draw(Constant.spritesheet, position, test_animation.source_rect, Color.White);
             //draw other
             spriteBatch.Draw(Constant.bird, position, null, Color.White, other_rotation, new Vector2(Constant.bird.Width / 2, Constant.bird.Height / 2), 1f, SpriteEffects.None, 0f);
-            Renderer.FillRectangle(spriteBatch, position, 5, 5, Color.Purple);
             //Other collision rect
             if (Constant.debug)
             {
                 //Draw position point
+                Renderer.FillRectangle(spriteBatch, position, 5, 5, Color.Purple);
                 Renderer.FillRectangle(spriteBatch, new Vector2(other_collision_rect.X, other_collision_rect.Y), 5, 5, Color.Red);
                 //Draw Rectangle
                 Renderer.DrawALine(spriteBatch, Constant.pixel, 1, Color.Purple, new Vector2(other_collision_rect.X, other_collision_rect.Y), new Vector2(other_collision_rect.X + width, other_collision_rect.Y));
