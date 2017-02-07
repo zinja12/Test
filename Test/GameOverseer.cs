@@ -85,8 +85,36 @@ namespace Test
         {
             get_mouse_input();
             apply_gravity();
+            player_level_collision();
             player.update(gameTime);
             //particle_generator.update(gameTime, graphics);
+        }
+
+        public void player_level_collision()
+        {
+            int left_pt_tile_x = (int)(player.left_side_pt.X / Constant.tile_size);
+            int left_pt_tile_y = (int)(player.left_side_pt.Y / Constant.tile_size);
+            int top_pt_tile_x = (int)(player.top_side_pt.X / Constant.tile_size);
+            int top_pt_tile_y = (int)(player.top_side_pt.Y / Constant.tile_size);
+            int right_pt_tile_x = (int)(player.right_side_pt.X / Constant.tile_size);
+            int right_pt_tile_y = (int)(player.right_side_pt.Y / Constant.tile_size);
+
+            //Left blocks check
+            if (blocks[left_pt_tile_x, left_pt_tile_y].collision_rect.Contains((int)player.left_side_pt.X, (int)player.left_side_pt.Y) && blocks[left_pt_tile_x, left_pt_tile_y].id == Constant.test_block)
+            {
+                player.velocity.X = -0.1f;
+            }
+            //Right blocks check
+            if (blocks[right_pt_tile_x, right_pt_tile_y].collision_rect.Contains((int)player.right_side_pt.X, (int)player.right_side_pt.Y) && blocks[right_pt_tile_x, right_pt_tile_y].id == Constant.test_block)
+            {
+                player.velocity.X = 0.1f;
+            }
+            //Top blocks check
+            if (blocks[top_pt_tile_x, top_pt_tile_y].collision_rect.Contains((int)player.top_side_pt.X, (int)player.top_side_pt.Y) && blocks[top_pt_tile_x, top_pt_tile_y].id == Constant.test_block)
+            {
+                player.velocity.Y = 0.1f;
+            }
+
         }
 
         public void apply_gravity()
