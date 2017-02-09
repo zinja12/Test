@@ -79,6 +79,8 @@ namespace Test
             top_side_pt += velocity;
             other_collision_rect.X = (int)(position.X - (width/2));
             other_collision_rect.Y = (int)(position.Y - (height/2));
+
+            Console.WriteLine("Player rotation:" + rotation);
         }
 
         public void poll_input()

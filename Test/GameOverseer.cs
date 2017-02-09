@@ -98,6 +98,7 @@ namespace Test
 
         private void camera_updates()
         {
+            //Add rotation limit scale for the camera
             if (player.get_rotation() <= 10 && player.get_rotation() >= -10)
             {
                 camera.Rotation = (float)((player.get_rotation() * Math.PI) / 180f);
