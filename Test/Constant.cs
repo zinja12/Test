@@ -18,6 +18,8 @@ namespace Test
         public static Texture2D spritesheet;
         public static Texture2D card;
         public static Texture2D bird;
+        public static Texture2D enemy_tex;
+        public static Texture2D bullet_tex;
 
         public static readonly Vector2 gravity = new Vector2(0, 9.8f);
 

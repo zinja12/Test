@@ -39,6 +39,11 @@ namespace Test
             velocity = new Vector2(randX, randY);
         }
 
+        public Vector2 get_position()
+        {
+            return position;
+        }
+
         public void UpdateBullets()
         {
             foreach (Bullets bullet in bullets)

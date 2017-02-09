@@ -16,13 +16,23 @@ namespace Test
 
         Block[,] blocks;
         Player player;
+        Camera camera;
         //ParticleGenerator particle_generator;
 
         public Texture2D level;
         int current_level = 0, level_width, level_height;
 
-        public GameOverseer(int test_level, int screen_width, int screen_height, ContentManager content)
+        //Enemy objects
+        /*List<Enemy> enemies = new List<Enemy>();
+        Random random = new Random();
+        float spawn = 0;*/
+
+        //Constructor
+        public GameOverseer(int test_level, int screen_width, int screen_height, ContentManager content, Viewport viewport)
         {
+            //Set up camera
+            camera = new Camera(viewport);
+
             //Load a level
             level = content.Load<Texture2D>("Levels/lvl" + current_level + ".png");
             level_width = level.Width;
@@ -81,10 +91,21 @@ namespace Test
             apply_gravity();
             player_level_collision();
             player.update(gameTime);
+            camera_updates();
             //particle_generator.update(gameTime, graphics);
+            //enemy_updates(gameTime, graphics);
         }
 
-        public void player_level_collision()
+        private void camera_updates()
+        {
+            if (player.get_rotation() <= 10 && player.get_rotation() >= -10)
+            {
+                camera.Rotation = (float)((player.get_rotation() * Math.PI) / 180f);
+            }
+            camera.Update(player.position);
+        }
+
+        private void player_level_collision()
         {
             //Calculate tile positions of the points
             int left_pt_tile_x = (int)(player.left_side_pt.X / Constant.tile_size);
@@ -112,7 +133,7 @@ namespace Test
 
         }
 
-        public void apply_gravity()
+        private void apply_gravity()
         {
             int tile_x = (int)(player.get_base_position().X / Constant.tile_size);
             int tile_y = (int)(player.get_base_position().Y / Constant.tile_size);
@@ -123,16 +144,55 @@ namespace Test
                 float i = player.velocity.X;
                 //Handle friction on the ground
                 player.velocity.X = i -= player.friction * i;
+                player.grounded = true;
             }
             else
             {
                 float i = 1;
                 player.velocity.Y += 0.10f * i;
+                player.grounded = false;
             }
         }
 
+        /*private void enemy_updates(GameTime gameTime, GraphicsDevice graphics_device)
+        {
+            foreach(Enemy enemy in enemies)
+                enemy.Update(graphics_device, gameTime);
+
+            LoadEnemies();
+        }*/
+
+        /*public void LoadEnemies()
+        {
+
+            int randY = random.Next(100, 400);
+            // enemy spawns every second
+            if (spawn >= 1)
+            {
+                spawn = 0;
+                // number of enemies
+                if (enemies.Count < 1)
+                {
+                    enemies.Add(new Enemy(Constant.enemy_tex, new Vector2(600, randY), Constant.bullet_tex));
+                    Console.WriteLine("Created enemy at:" + enemies[enemies.Count-1].get_position());
+                }
+            }
+
+            for (int i = 0; i < enemies.Count; i++)
+            {
+                if (!enemies[i].isVisible)
+                {
+                    enemies.RemoveAt(i);
+                    i--;
+                }
+            }
+        }*/
+
         public void draw(SpriteBatch spriteBatch)
         {
+            //Begin spritebatch
+            spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, camera.Transform);
+
             //Increase the x
             for (int x = 0; x < blocks.GetLength(0); x++)
             {
@@ -150,6 +210,13 @@ namespace Test
 
             player.draw(spriteBatch);
             //particle_generator.draw(spriteBatch);
+
+            //Draw enemies
+            /*foreach (Enemy enemy in enemies)
+                enemy.Draw(spriteBatch);*/
+
+            //End spriteBatch
+            spriteBatch.End();
         }
     }
 }

@@ -14,12 +14,9 @@ namespace Test
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
+        //Game object
         GameOverseer game_overseer;
-
-        List<Enemy> enemies = new List<Enemy>();
-        Random random = new Random();
-
-
+        
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -43,7 +40,7 @@ namespace Test
         /// </summary>
         protected override void Initialize()
         {
-            game_overseer = new GameOverseer(0, graphics.GraphicsDevice.Viewport.Width, graphics.GraphicsDevice.Viewport.Height, Content);
+            game_overseer = new GameOverseer(0, graphics.GraphicsDevice.Viewport.Width, graphics.GraphicsDevice.Viewport.Height, Content, graphics.GraphicsDevice.Viewport);
 
             base.Initialize();
         }
@@ -63,6 +60,8 @@ namespace Test
             Constant.particle = Content.Load<Texture2D>("Sprites/particle.png");
             Constant.card = Content.Load<Texture2D>("Sprites/tmp_card.png");
             Constant.bird = Content.Load<Texture2D>("Sprites/bird.png");
+            Constant.bullet_tex = Constant.particle;
+            Constant.enemy_tex = Content.Load<Texture2D>("Sprites/box.png");
         }
 
         /// <summary>
@@ -79,22 +78,14 @@ namespace Test
         /// checking for collisions, gathering input, and playing audio.
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
-
-        float spawn = 0;
-
+        
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            spawn += (float)gameTime.ElapsedGameTime.TotalSeconds;
-
-            foreach (Enemy enemy in enemies)
-                enemy.Update(graphics.GraphicsDevice, gameTime);
-
             // TODO: Add your update logic here
             game_overseer.update(gameTime, graphics.GraphicsDevice);
-            LoadEnemies();
             base.Update(gameTime);
         }
 
@@ -102,40 +93,13 @@ namespace Test
         /// This is called when the game should draw itself.
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
-
-        public void LoadEnemies() {
-
-            int randY = random.Next(100, 400);
-            // enemy spawns every second
-            if (spawn >= 1)
-            {
-                spawn = 0;
-                // number of enemies
-                if (enemies.Count < 1)
-                {
-                    enemies.Add(new Enemy(Content.Load<Texture2D>("Sprites/box.png"), new Vector2(600, randY), Content.Load<Texture2D>("Sprites/particle.png")));
-                }
-            }
-
-            for (int i = 0; i < enemies.Count; i++)
-            {
-                if (!enemies[i].isVisible)
-                {
-                    enemies.RemoveAt(i);
-                    i--;
-                }
-            }
-        }
+        
 
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-
-            spriteBatch.Begin();
+            
             game_overseer.draw(spriteBatch);
-            foreach (Enemy enemy in enemies)
-                enemy.Draw(spriteBatch);
-            spriteBatch.End();
 
             base.Draw(gameTime);
         }

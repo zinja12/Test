@@ -22,12 +22,13 @@ namespace Test
 
         public Vector2 position, velocity, base_position;
         public Vector2 left_side_pt, right_side_pt, top_side_pt;
-        private float other_rotation;
+        private float rotation;
         public Rectangle other_collision_rect;
+
+        public bool grounded;
 
         public float friction = 0.1f;
         public static int width = 32, height = 32;
-        private int leg_bone_length = (width / 2);
 
         public bool player_debug = false;
 
@@ -45,7 +46,7 @@ namespace Test
             right_side_pt = new Vector2(position.X - (width/2), position.Y);
             top_side_pt = new Vector2(position.X, position.Y - (height/2));
             velocity = Vector2.Zero;
-            other_rotation = 0f;
+            rotation = 0f;
             other_collision_rect = new Rectangle((int)this.position.X, (int)this.position.Y, width, height);
         }
 
@@ -58,6 +59,11 @@ namespace Test
         public Rectangle get_collision_rect()
         {
             return other_collision_rect;
+        }
+
+        public float get_rotation()
+        {
+            return rotation;
         }
 
         public void update(GameTime gameTime)
@@ -85,15 +91,15 @@ namespace Test
             //Control rotation
             if (keyboard.IsKeyDown(Keys.D) || keyboard.IsKeyDown(Keys.Right))
             {
-                other_rotation += 0.08f;
+                rotation += 0.08f;
             }
             if (keyboard.IsKeyDown(Keys.A) || keyboard.IsKeyDown(Keys.Left))
             {
-                other_rotation += -0.08f;
+                rotation += -0.08f;
             }
             if (keyboard.IsKeyDown(Keys.W) || keyboard.IsKeyDown(Keys.Up))
             {
-                Vector2 direction = new Vector2((float)Math.Cos(other_rotation), (float)Math.Sin(other_rotation));
+                Vector2 direction = new Vector2((float)Math.Cos(rotation), (float)Math.Sin(rotation));
                 direction.Normalize();
                 velocity += direction * 0.2f;
             }
@@ -104,7 +110,7 @@ namespace Test
             //Draw animation
             //spriteBatch.Draw(Constant.spritesheet, position, test_animation.source_rect, Color.White);
             //draw other
-            spriteBatch.Draw(Constant.bird, position, null, Color.White, other_rotation, new Vector2(Constant.bird.Width / 2, Constant.bird.Height / 2), 1f, SpriteEffects.None, 0f);
+            spriteBatch.Draw(Constant.bird, position, null, Color.White, rotation, new Vector2(Constant.bird.Width / 2, Constant.bird.Height / 2), 1f, SpriteEffects.None, 0f);
             //Other collision rect
             if (Constant.debug && player_debug)
             {
