@@ -78,13 +78,13 @@ namespace Test
         /// checking for collisions, gathering input, and playing audio.
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
-        
+        /// 
         protected override void Update(GameTime gameTime)
         {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
-            // TODO: Add your update logic here
+            // TODO: Add your update logic heres
             game_overseer.update(gameTime, graphics.GraphicsDevice);
             base.Update(gameTime);
         }
@@ -93,13 +93,13 @@ namespace Test
         /// This is called when the game should draw itself.
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
-        
 
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
             
             game_overseer.draw(spriteBatch);
+            
 
             base.Draw(gameTime);
         }
