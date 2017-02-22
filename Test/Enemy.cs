@@ -26,11 +26,11 @@ namespace Test
         List<Bullets> bullets = new List<Bullets>();
         Texture2D bulletTexture;
 
-        public Enemy(Texture2D newTexture, Vector2 newPosition, Texture2D newBulletTexture) {
+        public Enemy(Texture2D newTexture, Vector2 newPosition) {
 
             texture = newTexture;
             position = newPosition;
-            bulletTexture = newBulletTexture;
+            //bulletTexture = newBulletTexture;
 
             randY = random.Next(-4, 4);
             //speed across the screen
@@ -76,12 +76,9 @@ namespace Test
                 bullets.Add(newbullet);
             }
         }
-
-        float shoot = 0;
-
-        public void Update(GraphicsDevice graphics, GameTime gameTime)
+        public void Update(GraphicsDevice graphics)
         {
-            /*
+            
             position += velocity;
             if (position.Y <= 0 || position.Y >= graphics.Viewport.Height - texture.Height)
             {
@@ -92,21 +89,21 @@ namespace Test
             {
                 isVisible = false;
             }
-            */
-            shoot += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            
+            /*shoot += (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (shoot > 1)
             {
                 shoot = 0;
                 ShootBullets();
             }
-            UpdateBullets();
+            UpdateBullets();*/
         }
         public void Draw(SpriteBatch spriteBatch) {
 
-            foreach (Bullets bullet in bullets)
+            /*foreach (Bullets bullet in bullets)
             {
                 bullet.Draw(spriteBatch);
-            }
+            }*/
             spriteBatch.Draw(texture, position, Color.White);    
 
         }
