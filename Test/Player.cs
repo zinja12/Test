@@ -25,10 +25,14 @@ namespace Test
         private float rotation;
         public Rectangle other_collision_rect;
 
+        private int ship_frame_count = 20;
+        private float ship_sep = 1;
+
         public bool grounded;
 
-        public float friction = 0.1f;
+        public float friction = 0.08f;
         public static int width = 32, height = 32;
+        public static int ship_width = 28, ship_height = 82;
 
         public bool player_debug = false;
 
@@ -80,6 +84,12 @@ namespace Test
             other_collision_rect.X = (int)(position.X - (width/2));
             other_collision_rect.Y = (int)(position.Y - (height/2));
 
+            //Handle friction
+            float i = velocity.X;
+            float j = velocity.Y;
+            velocity.X = i -= friction * i;
+            velocity.Y = j -= friction * j;
+
             Console.WriteLine("Player rotation:" + rotation);
         }
 
@@ -107,12 +117,26 @@ namespace Test
             }
         }
 
+        public float to_radians(float angle)
+        {
+            if (angle == 360 || angle == -360)
+            {
+                angle = 0;
+            }
+
+            return (float)(angle * Math.PI / 180);
+        }
+
         public void draw(SpriteBatch spriteBatch)
         {
             //Draw animation
             //spriteBatch.Draw(Constant.spritesheet, position, test_animation.source_rect, Color.White);
             //draw other
-            spriteBatch.Draw(Constant.bird, position, null, Color.White, rotation, new Vector2(Constant.bird.Width / 2, Constant.bird.Height / 2), 1f, SpriteEffects.None, 0f);
+            for (int i = (ship_frame_count - 1); i >= 0; i--)
+            {
+                spriteBatch.Draw(Constant.ship_tex, new Vector2(position.X, position.Y + i * ship_sep), new Rectangle((ship_frame_count - i) * ship_width, 0, ship_width, ship_height), Color.White, rotation + 180 + 0.6f, new Vector2((float)(ship_width / 2), (float)(ship_height / 2)), 1f, SpriteEffects.None, 0f);
+            }
+            //spriteBatch.Draw(Constant.bird, position, null, Color.White, rotation, new Vector2(Constant.bird.Width / 2, Constant.bird.Height / 2), 1f, SpriteEffects.None, 0f);
             //Other collision rect
             if (Constant.debug && player_debug)
             {

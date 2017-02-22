@@ -88,7 +88,6 @@ namespace Test
 
         public void update(GameTime gameTime, GraphicsDevice graphics)
         {
-            apply_gravity();
             player_level_collision();
             player.update(gameTime);
             camera_updates();
@@ -115,6 +114,8 @@ namespace Test
             int top_pt_tile_y = (int)(player.top_side_pt.Y / Constant.tile_size);
             int right_pt_tile_x = (int)(player.right_side_pt.X / Constant.tile_size);
             int right_pt_tile_y = (int)(player.right_side_pt.Y / Constant.tile_size);
+            int bottom_pt_tile_x = (int)(player.get_base_position().X / Constant.tile_size);
+            int bottom_pt_tile_y = (int)(player.get_base_position().Y / Constant.tile_size);
 
             //Left blocks check
             if (blocks[left_pt_tile_x, left_pt_tile_y].collision_rect.Contains((int)player.left_side_pt.X, (int)player.left_side_pt.Y) && blocks[left_pt_tile_x, left_pt_tile_y].id == Constant.test_block)
@@ -131,27 +132,11 @@ namespace Test
             {
                 player.velocity.Y = 0.1f;
             }
-
-        }
-
-        private void apply_gravity()
-        {
-            int tile_x = (int)(player.get_base_position().X / Constant.tile_size);
-            int tile_y = (int)(player.get_base_position().Y / Constant.tile_size);
-
-            if (blocks[tile_x, tile_y].collision_rect.Contains((int)player.get_base_position().X, (int)player.get_base_position().Y) && blocks[tile_x, tile_y].id == Constant.test_block)
+            //Bottom blocks check
+            //Top blocks check
+            if (blocks[bottom_pt_tile_x, bottom_pt_tile_y].collision_rect.Contains((int)player.get_base_position().X, (int)player.get_base_position().Y) && blocks[bottom_pt_tile_x, bottom_pt_tile_y].id == Constant.test_block)
             {
                 player.velocity.Y = -0.1f;
-                float i = player.velocity.X;
-                //Handle friction on the ground
-                player.velocity.X = i -= player.friction * i;
-                player.grounded = true;
-            }
-            else
-            {
-                float i = 1;
-                player.velocity.Y += 0.10f * i;
-                player.grounded = false;
             }
         }
 
