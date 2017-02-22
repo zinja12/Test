@@ -63,6 +63,7 @@ namespace Test
             Constant.bullet_tex = Constant.particle;
             Constant.enemy_tex = Content.Load<Texture2D>("Sprites/box.png");
             Constant.ship_tex = Content.Load<Texture2D>("Sprites/ship.png");
+            Constant.background = Content.Load<Texture2D>("Sprites/stars");
         }
 
         /// <summary>
@@ -104,5 +105,6 @@ namespace Test
 
             base.Draw(gameTime);
         }
+
     }
 }

@@ -178,7 +178,6 @@ namespace Test
         {
             //Begin spritebatch
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, camera.Transform);
-
             //Increase the x
             for (int x = 0; x < blocks.GetLength(0); x++)
             {
@@ -193,6 +192,7 @@ namespace Test
                     }
                 }
             }
+            spawnBackground(spriteBatch);
 
             player.draw(spriteBatch);
             //particle_generator.draw(spriteBatch);
@@ -203,6 +203,14 @@ namespace Test
 
             //End spriteBatch
             spriteBatch.End();
+        }
+        public void spawnBackground(SpriteBatch spriteBatch)
+        {
+            spriteBatch.Draw(Constant.background, new Rectangle(-500, 0, 1000, 800), Color.White);
+            spriteBatch.Draw(Constant.background, new Rectangle(500, 0, 1500, 800), Color.White);
+            spriteBatch.Draw(Constant.background, new Rectangle(-500, -500, 1000, 800), Color.White);
+            spriteBatch.Draw(Constant.background, new Rectangle(500, -500, 1500, 800), Color.White);
+
         }
     }
 }
