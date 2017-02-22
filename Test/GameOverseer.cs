@@ -23,9 +23,9 @@ namespace Test
         int current_level = 0, level_width, level_height;
 
         //Enemy objects
-        /*List<Enemy> enemies = new List<Enemy>();
+        List<Enemy> enemies = new List<Enemy>();
         Random random = new Random();
-        float spawn = 0;*/
+        float spawn = 0;
 
         //Constructor
         public GameOverseer(int test_level, int screen_width, int screen_height, ContentManager content, Viewport viewport)
@@ -91,6 +91,12 @@ namespace Test
             player_level_collision();
             player.update(gameTime);
             camera_updates();
+            spawn += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            foreach (Enemy enemy in enemies)
+            {
+                enemy.Update(graphics);
+            }
+            LoadEnemies();
             //particle_generator.update(gameTime, graphics);
             //enemy_updates(gameTime, graphics);
         }
@@ -148,19 +154,17 @@ namespace Test
             LoadEnemies();
         }*/
 
-        /*public void LoadEnemies()
+        public void LoadEnemies()
         {
-
-            int randY = random.Next(100, 400);
-            // enemy spawns every second
+            int randY = random.Next(0, 500);
             if (spawn >= 1)
             {
                 spawn = 0;
-                // number of enemies
-                if (enemies.Count < 1)
+                if (enemies.Count < 4)
                 {
-                    enemies.Add(new Enemy(Constant.enemy_tex, new Vector2(600, randY), Constant.bullet_tex));
-                    Console.WriteLine("Created enemy at:" + enemies[enemies.Count-1].get_position());
+
+                    enemies.Add(new Enemy(Constant.enemy_tex, new Vector2(700, randY)));
+
                 }
             }
 
@@ -171,8 +175,9 @@ namespace Test
                     enemies.RemoveAt(i);
                     i--;
                 }
+
             }
-        }*/
+        }
 
         public void draw(SpriteBatch spriteBatch)
         {
@@ -197,9 +202,8 @@ namespace Test
             player.draw(spriteBatch);
             //particle_generator.draw(spriteBatch);
 
-            //Draw enemies
-            /*foreach (Enemy enemy in enemies)
-                enemy.Draw(spriteBatch);*/
+            foreach (Enemy enemy in enemies)
+                enemy.Draw(spriteBatch);
 
             //End spriteBatch
             spriteBatch.End();
