@@ -19,6 +19,8 @@ namespace Test
         Camera camera;
         //ParticleGenerator particle_generator;
 
+        KeyboardState keyboard;
+        
         public Texture2D level;
         int current_level = 0, level_width, level_height;
 
@@ -98,7 +100,12 @@ namespace Test
             }
             LoadEnemies();
             //particle_generator.update(gameTime, graphics);
-            //enemy_updates(gameTime, graphics);
+
+            keyboard = Keyboard.GetState();
+            if (keyboard.IsKeyDown(Keys.R))
+            {
+                apply_screen_shake();
+            }
         }
 
         private void camera_updates()
@@ -109,6 +116,29 @@ namespace Test
                 camera.Rotation = (float)((player.get_rotation() * Math.PI) / 180f);
             }
             camera.Update(player.position);
+        }
+
+        private void apply_screen_shake()
+        {
+            float radius = 30f;
+            Random random = new Random();
+            float random_angle = random.Next(0, 360);
+            Vector2 offset = new Vector2((float)Math.Sin(random_angle) * radius, (float)Math.Cos(random_angle) * radius);
+            
+            while (radius >= 2)
+            {
+                radius *= 0.9f;
+                if (random.Next(0, 100) > 50)
+                {
+                    random_angle += (180 + random.Next(0, 60));
+                }
+                else
+                {
+                    random_angle += (180 - random.Next(0, 60));
+                }
+                offset = new Vector2((float)Math.Sin(random_angle) * radius, (float)Math.Cos(random_angle) * radius);
+                camera.Update(player.position + offset);
+            }
         }
 
         private void player_level_collision()
@@ -183,6 +213,9 @@ namespace Test
         {
             //Begin spritebatch
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, camera.Transform);
+
+            spawnBackground(spriteBatch);
+
             //Increase the x
             for (int x = 0; x < blocks.GetLength(0); x++)
             {
@@ -197,7 +230,6 @@ namespace Test
                     }
                 }
             }
-            spawnBackground(spriteBatch);
 
             player.draw(spriteBatch);
             //particle_generator.draw(spriteBatch);
@@ -208,6 +240,7 @@ namespace Test
             //End spriteBatch
             spriteBatch.End();
         }
+
         public void spawnBackground(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(Constant.background, new Rectangle(-500, 0, 1000, 800), Color.White);

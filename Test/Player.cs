@@ -91,6 +91,7 @@ namespace Test
             velocity.Y = j -= friction * j;
 
             Console.WriteLine("Player rotation:" + rotation);
+            Console.WriteLine("Radians:" + to_radians(rotation));
         }
 
         public void poll_input()
@@ -103,11 +104,11 @@ namespace Test
             //Control rotation
             if (keyboard.IsKeyDown(Keys.D) || keyboard.IsKeyDown(Keys.Right))
             {
-                rotation += 0.08f;
+                rotation += 0.02f;
             }
             if (keyboard.IsKeyDown(Keys.A) || keyboard.IsKeyDown(Keys.Left))
             {
-                rotation += -0.08f;
+                rotation += -0.02f;
             }
             if (keyboard.IsKeyDown(Keys.W) || keyboard.IsKeyDown(Keys.Up))
             {
@@ -135,6 +136,7 @@ namespace Test
             for (int i = (ship_frame_count - 1); i >= 0; i--)
             {
                 spriteBatch.Draw(Constant.ship_tex, new Vector2(position.X, position.Y + i * ship_sep), new Rectangle((ship_frame_count - i) * ship_width, 0, ship_width, ship_height), Color.White, rotation + 180 + 0.6f, new Vector2((float)(ship_width / 2), (float)(ship_height / 2)), 1f, SpriteEffects.None, 0f);
+                //spriteBatch.Draw(Constant.ship_tex, new Vector2(position.X, position.Y + i * ship_sep), new Rectangle((ship_frame_count - i) * ship_width, 0, ship_width, ship_height), Color.White, to_radians(rotation) - to_radians(90), new Vector2((float)(ship_width / 2), (float)(ship_height / 2)), 1f, SpriteEffects.None, 0f);
             }
             //spriteBatch.Draw(Constant.bird, position, null, Color.White, rotation, new Vector2(Constant.bird.Width / 2, Constant.bird.Height / 2), 1f, SpriteEffects.None, 0f);
             //Other collision rect
