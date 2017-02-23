@@ -18,14 +18,9 @@ namespace Test
         Player player;
         Camera camera;
         //ParticleGenerator particle_generator;
-
+        
         public Texture2D level;
         int current_level = 0, level_width, level_height;
-
-        //Enemy objects
-        /*List<Enemy> enemies = new List<Enemy>();
-        Random random = new Random();
-        float spawn = 0;*/
 
         //Constructor
         public GameOverseer(int test_level, int screen_width, int screen_height, ContentManager content, Viewport viewport)
@@ -92,7 +87,6 @@ namespace Test
             player.update(gameTime);
             camera_updates();
             //particle_generator.update(gameTime, graphics);
-            //enemy_updates(gameTime, graphics);
         }
 
         private void camera_updates()
@@ -140,44 +134,13 @@ namespace Test
             }
         }
 
-        /*private void enemy_updates(GameTime gameTime, GraphicsDevice graphics_device)
-        {
-            foreach(Enemy enemy in enemies)
-                enemy.Update(graphics_device, gameTime);
-
-            LoadEnemies();
-        }*/
-
-        /*public void LoadEnemies()
-        {
-
-            int randY = random.Next(100, 400);
-            // enemy spawns every second
-            if (spawn >= 1)
-            {
-                spawn = 0;
-                // number of enemies
-                if (enemies.Count < 1)
-                {
-                    enemies.Add(new Enemy(Constant.enemy_tex, new Vector2(600, randY), Constant.bullet_tex));
-                    Console.WriteLine("Created enemy at:" + enemies[enemies.Count-1].get_position());
-                }
-            }
-
-            for (int i = 0; i < enemies.Count; i++)
-            {
-                if (!enemies[i].isVisible)
-                {
-                    enemies.RemoveAt(i);
-                    i--;
-                }
-            }
-        }*/
-
         public void draw(SpriteBatch spriteBatch)
         {
             //Begin spritebatch
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, camera.Transform);
+
+            spawnBackground(spriteBatch);
+
             //Increase the x
             for (int x = 0; x < blocks.GetLength(0); x++)
             {
@@ -192,14 +155,9 @@ namespace Test
                     }
                 }
             }
-            spawnBackground(spriteBatch);
 
             player.draw(spriteBatch);
             //particle_generator.draw(spriteBatch);
-
-            //Draw enemies
-            /*foreach (Enemy enemy in enemies)
-                enemy.Draw(spriteBatch);*/
 
             //End spriteBatch
             spriteBatch.End();
