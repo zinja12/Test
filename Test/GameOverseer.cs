@@ -186,14 +186,14 @@ namespace Test
 
         public void LoadEnemies()
         {
-            int randY = random.Next(0, 500);
+            int randY = random.Next(100, 1000);
             if (spawn >= 1)
             {
                 spawn = 0;
                 if (enemies.Count < 4)
                 {
 
-                    enemies.Add(new Enemy(Constant.enemy_tex, new Vector2(700, randY)));
+                    enemies.Add(new Enemy(Constant.enemy_tex, new Vector2(1500, randY)));
 
                 }
             }
