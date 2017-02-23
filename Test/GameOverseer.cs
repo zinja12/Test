@@ -114,7 +114,7 @@ namespace Test
             float random_angle = random.Next(0, 360);
             Vector2 offset = new Vector2((float)Math.Sin(random_angle) * radius, (float)Math.Cos(random_angle) * radius);
             
-            if (radius >= 2)
+            while (radius >= 2)
             {
                 radius *= 0.9f;
                 if (random.Next(0, 100) > 50)
