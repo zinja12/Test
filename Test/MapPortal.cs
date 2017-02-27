@@ -25,7 +25,7 @@ namespace Test
             KeyboardState k = Keyboard.GetState();
             if (k.IsKeyDown(Keys.E))
             {
-                scale_factor = 2f;
+                scale_factor = 1.9f;
             } else
             {
                 scale_factor = 0f;
