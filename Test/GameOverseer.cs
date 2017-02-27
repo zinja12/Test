@@ -17,6 +17,7 @@ namespace Test
         Block[,] blocks;
         Player player;
         Camera camera;
+        MapPortal map;
         //ParticleGenerator particle_generator;
 
         KeyboardState keyboard;
@@ -49,6 +50,8 @@ namespace Test
             {
                 //Debug mode
             }
+
+            map = new MapPortal(Vector2.Zero);
         }
 
         public void generate_level()
@@ -106,6 +109,8 @@ namespace Test
             {
                 apply_screen_shake();
             }
+
+            map.update(gameTime, player.get_base_position());
         }
 
         private void camera_updates()
@@ -236,6 +241,8 @@ namespace Test
 
             foreach (Enemy enemy in enemies)
                 enemy.Draw(spriteBatch);
+
+            map.draw(spriteBatch);
 
             //End spriteBatch
             spriteBatch.End();
