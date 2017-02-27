@@ -218,9 +218,7 @@ namespace Test
         {
             //Begin spritebatch
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, camera.Transform);
-
-            spawnBackground(spriteBatch);
-
+            
             //Increase the x
             for (int x = 0; x < blocks.GetLength(0); x++)
             {
@@ -235,6 +233,8 @@ namespace Test
                     }
                 }
             }
+
+            spawnBackground(spriteBatch);
 
             player.draw(spriteBatch);
             //particle_generator.draw(spriteBatch);
