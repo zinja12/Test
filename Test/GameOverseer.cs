@@ -17,6 +17,7 @@ namespace Test
         Block[,] blocks;
         Player player;
         Camera camera;
+        MapPortal map_portal;
         //ParticleGenerator particle_generator;
 
         KeyboardState keyboard;
@@ -44,6 +45,8 @@ namespace Test
             {
                 //Debug mode
             }
+
+            map_portal = new MapPortal(new Vector2(200, 400));
         }
 
         public void generate_level()
@@ -95,6 +98,8 @@ namespace Test
             {
                 apply_screen_shake();
             }
+
+            map_portal.update(gameTime, player.get_base_position());
         }
 
         private void camera_updates()
@@ -170,7 +175,7 @@ namespace Test
             //Begin spritebatch
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, camera.Transform);
 
-            spawnBackground(spriteBatch);
+            //spawnBackground(spriteBatch);
 
             //Increase the x
             for (int x = 0; x < blocks.GetLength(0); x++)
@@ -187,8 +192,12 @@ namespace Test
                 }
             }
 
+            spawnBackground(spriteBatch);
+
             player.draw(spriteBatch);
             //particle_generator.draw(spriteBatch);
+
+            map_portal.draw(spriteBatch);
 
             //End spriteBatch
             spriteBatch.End();

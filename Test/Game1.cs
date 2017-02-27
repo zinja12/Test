@@ -64,6 +64,8 @@ namespace Test
             Constant.enemy_tex = Content.Load<Texture2D>("Sprites/box.png");
             Constant.ship_tex = Content.Load<Texture2D>("Sprites/ship.png");
             Constant.background = Content.Load<Texture2D>("Sprites/stars");
+            Constant.symbol_spritesheet = Content.Load<Texture2D>("Sprites/symb_spritesheet.png");
+            Constant.symbol_circle = Content.Load<Texture2D>("Sprites/sphere.png");
         }
 
         /// <summary>

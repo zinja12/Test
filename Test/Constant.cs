@@ -22,6 +22,8 @@ namespace Test
         public static Texture2D bullet_tex;
         public static Texture2D ship_tex;
         public static Texture2D background;
+        public static Texture2D symbol_spritesheet;
+        public static Texture2D symbol_circle;
 
         public static readonly Vector2 gravity = new Vector2(0, 9.8f);
 
