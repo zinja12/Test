@@ -15,6 +15,8 @@ namespace Test
         protected Texture2D texture;
         protected Vector2 position;
         protected Vector2 velocity;
+        private int enemy_frame_count = 9;
+
 
         public bool isVisible = true;
 
@@ -25,6 +27,9 @@ namespace Test
         //Bullets 
         List<Bullets> bullets = new List<Bullets>();
         Texture2D bulletTexture;
+        public static int enemy_width = 28, enemy_height = 100;
+        private float enemy_sep = 1;
+
 
         public Enemy(Texture2D newTexture, Vector2 newPosition) {
 
@@ -44,7 +49,7 @@ namespace Test
             return position;
         }
 
-        public void UpdateBullets()
+        /*public void UpdateBullets()
         {
             foreach (Bullets bullet in bullets)
             {
@@ -62,9 +67,9 @@ namespace Test
                     i--;
                 }
             }
-        }
+        }*/
 
-        public void ShootBullets()
+      /*  public void ShootBullets()
         {
             Bullets newbullet = new Bullets(bulletTexture);
             newbullet.velocity.X = velocity.X - 3f;
@@ -75,7 +80,7 @@ namespace Test
             {
                 bullets.Add(newbullet);
             }
-        }
+        }*/
         public void Update(GraphicsDevice graphics)
         {
             
@@ -104,7 +109,10 @@ namespace Test
             {
                 bullet.Draw(spriteBatch);
             }*/
-            spriteBatch.Draw(texture, position, Color.White);    
+            for (int i = (enemy_frame_count - 1); i >= 0; i--)
+            {
+                spriteBatch.Draw(Constant.enemy_tex, new Vector2(position.X, position.Y + i * enemy_sep), new Rectangle((enemy_frame_count - i) * enemy_width, 0, enemy_width, enemy_height), Color.White, 0.0f, new Vector2((float)(enemy_width / 2), (float)(enemy_height / 2)), 1f, SpriteEffects.None, 0f);
+            }
 
         }
 

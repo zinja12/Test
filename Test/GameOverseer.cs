@@ -17,13 +17,17 @@ namespace Test
         Block[,] blocks;
         Player player;
         Camera camera;
-        MapPortal map_portal;
         //ParticleGenerator particle_generator;
 
         KeyboardState keyboard;
         
         public Texture2D level;
         int current_level = 0, level_width, level_height;
+
+        //Enemy objects
+        List<Enemy> enemies = new List<Enemy>();
+        Random random = new Random();
+        float spawn = 0;
 
         //Constructor
         public GameOverseer(int test_level, int screen_width, int screen_height, ContentManager content, Viewport viewport)
@@ -45,8 +49,6 @@ namespace Test
             {
                 //Debug mode
             }
-
-            map_portal = new MapPortal(new Vector2(200, 400));
         }
 
         public void generate_level()
@@ -91,6 +93,12 @@ namespace Test
             player_level_collision();
             player.update(gameTime);
             camera_updates();
+            spawn += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            foreach (Enemy enemy in enemies)
+            {
+                enemy.Update(graphics);
+            }
+            LoadEnemies();
             //particle_generator.update(gameTime, graphics);
 
             keyboard = Keyboard.GetState();
@@ -98,8 +106,6 @@ namespace Test
             {
                 apply_screen_shake();
             }
-
-            map_portal.update(gameTime, player.get_base_position());
         }
 
         private void camera_updates()
@@ -170,12 +176,45 @@ namespace Test
             }
         }
 
+        /*private void enemy_updates(GameTime gameTime, GraphicsDevice graphics_device)
+        {
+            foreach(Enemy enemy in enemies)
+                enemy.Update(graphics_device, gameTime);
+
+            LoadEnemies();
+        }*/
+
+        public void LoadEnemies()
+        {
+            int randY = random.Next(100, 1000);
+            if (spawn >= 1)
+            {
+                spawn = 0;
+                if (enemies.Count < 4)
+                {
+
+                    enemies.Add(new Enemy(Constant.enemy_tex, new Vector2(1500, randY)));
+
+                }
+            }
+
+            for (int i = 0; i < enemies.Count; i++)
+            {
+                if (!enemies[i].isVisible)
+                {
+                    enemies.RemoveAt(i);
+                    i--;
+                }
+
+            }
+        }
+
         public void draw(SpriteBatch spriteBatch)
         {
             //Begin spritebatch
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, camera.Transform);
 
-            //spawnBackground(spriteBatch);
+            spawnBackground(spriteBatch);
 
             //Increase the x
             for (int x = 0; x < blocks.GetLength(0); x++)
@@ -192,12 +231,11 @@ namespace Test
                 }
             }
 
-            spawnBackground(spriteBatch);
-
             player.draw(spriteBatch);
             //particle_generator.draw(spriteBatch);
 
-            map_portal.draw(spriteBatch);
+            foreach (Enemy enemy in enemies)
+                enemy.Draw(spriteBatch);
 
             //End spriteBatch
             spriteBatch.End();
