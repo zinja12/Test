@@ -27,7 +27,7 @@ namespace Test
         //Bullets 
         List<Bullets> bullets = new List<Bullets>();
         Texture2D bulletTexture;
-        public static int enemy_width = 28, enemy_height = 100;
+        public static int enemy_width = 40, enemy_height = 178;
         private float enemy_sep = 1;
 
 
@@ -111,7 +111,8 @@ namespace Test
             }*/
             for (int i = (enemy_frame_count - 1); i >= 0; i--)
             {
-                spriteBatch.Draw(Constant.enemy_tex, new Vector2(position.X, position.Y + i * enemy_sep), new Rectangle((enemy_frame_count - i) * enemy_width, 0, enemy_width, enemy_height), Color.White, 0.0f, new Vector2((float)(enemy_width / 2), (float)(enemy_height / 2)), 1f, SpriteEffects.None, 0f);
+                spriteBatch.Draw(Constant.enemy_tex, new Vector2(position.X, position.Y + i * enemy_sep), new Rectangle((enemy_frame_count - i) * enemy_width, 0, enemy_width, 
+                    enemy_height), Color.White, 0, new Vector2(0,0), 2, SpriteEffects.None, 0f);
             }
 
         }
