@@ -16,7 +16,7 @@ namespace Test
         protected Vector2 position;
         protected Vector2 velocity;
         private int enemy_frame_count = 9;
-
+        float shoot = 0;
 
         public bool isVisible = true;
 
@@ -31,11 +31,11 @@ namespace Test
         private float enemy_sep = 1;
 
 
-        public Enemy(Texture2D newTexture, Vector2 newPosition) {
+        public Enemy(Texture2D newTexture, Vector2 newPosition, Texture2D newBulletTexture) {
 
             texture = newTexture;
             position = newPosition;
-            //bulletTexture = newBulletTexture;
+            bulletTexture = newBulletTexture;
 
             randY = random.Next(-4, 4);
             //speed across the screen
@@ -49,7 +49,7 @@ namespace Test
             return position;
         }
 
-        /*public void UpdateBullets()
+        public void UpdateBullets()
         {
             foreach (Bullets bullet in bullets)
             {
@@ -67,25 +67,25 @@ namespace Test
                     i--;
                 }
             }
-        }*/
+        }
 
-      /*  public void ShootBullets()
+       public void ShootBullets()
         {
             Bullets newbullet = new Bullets(bulletTexture);
             newbullet.velocity.X = velocity.X - 3f;
-            newbullet.position = new Vector2(position.X + newbullet.velocity.X, position.Y + (texture.Height/2) - bulletTexture.Height/2);
-
+            newbullet.position = new Vector2(position.X + newbullet.velocity.X +30, position.Y + 
+                (texture.Height/2) - (bulletTexture.Height /2) +20 );
             newbullet.isVisible = true;
-            if (bullets.Count <3)
+            if (bullets.Count < 3)
             {
                 bullets.Add(newbullet);
             }
-        }*/
-        public void Update(GraphicsDevice graphics)
+        }
+        public void Update(GraphicsDevice graphics, GameTime gameTime)
         {
             
             position += velocity;
-            if (position.Y <= 0 || position.Y >= graphics.Viewport.Height - texture.Height)
+            if (position.Y <= 0 || position.Y >= graphics.Viewport.Height)
             {
                 velocity.Y = -velocity.Y;
             }
@@ -95,24 +95,25 @@ namespace Test
                 isVisible = false;
             }
             
-            /*shoot += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            shoot += (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (shoot > 1)
             {
                 shoot = 0;
                 ShootBullets();
             }
-            UpdateBullets();*/
+            UpdateBullets();
         }
         public void Draw(SpriteBatch spriteBatch) {
 
-            /*foreach (Bullets bullet in bullets)
-            {
-                bullet.Draw(spriteBatch);
-            }*/
+            
             for (int i = (enemy_frame_count - 1); i >= 0; i--)
             {
                 spriteBatch.Draw(Constant.enemy_tex, new Vector2(position.X, position.Y + i * enemy_sep), new Rectangle((enemy_frame_count - i) * enemy_width, 0, enemy_width, 
-                    enemy_height), Color.White, 0, new Vector2(0,0), 2, SpriteEffects.None, 0f);
+                    enemy_height), Color.White, 0, new Vector2(0,0), 2f, SpriteEffects.None, 0f);
+            }
+            foreach (Bullets bullet in bullets)
+            {
+                bullet.Draw(spriteBatch);
             }
 
         }

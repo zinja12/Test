@@ -99,7 +99,7 @@ namespace Test
             spawn += (float)gameTime.ElapsedGameTime.TotalSeconds;
             foreach (Enemy enemy in enemies)
             {
-                enemy.Update(graphics);
+                enemy.Update(graphics, gameTime);
             }
             LoadEnemies();
             //particle_generator.update(gameTime, graphics);
@@ -198,7 +198,7 @@ namespace Test
                 if (enemies.Count < 4)
                 {
 
-                    enemies.Add(new Enemy(Constant.enemy_tex, new Vector2(1500, randY)));
+                    enemies.Add(new Enemy(Constant.enemy_tex, new Vector2(1500, randY), Constant.particle));
 
                 }
             }
