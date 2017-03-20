@@ -39,7 +39,7 @@ namespace Test
 
             randY = random.Next(-4, 4);
             //speed across the screen
-            randX = random.Next(-4, 1);
+            randX = random.Next(-3, -1);
 
             velocity = new Vector2(randX, randY);
         }
@@ -85,7 +85,7 @@ namespace Test
         {
             
             position += velocity;
-            if (position.Y <= 0 || position.Y >= graphics.Viewport.Height)
+            if (position.Y <= -225 || position.Y >= 350)
             {
                 velocity.Y = -velocity.Y;
             }
