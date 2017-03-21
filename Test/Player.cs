@@ -90,8 +90,8 @@ namespace Test
             velocity.X = i -= friction * i;
             velocity.Y = j -= friction * j;
 
-            Console.WriteLine("Player rotation:" + rotation);
-            Console.WriteLine("Radians:" + to_radians(rotation));
+           // Console.WriteLine("Player rotation:" + rotation);
+            //Console.WriteLine("Radians:" + to_radians(rotation));
         }
 
         public void poll_input()

@@ -16,6 +16,7 @@ namespace Test
         public Vector2 velocity;
 
         public bool isVisible = true;
+        public bool isReflected = true;
         private int bullet_frame_count = 9;
         private float bullet_sep = 1;
         public static int bullet_width = 40, bullet_height = 178;
@@ -28,6 +29,7 @@ namespace Test
 
             texture = newTexture;
             isVisible = false;
+            isReflected = false;
         }
 
         public void Draw(SpriteBatch spriteBatch)

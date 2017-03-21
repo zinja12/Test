@@ -11,6 +11,7 @@ namespace Test
 {
     public class Enemy
     {
+        Player player;
 
         protected Texture2D texture;
         protected Vector2 position;
@@ -31,11 +32,12 @@ namespace Test
         private float enemy_sep = 1;
 
 
-        public Enemy(Texture2D newTexture, Vector2 newPosition, Texture2D newBulletTexture) {
+        public Enemy(Texture2D newTexture, Vector2 newPosition, Texture2D newBulletTexture, Player newPlayer) {
 
             texture = newTexture;
             position = newPosition;
             bulletTexture = newBulletTexture;
+            player = newPlayer;
 
             randY = random.Next(-4, 4);
             //speed across the screen
@@ -53,8 +55,14 @@ namespace Test
         {
             foreach (Bullets bullet in bullets)
             {
+                int dx = Math.Max((int)Math.Abs(bullet.position.X - player.other_collision_rect.Center.X) -(player.other_collision_rect.Width) / 2, 0);
+                int dy = Math.Max((int)Math.Abs(bullet.position.Y - player.other_collision_rect.Center.Y) - (player.other_collision_rect.Height) / 2, 0);
+
+                if ((dx * dx + dy * dy) == 0) {
+                    System.Console.WriteLine("Hello, World!");
+                }
                 bullet.position += bullet.velocity;
-                if (bullet.position.X < 0)
+                if (bullet.position.X < -300)
                 {
                     bullet.isVisible = false;
                 }

@@ -198,7 +198,7 @@ namespace Test
                 if (enemies.Count < 4)
                 {
 
-                    enemies.Add(new Enemy(Constant.enemy_tex, new Vector2(600, randY), Constant.particle));
+                    enemies.Add(new Enemy(Constant.enemy_tex, new Vector2(800, randY), Constant.particle, player));
 
                 }
             }
