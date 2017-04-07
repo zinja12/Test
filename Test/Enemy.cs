@@ -60,6 +60,7 @@ namespace Test
 
                 if ((dx * dx + dy * dy) == 0) {
                     System.Console.WriteLine("Hello, World!");
+                    Constant.shake = true;
                 }
                 bullet.position += bullet.velocity;
                 if (bullet.position.X < -300)

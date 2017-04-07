@@ -111,6 +111,13 @@ namespace Test
             }
 
             map.update(gameTime, player.get_base_position());
+
+            //If hit apply shake
+            if (Constant.shake)
+            {
+                apply_screen_shake();
+                Constant.shake = false;
+            }
         }
 
         private void camera_updates()

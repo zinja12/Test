@@ -35,5 +35,7 @@ namespace Test
         public static int[] other_test_block = { 4, 0 };
 
         public static bool debug = true;
+
+        public static bool shake = false;
     }
 }
