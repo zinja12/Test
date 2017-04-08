@@ -18,6 +18,7 @@ namespace Test
         Player player;
         Camera camera;
         MapPortal map;
+        Backgrounds backgrounds;
         //ParticleGenerator particle_generator;
 
         KeyboardState keyboard;
@@ -52,6 +53,7 @@ namespace Test
             }
 
             map = new MapPortal(Vector2.Zero);
+            backgrounds = new Backgrounds();
         }
 
         public void generate_level()
@@ -93,7 +95,7 @@ namespace Test
 
         public void update(GameTime gameTime, GraphicsDevice graphics)
         {
-            player_level_collision();
+            //player_level_collision();
             player.update(gameTime);
             camera_updates();
             spawn += (float)gameTime.ElapsedGameTime.TotalSeconds;
@@ -118,6 +120,8 @@ namespace Test
                 apply_screen_shake();
                 Constant.shake = false;
             }
+
+            backgrounds.update(gameTime, player.position);
         }
 
         private void camera_updates()
@@ -241,7 +245,8 @@ namespace Test
                 }
             }
 
-            spawnBackground(spriteBatch);
+            //spawnBackground(spriteBatch);
+            backgrounds.draw(spriteBatch);
 
             player.draw(spriteBatch);
             //particle_generator.draw(spriteBatch);

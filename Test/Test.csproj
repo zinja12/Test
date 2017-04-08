@@ -39,6 +39,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Animation.cs" />
+    <Compile Include="Backgrounds.cs" />
     <Compile Include="Block.cs" />
     <Compile Include="Bullets.cs" />
     <Compile Include="Camera.cs" />
