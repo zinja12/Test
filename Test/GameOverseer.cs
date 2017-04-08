@@ -24,6 +24,7 @@ namespace Test
         KeyboardState keyboard;
         
         public Texture2D level;
+		public Texture2D healthTexture;
         int current_level = 0, level_width, level_height;
 
         //Enemy objects
@@ -93,10 +94,10 @@ namespace Test
             }
         }
 
-        public void update(GameTime gameTime, GraphicsDevice graphics)
+        public void update(GameTime gameTime, GraphicsDevice graphics, SpriteBatch spriteBatch)
         {
-            //player_level_collision();
-            player.update(gameTime);
+            player_level_collision();
+            player.update(gameTime, spriteBatch);
             camera_updates();
             spawn += (float)gameTime.ElapsedGameTime.TotalSeconds;
             foreach (Enemy enemy in enemies)

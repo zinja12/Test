@@ -17,7 +17,9 @@ namespace Test
         protected Vector2 position;
         protected Vector2 velocity;
         private int enemy_frame_count = 9;
-        float shoot = 0;
+		float shoot = 0;
+		bool playerHit = false;
+		int timer;
 
         public bool isVisible = true;
 
@@ -51,8 +53,9 @@ namespace Test
             return position;
         }
 
-        public void UpdateBullets()
+        public void UpdateBullets(GameTime gameTime)
         {
+
             foreach (Bullets bullet in bullets)
             {
                 int dx = Math.Max((int)Math.Abs(bullet.position.X - player.other_collision_rect.Center.X) -(player.other_collision_rect.Width) / 2, 0);
@@ -110,7 +113,7 @@ namespace Test
                 shoot = 0;
                 ShootBullets();
             }
-            UpdateBullets();
+            UpdateBullets(gameTime);
         }
         public void Draw(SpriteBatch spriteBatch) {
 
