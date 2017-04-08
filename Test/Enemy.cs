@@ -19,7 +19,6 @@ namespace Test
         private int enemy_frame_count = 9;
 		float shoot = 0;
 		bool playerHit = false;
-		float damageBuffer = 0;
 		int timer;
 
         public bool isVisible = true;
@@ -56,7 +55,6 @@ namespace Test
 
         public void UpdateBullets(GameTime gameTime)
         {
-			damageBuffer += (float)gameTime.ElapsedGameTime.TotalSeconds;
 
             foreach (Bullets bullet in bullets)
             {
@@ -64,9 +62,7 @@ namespace Test
                 int dy = Math.Max((int)Math.Abs(bullet.position.Y - player.other_collision_rect.Center.Y) - (player.other_collision_rect.Height) / 2, 0);
 
                 if ((dx * dx + dy * dy) == 0) {
-					damageBuffer = 0;
                     System.Console.WriteLine("Hello, World!");
-					playerHit = true;
                     Constant.shake = true;
                 }
                 bullet.position += bullet.velocity;
@@ -83,11 +79,6 @@ namespace Test
                     i--;
                 }
             }
-			if (playerHit == true) 
-			{
-				player.playerHit();
-				playerHit = false;
-			}
         }
 
        public void ShootBullets()
