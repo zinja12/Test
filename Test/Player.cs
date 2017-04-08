@@ -24,8 +24,12 @@ namespace Test
         public Vector2 left_side_pt, right_side_pt, top_side_pt;
         private float rotation;
         public Rectangle other_collision_rect;
+		public Rectangle healthDestRect;
+		public Rectangle healthSourceRect;
+
 
         private int ship_frame_count = 20;
+		int healthFrames = 0;
         private float ship_sep = 1;
 
         public bool grounded;
@@ -35,16 +39,18 @@ namespace Test
         public static int ship_width = 28, ship_height = 82;
 
         public bool player_debug = false;
+		public int health;
 
         //private Animation test_animation;
 
         //Constructor
-        public Player(Vector2 position)
+        public Player(Vector2 position, int health)
         {
             //Initialize animation
             //test_animation = new Animation(100.0f, 4-1, 0, 0, width, height);
 
             this.position = position;
+			this.health = health;
             base_position = new Vector2(position.X, position.Y + (height/2));
             left_side_pt = new Vector2(position.X + (width/2), position.Y);
             right_side_pt = new Vector2(position.X - (width/2), position.Y);
@@ -52,6 +58,7 @@ namespace Test
             velocity = Vector2.Zero;
             rotation = 0f;
             other_collision_rect = new Rectangle((int)this.position.X, (int)this.position.Y, width, height);
+			healthDestRect = new Rectangle(-400, -200, 158, 152);
         }
 
         //Getters
@@ -70,7 +77,20 @@ namespace Test
             return rotation;
         }
 
-        public void update(GameTime gameTime)
+		public int getHealth() 
+		{
+			return health;
+		}
+
+		public void playerHit()
+		{
+			
+			health--;
+			healthFrames++;
+		}
+
+
+        public void update(GameTime gameTime, SpriteBatch spriteBatch)
         {
             //Handle polling input and velocity
             poll_input();
@@ -89,6 +109,12 @@ namespace Test
             float j = velocity.Y;
             velocity.X = i -= friction * i;
             velocity.Y = j -= friction * j;
+
+			if (healthFrames <= 4)
+			{			
+				healthSourceRect = new Rectangle(157 * healthFrames, 0, 157, 152);
+
+			}
 
            // Console.WriteLine("Player rotation:" + rotation);
             //Console.WriteLine("Radians:" + to_radians(rotation));
@@ -130,9 +156,10 @@ namespace Test
 
         public void draw(SpriteBatch spriteBatch)
         {
-            //Draw animation
-            //spriteBatch.Draw(Constant.spritesheet, position, test_animation.source_rect, Color.White);
-            //draw other
+			//Draw animation
+			//spriteBatch.Draw(Constant.spritesheet, position, test_animation.source_rect, Color.White);
+			//draw other
+			spriteBatch.Draw(Constant.health_bar,healthDestRect, healthSourceRect, Color.White);
             for (int i = (ship_frame_count - 1); i >= 0; i--)
             {
                 spriteBatch.Draw(Constant.ship_tex, new Vector2(position.X, position.Y + i * ship_sep), new Rectangle((ship_frame_count - i) * ship_width, 0, ship_width, ship_height), Color.White, rotation + 180 + 0.6f, new Vector2((float)(ship_width / 2), (float)(ship_height / 2)), 1f, SpriteEffects.None, 0f);
