@@ -37,7 +37,7 @@ namespace Test
 
             if (ptx == tx && pty == ty)
             {
-
+                //Don't need to shift the backgrounds since the coordinates are the same
             }
             else
             {
@@ -81,19 +81,36 @@ namespace Test
                     back_positions[0, 1] = tmp1;
                     back_positions[0, 2] = tmp2;
                 }
-                else if (tx == ptx && ty - 1 == pty)
+                else if (tx == ptx && ty + 1 == pty)
                 {
                     //Shift up
-                    back_positions[0, 2].Y -= image_height * 2;
-                    back_positions[1, 2].Y -= image_height * 2;
-                    back_positions[2, 2].Y -= image_height * 2;
+                    back_positions[0, 2].Y -= image_height * 3;
+                    back_positions[1, 2].Y -= image_height * 3;
+                    back_positions[2, 2].Y -= image_height * 3;
+                    //Rotate tiles
+                    Vector2 tmp0 = back_positions[0, 2];
+                    Vector2 tmp1 = back_positions[1, 2];
+                    Vector2 tmp2 = back_positions[2, 2];
+                    back_positions[0, 2] = back_positions[0, 1];
+                    back_positions[1, 2] = back_positions[1, 1];
+                    back_positions[2, 2] = back_positions[2, 1];
+                    back_positions[0, 1] = back_positions[0, 0];
+                    back_positions[1, 1] = back_positions[1, 0];
+                    back_positions[2, 1] = back_positions[2, 0];
+                    back_positions[0, 0] = tmp0;
+                    back_positions[1, 0] = tmp1;
+                    back_positions[2, 0] = tmp2;
                 }
-                else if (tx == ptx - 1 && ty + 1 == pty)
+                else if (tx == ptx - 1 && ty - 1 == pty)
                 {
                     //Shift down
-                    back_positions[0, 0].Y += image_height * 2;
-                    back_positions[1, 0].Y += image_height * 2;
-                    back_positions[2, 0].Y += image_height * 2;
+                    back_positions[0, 0].Y += image_height * 3;
+                    back_positions[1, 0].Y += image_height * 3;
+                    back_positions[2, 0].Y += image_height * 3;
+                    //Rotate tiles
+                    Vector2 tmp0 = back_positions[0, 0];
+                    Vector2 tmp1 = back_positions[1, 0];
+                    Vector2 tmp2 = back_positions[2, 0];
                 }
             }
 
