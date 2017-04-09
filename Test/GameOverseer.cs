@@ -22,8 +22,9 @@ namespace Test
         //ParticleGenerator particle_generator;
 
         KeyboardState keyboard;
-        
+
         public Texture2D level;
+        public Texture2D healthTexture;
         int current_level = 0, level_width, level_height;
 
         //Enemy objects
@@ -93,10 +94,10 @@ namespace Test
             }
         }
 
-        public void update(GameTime gameTime, GraphicsDevice graphics)
+        public void update(GameTime gameTime, GraphicsDevice graphics, SpriteBatch spriteBatch)
         {
-            //player_level_collision();
-            player.update(gameTime);
+            player_level_collision();
+            player.update(gameTime, spriteBatch);
             camera_updates();
             spawn += (float)gameTime.ElapsedGameTime.TotalSeconds;
             foreach (Enemy enemy in enemies)
@@ -140,7 +141,7 @@ namespace Test
             Random random = new Random();
             float random_angle = random.Next(0, 360);
             Vector2 offset = new Vector2((float)Math.Sin(random_angle) * radius, (float)Math.Cos(random_angle) * radius);
-            
+
             while (radius >= 2)
             {
                 radius *= 0.9f;
@@ -229,7 +230,7 @@ namespace Test
         {
             //Begin spritebatch
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, camera.Transform);
-            
+
             //Increase the x
             for (int x = 0; x < blocks.GetLength(0); x++)
             {

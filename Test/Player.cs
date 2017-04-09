@@ -24,8 +24,13 @@ namespace Test
         public Vector2 left_side_pt, right_side_pt, top_side_pt;
         private float rotation;
         public Rectangle other_collision_rect;
+        public Rectangle healthDestRect;
+        public Rectangle healthSourceRect;
+
 
         private int ship_frame_count = 20;
+        int healthFrames = 0;
+        float damageBuffer = 0;
         private float ship_sep = 1;
 
         public bool grounded;
@@ -45,13 +50,16 @@ namespace Test
             //test_animation = new Animation(100.0f, 4-1, 0, 0, width, height);
 
             this.position = position;
-            base_position = new Vector2(position.X, position.Y + (height/2));
-            left_side_pt = new Vector2(position.X + (width/2), position.Y);
-            right_side_pt = new Vector2(position.X - (width/2), position.Y);
-            top_side_pt = new Vector2(position.X, position.Y - (height/2));
+            base_position = new Vector2(position.X, position.Y + (height / 2));
+            left_side_pt = new Vector2(position.X + (width / 2), position.Y);
+            right_side_pt = new Vector2(position.X - (width / 2), position.Y);
+            top_side_pt = new Vector2(position.X, position.Y - (height / 2));
             velocity = Vector2.Zero;
             rotation = 0f;
             other_collision_rect = new Rectangle((int)this.position.X, (int)this.position.Y, width, height);
+            healthDestRect = new Rectangle(-400, -200, 158, 152);
+            healthSourceRect = new Rectangle(0, 0, 157, 152);
+
         }
 
         //Getters
@@ -70,7 +78,7 @@ namespace Test
             return rotation;
         }
 
-        public void update(GameTime gameTime)
+        public void update(GameTime gameTime, SpriteBatch spriteBatch)
         {
             //Handle polling input and velocity
             poll_input();
@@ -81,8 +89,8 @@ namespace Test
             left_side_pt += velocity;
             right_side_pt += velocity;
             top_side_pt += velocity;
-            other_collision_rect.X = (int)(position.X - (width/2));
-            other_collision_rect.Y = (int)(position.Y - (height/2));
+            other_collision_rect.X = (int)(position.X - (width / 2));
+            other_collision_rect.Y = (int)(position.Y - (height / 2));
 
             //Handle friction
             float i = velocity.X;
@@ -90,7 +98,18 @@ namespace Test
             velocity.X = i -= friction * i;
             velocity.Y = j -= friction * j;
 
-           // Console.WriteLine("Player rotation:" + rotation);
+            damageBuffer += (float)gameTime.ElapsedGameTime.TotalSeconds;
+
+
+            if (damageBuffer > 2 && healthFrames < 5)
+            {
+                damageBuffer = 0;
+                healthSourceRect = new Rectangle(157 * healthFrames, 0, 157, 152);
+                healthFrames++;
+
+            }
+
+            // Console.WriteLine("Player rotation:" + rotation);
             //Console.WriteLine("Radians:" + to_radians(rotation));
         }
 
@@ -100,7 +119,7 @@ namespace Test
 
             //Check input across WASD and the Arrow Keys
             //Adjust velocity being added to the players position accordingly
-            
+
             //Control rotation
             if (keyboard.IsKeyDown(Keys.D) || keyboard.IsKeyDown(Keys.Right))
             {
@@ -133,6 +152,7 @@ namespace Test
             //Draw animation
             //spriteBatch.Draw(Constant.spritesheet, position, test_animation.source_rect, Color.White);
             //draw other
+            spriteBatch.Draw(Constant.health_bar, healthDestRect, healthSourceRect, Color.White);
             for (int i = (ship_frame_count - 1); i >= 0; i--)
             {
                 spriteBatch.Draw(Constant.ship_tex, new Vector2(position.X, position.Y + i * ship_sep), new Rectangle((ship_frame_count - i) * ship_width, 0, ship_width, ship_height), Color.White, rotation + 180 + 0.6f, new Vector2((float)(ship_width / 2), (float)(ship_height / 2)), 1f, SpriteEffects.None, 0f);
