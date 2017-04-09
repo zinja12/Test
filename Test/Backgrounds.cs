@@ -35,7 +35,7 @@ namespace Test
         {
             int tx = (int)position.X / image_width, ty = (int)position.Y / image_height;
 
-            /*if (ptx == tx && pty == ty)
+            if (ptx == tx && pty == ty)
             {
 
             }
@@ -47,6 +47,19 @@ namespace Test
                     back_positions[0, 0].X += image_width * 2;
                     back_positions[0, 1].X += image_width * 2;
                     back_positions[0, 2].X += image_width * 2;
+                    //Rotate tiles
+                    Vector2 tmp0 = back_positions[0, 0];
+                    Vector2 tmp1 = back_positions[0, 1];
+                    Vector2 tmp2 = back_positions[0, 2];
+                    back_positions[0, 0] = back_positions[1, 0];
+                    back_positions[0, 1] = back_positions[1, 1];
+                    back_positions[0, 2] = back_positions[1, 2];
+                    back_positions[1, 0] = back_positions[2, 0];
+                    back_positions[1, 1] = back_positions[2, 1];
+                    back_positions[1, 2] = back_positions[2, 2];
+                    back_positions[2, 0] = tmp0;
+                    back_positions[2, 1] = tmp1;
+                    back_positions[2, 2] = tmp2;
                 }
                 else if (tx + 1 == ptx && ty == pty)
                 {
@@ -54,6 +67,19 @@ namespace Test
                     back_positions[2, 0].X -= image_width * 2;
                     back_positions[2, 1].X -= image_width * 2;
                     back_positions[2, 2].X -= image_width * 2;
+                    //Rotate tiles
+                    Vector2 tmp0 = back_positions[2, 0];
+                    Vector2 tmp1 = back_positions[2, 1];
+                    Vector2 tmp2 = back_positions[2, 2];
+                    back_positions[2, 0] = back_positions[1, 0];
+                    back_positions[2, 1] = back_positions[1, 1];
+                    back_positions[2, 2] = back_positions[1, 2];
+                    back_positions[1, 0] = back_positions[0, 0];
+                    back_positions[1, 1] = back_positions[0, 1];
+                    back_positions[1, 2] = back_positions[0, 2];
+                    back_positions[0, 0] = tmp0;
+                    back_positions[0, 1] = tmp1;
+                    back_positions[0, 2] = tmp2;
                 }
                 else if (tx == ptx && ty - 1 == pty)
                 {
@@ -69,7 +95,7 @@ namespace Test
                     back_positions[1, 0].Y += image_height * 2;
                     back_positions[2, 0].Y += image_height * 2;
                 }
-            }*/
+            }
 
             Console.WriteLine("TX: " + tx + "TY: " + ty);
             Console.WriteLine("PTX: " + ptx + "PTY: " + pty);

@@ -96,7 +96,7 @@ namespace Test
 
         public void update(GameTime gameTime, GraphicsDevice graphics, SpriteBatch spriteBatch)
         {
-            player_level_collision();
+            //player_level_collision();
             player.update(gameTime, spriteBatch);
             camera_updates();
             spawn += (float)gameTime.ElapsedGameTime.TotalSeconds;
