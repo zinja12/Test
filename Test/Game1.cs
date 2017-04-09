@@ -16,7 +16,7 @@ namespace Test
 
         //Game object
         GameOverseer game_overseer;
-        
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -24,7 +24,8 @@ namespace Test
             if (!Constant.debug)
             {
                 graphics.IsFullScreen = true;
-            } else
+            }
+            else
             {
                 graphics.PreferredBackBufferWidth = 1000;
                 graphics.PreferredBackBufferHeight = 600;
@@ -66,7 +67,7 @@ namespace Test
             Constant.background = Content.Load<Texture2D>("Sprites/stars");
             Constant.symbol_spritesheet = Content.Load<Texture2D>("Sprites/symb_spritesheet.png");
             Constant.symbol_circle = Content.Load<Texture2D>("Sprites/sphere.png");
-			Constant.health_bar = Content.Load<Texture2D>("Sprites/health.png");
+            Constant.health_bar = Content.Load<Texture2D>("Sprites/health.png");
 
 
 
@@ -105,9 +106,9 @@ namespace Test
         protected override void Draw(GameTime gameTime)
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
-            
+
             game_overseer.draw(spriteBatch);
-            
+
 
             base.Draw(gameTime);
         }

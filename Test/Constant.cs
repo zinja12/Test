@@ -25,10 +25,7 @@ namespace Test
         public static Texture2D symbol_spritesheet;
         public static Texture2D symbol_circle;
         public static Texture2D fire;
-		public static Texture2D health_bar;
-
-
-
+        public static Texture2D health_bar;
 
 
         public static readonly Vector2 gravity = new Vector2(0, 9.8f);
