@@ -44,9 +44,9 @@ namespace Test
                 if (tx - 1 == ptx && ty == pty)
                 {
                     //Shift right
-                    back_positions[0, 0].X += image_width * 2;
-                    back_positions[0, 1].X += image_width * 2;
-                    back_positions[0, 2].X += image_width * 2;
+                    back_positions[0, 0].X += image_width * 3;
+                    back_positions[0, 1].X += image_width * 3;
+                    back_positions[0, 2].X += image_width * 3;
                     //Rotate tiles
                     Vector2 tmp0 = back_positions[0, 0];
                     Vector2 tmp1 = back_positions[0, 1];
@@ -64,9 +64,9 @@ namespace Test
                 else if (tx + 1 == ptx && ty == pty)
                 {
                     //Shift left
-                    back_positions[2, 0].X -= image_width * 2;
-                    back_positions[2, 1].X -= image_width * 2;
-                    back_positions[2, 2].X -= image_width * 2;
+                    back_positions[2, 0].X -= image_width * 3;
+                    back_positions[2, 1].X -= image_width * 3;
+                    back_positions[2, 2].X -= image_width * 3;
                     //Rotate tiles
                     Vector2 tmp0 = back_positions[2, 0];
                     Vector2 tmp1 = back_positions[2, 1];
