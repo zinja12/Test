@@ -33,7 +33,7 @@ namespace Test
 
         public void update(GameTime gameTime, Vector2 position)
         {
-            int tx = (int)position.X / image_width, ty = (int)position.Y / image_height;
+            int tx = (int)(position.X + image_width) / image_width, ty = (int)(position.Y + image_height) / image_height;
 
             if (ptx == tx && pty == ty)
             {
