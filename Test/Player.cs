@@ -30,7 +30,6 @@ namespace Test
 
         private int ship_frame_count = 20;
         int healthFrames = 0;
-        float damageBuffer = 0;
         private float ship_sep = 1;
 
         public bool grounded;
@@ -78,6 +77,14 @@ namespace Test
             return rotation;
         }
 
+        public void playerHit()
+        {
+            if (healthFrames < 4) {
+                healthFrames++;
+                healthSourceRect = new Rectangle(157 * healthFrames, 0, 157, 152);
+            }
+        }
+
         public void update(GameTime gameTime, SpriteBatch spriteBatch)
         {
             //Handle polling input and velocity
@@ -97,17 +104,6 @@ namespace Test
             float j = velocity.Y;
             velocity.X = i -= friction * i;
             velocity.Y = j -= friction * j;
-
-            damageBuffer += (float)gameTime.ElapsedGameTime.TotalSeconds;
-
-
-            if (damageBuffer > 2 && healthFrames < 5)
-            {
-                damageBuffer = 0;
-                healthSourceRect = new Rectangle(157 * healthFrames, 0, 157, 152);
-                healthFrames++;
-
-            }
 
             // Console.WriteLine("Player rotation:" + rotation);
             //Console.WriteLine("Radians:" + to_radians(rotation));

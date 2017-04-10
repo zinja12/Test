@@ -114,9 +114,9 @@ namespace Test
                 }
             }
 
-            Console.WriteLine("TX: " + tx + "TY: " + ty);
-            Console.WriteLine("PTX: " + ptx + "PTY: " + pty);
-            Console.WriteLine(position);
+            //Console.WriteLine("TX: " + tx + "TY: " + ty);
+            //Console.WriteLine("PTX: " + ptx + "PTY: " + pty);
+            //Console.WriteLine(position);
 
             ptx = tx;
             pty = ty;

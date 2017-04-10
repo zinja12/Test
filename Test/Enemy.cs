@@ -18,9 +18,6 @@ namespace Test
         protected Vector2 velocity;
         private int enemy_frame_count = 9;
 		float shoot = 0;
-		bool playerHit = false;
-		int timer;
-
         public bool isVisible = true;
 
         Random random = new Random();
@@ -52,21 +49,17 @@ namespace Test
         {
             return position;
         }
-
         public void UpdateBullets(GameTime gameTime)
         {
-
             foreach (Bullets bullet in bullets)
             {
-                int dx = Math.Max((int)Math.Abs(bullet.position.X - player.other_collision_rect.Center.X) -(player.other_collision_rect.Width) / 2, 0);
-                int dy = Math.Max((int)Math.Abs(bullet.position.Y - player.other_collision_rect.Center.Y) - (player.other_collision_rect.Height) / 2, 0);
-
-                if ((dx * dx + dy * dy) == 0) {
-                    System.Console.WriteLine("Hello, World!");
-                    Constant.shake = true;
+                if (player.other_collision_rect.Contains(bullet.position.X, bullet.position.Y)) {
+                       Constant.shake = true;
+                       bullet.isVisible = false;
+                       player.playerHit();
                 }
                 bullet.position += bullet.velocity;
-                if (bullet.position.X < -300)
+                if (bullet.position.X < -500)
                 {
                     bullet.isVisible = false;
                 }

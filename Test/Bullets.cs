@@ -18,8 +18,6 @@ namespace Test
         public bool isVisible = true;
         public bool isReflected = true;
 		// test if i can commit
-        private int bullet_frame_count = 9;
-        private float bullet_sep = 1;
         public static int bullet_width = 40, bullet_height = 178;
 
 

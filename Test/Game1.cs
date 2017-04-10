@@ -30,6 +30,7 @@ namespace Test
                 graphics.PreferredBackBufferWidth = 1000;
                 graphics.PreferredBackBufferHeight = 600;
             }
+            graphics.SynchronizeWithVerticalRetrace = true;
             graphics.ApplyChanges();
         }
 

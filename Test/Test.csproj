@@ -119,10 +119,7 @@
     <Folder Include="Content\Backgrounds\" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="MonoGame.Framework.dll.config" />
     <None Include="packages.config" />
-    <None Include="libopenal.1.dylib" />
-    <None Include="libSDL2-2.0.0.dylib" />
     <None Include="Content\Sprites\health.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
