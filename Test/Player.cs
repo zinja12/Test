@@ -26,8 +26,7 @@ namespace Test
         public Rectangle other_collision_rect;
         public Rectangle healthDestRect;
         public Rectangle healthSourceRect;
-
-
+        
         private int ship_frame_count = 20;
         int healthFrames = 0;
         private float ship_sep = 1;
