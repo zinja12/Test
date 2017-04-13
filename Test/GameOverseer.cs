@@ -254,6 +254,9 @@ namespace Test
             //spawnBackground(spriteBatch);
             backgrounds.draw(spriteBatch);
 
+            //Draw planet(s)
+            planet.draw(spriteBatch);
+
             player.draw(spriteBatch);
             //particle_generator.draw(spriteBatch);
 
@@ -265,8 +268,9 @@ namespace Test
             //End spriteBatch
             spriteBatch.End();
 
+            //Draw heads up display
             spriteBatch.Begin();
-            planet.draw(spriteBatch);
+            spriteBatch.Draw(Constant.health_bar, Vector2.Zero, player.healthSourceRect, Color.White, 0f, Vector2.Zero, 0.7f, SpriteEffects.None, 0f);
             spriteBatch.End();
         }
 

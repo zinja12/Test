@@ -147,7 +147,6 @@ namespace Test
             //Draw animation
             //spriteBatch.Draw(Constant.spritesheet, position, test_animation.source_rect, Color.White);
             //draw other
-            spriteBatch.Draw(Constant.health_bar, healthDestRect, healthSourceRect, Color.White);
             for (int i = (ship_frame_count - 1); i >= 0; i--)
             {
                 spriteBatch.Draw(Constant.ship_tex, new Vector2(position.X, position.Y + i * ship_sep), new Rectangle((ship_frame_count - i) * ship_width, 0, ship_width, ship_height), Color.White, rotation + 180 + 0.6f, new Vector2((float)(ship_width / 2), (float)(ship_height / 2)), 1f, SpriteEffects.None, 0f);
