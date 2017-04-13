@@ -19,6 +19,7 @@ namespace Test
         Camera camera;
         MapPortal map;
         Backgrounds backgrounds;
+        Planet planet;
         //ParticleGenerator particle_generator;
 
         KeyboardState keyboard;
@@ -55,6 +56,8 @@ namespace Test
 
             map = new MapPortal(Vector2.Zero);
             backgrounds = new Backgrounds();
+
+            planet = new Planet(new Vector2(600, 250));
         }
 
         public void generate_level()
@@ -123,6 +126,8 @@ namespace Test
             }
 
             backgrounds.update(gameTime, player.position);
+
+            planet.update(gameTime);
         }
 
         private void camera_updates()
@@ -258,6 +263,10 @@ namespace Test
             map.draw(spriteBatch);
 
             //End spriteBatch
+            spriteBatch.End();
+
+            spriteBatch.Begin();
+            planet.draw(spriteBatch);
             spriteBatch.End();
         }
 
