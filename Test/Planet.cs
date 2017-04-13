@@ -13,7 +13,7 @@ namespace Test
         public Vector2 position;
 
         int planet_frame_count = 40;
-        float planet_sep = 0.5f;
+        float planet_sep = 1f;
         int planet_width = 40, planet_height = 40;
         float rotation = 0;
 
