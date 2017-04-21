@@ -32,7 +32,7 @@ namespace Test
         private float ship_sep = 1;
 
         public bool grounded;
-
+        List<Bullets> bullets = new List<Bullets>();
         public float friction = 0.08f;
         public static int width = 32, height = 32;
         public static int ship_width = 28, ship_height = 82;
@@ -87,7 +87,7 @@ namespace Test
         public void update(GameTime gameTime, SpriteBatch spriteBatch)
         {
             //Handle polling input and velocity
-            poll_input();
+            poll_input(gameTime);
 
             //Update points and collision rectangle
             position += velocity;
@@ -107,8 +107,8 @@ namespace Test
             // Console.WriteLine("Player rotation:" + rotation);
             //Console.WriteLine("Radians:" + to_radians(rotation));
         }
-
-        public void poll_input()
+        float elapsedTime = 0;
+        public void poll_input(GameTime gameTime)
         {
             keyboard = Keyboard.GetState();
 
@@ -130,6 +130,18 @@ namespace Test
                 direction.Normalize();
                 velocity += direction * 0.2f;
             }
+            elapsedTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            if (keyboard.IsKeyDown(Keys.Space))
+            {
+                if (elapsedTime > 1)
+                {
+                    ShootBullets();
+                    elapsedTime = 0;
+                }
+                
+            }
+            UpdateBullets();
+
         }
 
         public float to_radians(float angle)
@@ -142,6 +154,38 @@ namespace Test
             return (float)(angle * Math.PI / 180);
         }
 
+        public void UpdateBullets()
+        {
+            foreach (Bullets bullet in bullets)
+            {
+                bullet.position += bullet.velocity;
+                if (Vector2.Distance(bullet.position, position) > 500)
+                {
+                    bullet.isVisible = false;
+                }
+            }
+            for (int i = 0; i < bullets.Count; i++)
+            {
+                if (!bullets[i].isVisible)
+                {
+                    bullets.RemoveAt(i);
+                    i--;
+                }
+            }
+        }
+
+        public void ShootBullets()
+        {
+            Bullets newbullet = new Bullets(Constant.particle);
+            newbullet.velocity = new Vector2((float)Math.Cos(rotation), (float) Math.Sin(rotation)) * 5f +velocity;
+            newbullet.position = position + newbullet.velocity *5;
+            newbullet.isVisible = true;
+            if (bullets.Count < 20)
+            {
+                bullets.Add(newbullet);
+            }
+        }
+
         public void draw(SpriteBatch spriteBatch)
         {
             //Draw animation
@@ -151,6 +195,10 @@ namespace Test
             {
                 spriteBatch.Draw(Constant.ship_tex, new Vector2(position.X, position.Y + i * ship_sep), new Rectangle((ship_frame_count - i) * ship_width, 0, ship_width, ship_height), Color.White, rotation + 180 + 0.6f, new Vector2((float)(ship_width / 2), (float)(ship_height / 2)), 1f, SpriteEffects.None, 0f);
                 //spriteBatch.Draw(Constant.ship_tex, new Vector2(position.X, position.Y + i * ship_sep), new Rectangle((ship_frame_count - i) * ship_width, 0, ship_width, ship_height), Color.White, to_radians(rotation) - to_radians(90), new Vector2((float)(ship_width / 2), (float)(ship_height / 2)), 1f, SpriteEffects.None, 0f);
+            }
+            foreach (Bullets bullet in bullets)
+            {
+                bullet.Draw(spriteBatch);
             }
             //spriteBatch.Draw(Constant.bird, position, null, Color.White, rotation, new Vector2(Constant.bird.Width / 2, Constant.bird.Height / 2), 1f, SpriteEffects.None, 0f);
             //Other collision rect

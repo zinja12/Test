@@ -53,7 +53,9 @@ namespace Test
         {
             foreach (Bullets bullet in bullets)
             {
-                if (player.other_collision_rect.Contains(bullet.position.X, bullet.position.Y)) {
+                Vector2 bulletPos = new Vector2(bullet.position.X, bullet.position.Y);
+                if (player.other_collision_rect.Contains(bullet.position.X, bullet.position.Y)  || player.base_position.Equals(bulletPos) || player.right_side_pt.Equals(bulletPos)
+                    || player.left_side_pt.Equals(bulletPos) || player.top_side_pt.Equals(bulletPos) || player.position.Equals(bulletPos)) {
                        Constant.shake = true;
                        bullet.isVisible = false;
                        player.playerHit();
