@@ -14,6 +14,7 @@ namespace Test
         Texture2D texture;
         public Vector2 position;
         public Vector2 velocity;
+        Color color;
 
         public bool isVisible = true;
         public bool isReflected = true;
@@ -23,17 +24,18 @@ namespace Test
 
 
 
-        public Bullets(Texture2D newTexture)
+        public Bullets(Texture2D newTexture, Color color)
         {
 
             texture = newTexture;
             isVisible = false;
             isReflected = false;
+            this.color = color;
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(texture, position, Color.Red);
+            spriteBatch.Draw(texture, position, color);
             /*for (int i = (bullet_frame_count - 1); i >= 0; i--)
             {
                 spriteBatch.Draw(texture, new Vector2(position.X, position.Y + i * bullet_sep), new Rectangle((bullet_frame_count - i) * bullet_width, 0, bullet_width,

@@ -78,7 +78,7 @@ namespace Test
 
        public void ShootBullets()
         {
-            Bullets newbullet = new Bullets(bulletTexture);
+            Bullets newbullet = new Bullets(bulletTexture, Color.Red);
             newbullet.velocity.X = velocity.X - 3f;
             newbullet.position = new Vector2(position.X + newbullet.velocity.X +30, position.Y + 
                 (texture.Height/2) - (bulletTexture.Height /2) +20 );

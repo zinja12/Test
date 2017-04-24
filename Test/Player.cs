@@ -133,7 +133,7 @@ namespace Test
             elapsedTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (keyboard.IsKeyDown(Keys.Space))
             {
-                if (elapsedTime > 1)
+                if (elapsedTime > 0.5)
                 {
                     ShootBullets();
                     elapsedTime = 0;
@@ -176,7 +176,7 @@ namespace Test
 
         public void ShootBullets()
         {
-            Bullets newbullet = new Bullets(Constant.particle);
+            Bullets newbullet = new Bullets(Constant.laser_tex, Color.White);
             newbullet.velocity = new Vector2((float)Math.Cos(rotation), (float) Math.Sin(rotation)) * 5f +velocity;
             newbullet.position = position + newbullet.velocity *5;
             newbullet.isVisible = true;
