@@ -142,7 +142,7 @@ namespace Test
 
         private void apply_screen_shake()
         {
-            float radius = 30f;
+            float radius = 400f;
             Random random = new Random();
             float random_angle = random.Next(0, 360);
             Vector2 offset = new Vector2((float)Math.Sin(random_angle) * radius, (float)Math.Cos(random_angle) * radius);
