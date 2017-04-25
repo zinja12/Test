@@ -11,15 +11,17 @@ namespace Test
     public class Planet
     {
         public Vector2 position;
+        public Vector2 orbit_target;
 
         int planet_frame_count = 40;
         float planet_sep = 1f;
         int planet_width = 40, planet_height = 40;
         float rotation = 0;
 
-        public Planet(Vector2 position)
+        public Planet(Vector2 position, Vector2 orbit_target)
         {
             this.position = position;
+            this.orbit_target = orbit_target;
         }
 
         public void update(GameTime gameTime)
@@ -29,7 +31,14 @@ namespace Test
             {
                 rotation = 0;
             }
+
+            position = RotateAboutOrigin(position, orbit_target, 0.01f);
             //Console.WriteLine("Planet rotation: " + rotation * (180 / Math.PI));
+        }
+
+        public Vector2 RotateAboutOrigin(Vector2 point, Vector2 origin, float rotation)
+        {
+            return Vector2.Transform(point - origin, Matrix.CreateRotationZ(rotation)) + origin;
         }
 
         public void draw(SpriteBatch spriteBatch)

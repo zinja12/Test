@@ -58,7 +58,7 @@ namespace Test
             map = new MapPortal(Vector2.Zero);
             backgrounds = new Backgrounds();
 
-            planet = new Planet(new Vector2(600, 250));
+            planet = new Planet(new Vector2(600, 250), new Vector2(500, 250));
             generate_planetary_systems();
         }
 
