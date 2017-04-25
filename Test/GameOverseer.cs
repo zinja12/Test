@@ -149,38 +149,51 @@ namespace Test
         public static float string_to_float(string s)
         {
             float conversion = 0f;
-            bool post_dec = false;
-            int ten_c = 0;
+            bool minus = false;
+            int ten_c = 1;
+            int ten_c_predec = 0;
 
-            foreach (char c in s)
+            int dec_idx = -1;
+            for (int i = 0; i < s.Length; i++)
             {
-                if (c.Equals('.'))
+                if (s[i].Equals('-')) minus = true;
+
+                if (s[i].Equals('.'))
                 {
-                    post_dec = true;
-                    ten_c++;
+                    dec_idx = i;
+                    break;
                 }
-                else if (c.Equals('f'))
+            }
+
+            int c_to_int;
+            //Pre dec
+            for (int i = dec_idx - 1; i >= 0; i--)
+            {
+                if (s[i].Equals('-')) break;
+
+                c_to_int = (int)Char.GetNumericValue(s[i]);
+                conversion += (float)(c_to_int * Math.Pow(10, ten_c_predec));
+                ten_c_predec++;
+            }
+
+            //Post dec
+            for (int i = dec_idx + 1; i < s.Length; i++)
+            {
+                if (s[i].Equals('f'))
                 {
                     break;
                 }
                 else
                 {
-                    int c_to_int;
-                if (!post_dec)
-                {
-                    c_to_int = (int)Char.GetNumericValue(c);
-                    conversion += (float)c_to_int;
-                }
-                else
-                {
-                	c_to_int = (int)Char.GetNumericValue(c);
+                    c_to_int = (int)Char.GetNumericValue(s[i]);
                     float c_to_fl = ((float)c_to_int / (float)(Math.Pow(10, ten_c)));
                     ten_c++;
                     conversion += c_to_fl;
                 }
-                }
             }
-            return conversion;
+
+            if (minus) return (conversion * -1);
+            else return conversion;
         }
 
         public void update(GameTime gameTime, GraphicsDevice graphics, SpriteBatch spriteBatch)
