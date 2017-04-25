@@ -28,5 +28,21 @@ namespace Test
         {
             return (Vector2.Distance(other.center, center) < (other.radius - radius));
         }
+
+        public bool intersects_rectangle(Rectangle rect)
+        {
+            float dist_x = Math.Abs(center.X - rect.X - rect.Width / 2);
+            float dist_y = Math.Abs(center.Y - rect.Y - rect.Height / 2);
+
+            if (dist_x > (rect.Width / 2 + radius)) { return false; }
+            if (dist_y > (rect.Height / 2 + radius)) { return false; }
+
+            if (dist_x <= (rect.Width / 2)) { return true; }
+            if (dist_y <= (rect.Height / 2)) { return true; }
+
+            var dx = dist_x - rect.Width / 2;
+            var dy = dist_y - rect.Height / 2;
+            return (dx * dx + dy * dy <= (radius * radius));
+        }
     }
 }
