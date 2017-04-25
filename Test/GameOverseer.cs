@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Content;
+using System.IO;
 
 namespace Test
 {
@@ -58,6 +59,7 @@ namespace Test
             backgrounds = new Backgrounds();
 
             planet = new Planet(new Vector2(600, 250));
+            generate_planetary_systems();
         }
 
         public void generate_level()
@@ -92,6 +94,37 @@ namespace Test
                     if (colors2d[x, y].R == 255 && colors2d[x, y].G == 0 && colors2d[x, y].B == 255)
                     {
                         blocks[x, y] = new Block(new Vector2(x * 32, y * 32), Constant.other_test_block);
+                    }
+                }
+            }
+        }
+
+        private void generate_planetary_systems()
+        {
+            char[] delimiters = { ',' };
+            string[] lines = File.ReadAllLines("Content/Levels/test_planet_file.txt");
+            for (int i = 0; i < lines.Length; i++)
+            {
+                string[] create_params = lines[i].Split(delimiters);
+                if (create_params.Length == 3)
+                {
+                    if (create_params[0].Equals("SolarSystem"))
+                    {
+                        //Creation of solar system
+                        Console.WriteLine("SolarSystem");
+                    }
+                }
+                else
+                {
+                    if (create_params[0].Equals("Sun"))
+                    {
+                        //Creation of planet
+                        Console.WriteLine("Sun");
+                    }
+                    else if (create_params[0].Equals("Planet"))
+                    {
+                        //Creation of planet
+                        Console.WriteLine("Planet");
                     }
                 }
             }

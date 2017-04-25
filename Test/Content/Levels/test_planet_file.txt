@@ -1,0 +1,4 @@
+SolarSystem,0,0
+Sun,0,0,Y
+Planet,40,40,R
+Planet,100,100,G

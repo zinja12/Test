@@ -135,10 +135,10 @@ namespace Test
             {
                 if (elapsedTime > 0.5)
                 {
-                    Constant.shake = true;
                     ShootBullets();
                     elapsedTime = 0;
                 }
+                Constant.shake = true;
 
             }
             UpdateBullets();
