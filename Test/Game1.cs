@@ -106,7 +106,7 @@ namespace Test
 
         protected override void Draw(GameTime gameTime)
         {
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Black);
 
             game_overseer.draw(spriteBatch);
 
