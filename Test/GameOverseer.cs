@@ -21,6 +21,7 @@ namespace Test
         MapPortal map;
         Backgrounds backgrounds;
         Planet planet;
+        List<SolarSystem> solar_systems;
         //ParticleGenerator particle_generator;
 
         KeyboardState keyboard;
@@ -58,7 +59,8 @@ namespace Test
             map = new MapPortal(Vector2.Zero);
             backgrounds = new Backgrounds();
 
-            planet = new Planet(new Vector2(600, 250), new Vector2(500, 250));
+            planet = new Planet(new Vector2(600, 250), new Vector2(500, 250), Color.Red);
+            solar_systems = new List<SolarSystem>();
             generate_planetary_systems();
         }
 
@@ -101,6 +103,8 @@ namespace Test
 
         private void generate_planetary_systems()
         {
+            SolarSystem tmp_ss = null;
+
             char[] delimiters = { ',' };
             string[] lines = File.ReadAllLines("Content/Levels/test_planet_file.txt");
             for (int i = 0; i < lines.Length; i++)
@@ -112,6 +116,8 @@ namespace Test
                     {
                         //Creation of solar system
                         Console.WriteLine("SolarSystem");
+                        tmp_ss = new SolarSystem(new Vector2(Int32.Parse(create_params[1]), Int32.Parse(create_params[2])));
+                        solar_systems.Add(tmp_ss);
                     }
                 }
                 else
@@ -120,11 +126,13 @@ namespace Test
                     {
                         //Creation of planet
                         Console.WriteLine("Sun");
+                        tmp_ss.add_sun(new Planet(new Vector2(Int32.Parse(create_params[1]), Int32.Parse(create_params[2])), tmp_ss.system_center, Color.Yellow));
                     }
                     else if (create_params[0].Equals("Planet"))
                     {
                         //Creation of planet
                         Console.WriteLine("Planet");
+                        tmp_ss.add_planet(new Planet(new Vector2(Int32.Parse(create_params[1]), Int32.Parse(create_params[2])), tmp_ss.system_center, Color.Red));
                     }
                 }
             }
@@ -161,6 +169,10 @@ namespace Test
             backgrounds.update(gameTime, player.position);
 
             planet.update(gameTime);
+            for (int i = 0; i < solar_systems.Count; i++)
+            {
+                solar_systems[i].update(gameTime);
+            }
         }
 
         private void camera_updates()
@@ -289,6 +301,10 @@ namespace Test
 
             //Draw planet(s)
             planet.draw(spriteBatch);
+            for (int i = 0; i < solar_systems.Count; i++)
+            {
+                solar_systems[i].draw(spriteBatch);
+            }
 
             player.draw(spriteBatch);
             //particle_generator.draw(spriteBatch);

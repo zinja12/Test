@@ -18,10 +18,13 @@ namespace Test
         int planet_width = 40, planet_height = 40;
         float rotation = 0;
 
-        public Planet(Vector2 position, Vector2 orbit_target)
+        Color draw_color;
+
+        public Planet(Vector2 position, Vector2 orbit_target, Color color)
         {
             this.position = position;
             this.orbit_target = orbit_target;
+            draw_color = color;
         }
 
         public void update(GameTime gameTime)
@@ -43,10 +46,9 @@ namespace Test
 
         public void draw(SpriteBatch spriteBatch)
         {
-            Color col = Color.Red;
             for (int i = (planet_frame_count - 1); i >= 0; i--)
             {
-                spriteBatch.Draw(Constant.planet_tex, new Vector2(position.X, position.Y + i * planet_sep), new Rectangle((planet_frame_count - i) * planet_width, 0, planet_width, planet_height), col, rotation + 180 + 0.6f, new Vector2((float)(planet_width / 2), (float)(planet_height / 2)), 2f, SpriteEffects.None, 0f);
+                spriteBatch.Draw(Constant.planet_tex, new Vector2(position.X, position.Y + i * planet_sep), new Rectangle((planet_frame_count - i) * planet_width, 0, planet_width, planet_height), draw_color, rotation + 180 + 0.6f, new Vector2((float)(planet_width / 2), (float)(planet_height / 2)), 2f, SpriteEffects.None, 0f);
             }
         }
     }
