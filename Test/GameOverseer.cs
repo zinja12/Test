@@ -19,7 +19,7 @@ namespace Test
         Player player;
         Camera camera;
         MapPortal map;
-        Backgrounds backgrounds;
+        Starfield starfield;
         List<SolarSystem> solar_systems;
         //ParticleGenerator particle_generator;
 
@@ -33,6 +33,8 @@ namespace Test
         List<Enemy> enemies = new List<Enemy>();
         Random random = new Random();
         float spawn = 0;
+
+        Vector2 past_player_position;
 
         //Constructor
         public GameOverseer(int test_level, int screen_width, int screen_height, ContentManager content, Viewport viewport)
@@ -56,7 +58,8 @@ namespace Test
             }
 
             map = new MapPortal(Vector2.Zero);
-            backgrounds = new Backgrounds();
+            starfield = new Starfield(1000, 800);
+            past_player_position = Vector2.Zero;
             
             solar_systems = new List<SolarSystem>();
             generate_planetary_systems();
@@ -223,8 +226,10 @@ namespace Test
                 apply_screen_shake();
                 Constant.shake = false;
             }
-
-            backgrounds.update(gameTime, player.position);
+            
+            Vector2 diff = player.position - past_player_position;
+            starfield.update(gameTime, diff);
+            past_player_position = player.position;
             
             for (int i = 0; i < solar_systems.Count; i++)
             {
@@ -335,26 +340,15 @@ namespace Test
 
         public void draw(SpriteBatch spriteBatch)
         {
+            spriteBatch.Begin();
+            starfield.draw(spriteBatch);
+            spriteBatch.End();
+
             //Begin spritebatch
             spriteBatch.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, null, null, null, null, camera.Transform);
 
-            //Increase the x
-            for (int x = 0; x < blocks.GetLength(0); x++)
-            {
-                //Decrease the y
-                for (int y = blocks.GetLength(1); y >= 0; y--)
-                {
-                    //Do not draw outside the world
-                    if (x >= 0 && y >= 0 && x < level_width && y < level_height)
-                    {
-                        //Draw the blocks
-                        blocks[x, y].draw(spriteBatch);
-                    }
-                }
-            }
-
             //spawnBackground(spriteBatch);
-            backgrounds.draw(spriteBatch);
+            //backgrounds.draw(spriteBatch);
 
             //Draw planet(s)
             for (int i = 0; i < solar_systems.Count; i++)
@@ -377,15 +371,6 @@ namespace Test
             spriteBatch.Begin();
             spriteBatch.Draw(Constant.health_bar, Vector2.Zero, player.healthSourceRect, Color.White, 0f, Vector2.Zero, 0.7f, SpriteEffects.None, 0f);
             spriteBatch.End();
-        }
-
-        public void spawnBackground(SpriteBatch spriteBatch)
-        {
-            spriteBatch.Draw(Constant.background, new Rectangle(-500, 0, 1000, 800), Color.White);
-            spriteBatch.Draw(Constant.background, new Rectangle(500, 0, 1500, 800), Color.White);
-            spriteBatch.Draw(Constant.background, new Rectangle(-500, -500, 1000, 800), Color.White);
-            spriteBatch.Draw(Constant.background, new Rectangle(500, -500, 1500, 800), Color.White);
-
         }
     }
 }
