@@ -10,6 +10,7 @@ namespace Test
 {
     public class Circle
     {
+        //Define center and radius of circle
         public Vector2 center { get; set; }
         public float radius { get; set; }
 
@@ -19,16 +20,19 @@ namespace Test
             this.radius = radius;
         }
 
+        //Check distance from point to center
         public bool contains_point(Vector2 point)
         {
             return (Vector2.Distance(point, center) <= radius);
         }
 
+        //Check distance between centers of circles
         public bool intersects_circle(Circle other)
         {
             return (Vector2.Distance(other.center, center) < (other.radius - radius));
         }
 
+        //Check all scenarios where rectangle can intersect a circle
         public bool intersects_rectangle(Rectangle rect)
         {
             float dist_x = Math.Abs(center.X - rect.X - rect.Width / 2);
