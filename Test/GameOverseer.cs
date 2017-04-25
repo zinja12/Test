@@ -20,7 +20,6 @@ namespace Test
         Camera camera;
         MapPortal map;
         Backgrounds backgrounds;
-        Planet planet;
         List<SolarSystem> solar_systems;
         //ParticleGenerator particle_generator;
 
@@ -58,8 +57,7 @@ namespace Test
 
             map = new MapPortal(Vector2.Zero);
             backgrounds = new Backgrounds();
-
-            planet = new Planet(new Vector2(600, 250), new Vector2(500, 250), Color.Red);
+            
             solar_systems = new List<SolarSystem>();
             generate_planetary_systems();
         }
@@ -122,20 +120,67 @@ namespace Test
                 }
                 else
                 {
+                    //Set color
+                    Color col;
+                    if (create_params[3].Equals("Y")) col = Color.Yellow;
+                    else if (create_params[3].Equals("R")) col = Color.Red;
+                    else if (create_params[3].Equals("G")) col = Color.Green;
+                    else if (create_params[3].Equals("B")) col = Color.Blue;
+                    else col = Color.White;
+
                     if (create_params[0].Equals("Sun"))
                     {
                         //Creation of planet
                         Console.WriteLine("Sun");
-                        tmp_ss.add_sun(new Planet(new Vector2(Int32.Parse(create_params[1]), Int32.Parse(create_params[2])), tmp_ss.system_center, Color.Yellow));
+                        tmp_ss.add_sun(new Planet(new Vector2(Int32.Parse(create_params[1]), Int32.Parse(create_params[2])), tmp_ss.system_center, col, 5f, 0f));
                     }
                     else if (create_params[0].Equals("Planet"))
                     {
                         //Creation of planet
                         Console.WriteLine("Planet");
-                        tmp_ss.add_planet(new Planet(new Vector2(Int32.Parse(create_params[1]), Int32.Parse(create_params[2])), tmp_ss.system_center, Color.Red));
+                        Console.WriteLine("Planet orbit speed: " + string_to_float(create_params[4]));
+                        tmp_ss.add_planet(new Planet(new Vector2(Int32.Parse(create_params[1]), Int32.Parse(create_params[2])), tmp_ss.system_center, col, 2f, string_to_float(create_params[4])));
                     }
                 }
             }
+        }
+
+        //Function to convert string to float
+        public static float string_to_float(string s)
+        {
+            float conversion = 0f;
+            bool post_dec = false;
+            int ten_c = 0;
+
+            foreach (char c in s)
+            {
+                if (c.Equals('.'))
+                {
+                    post_dec = true;
+                    ten_c++;
+                }
+                else if (c.Equals('f'))
+                {
+                    break;
+                }
+                else
+                {
+                    int c_to_int;
+                if (!post_dec)
+                {
+                    c_to_int = (int)Char.GetNumericValue(c);
+                    conversion += (float)c_to_int;
+                }
+                else
+                {
+                	c_to_int = (int)Char.GetNumericValue(c);
+                    float c_to_fl = ((float)c_to_int / (float)(Math.Pow(10, ten_c)));
+                    ten_c++;
+                    conversion += c_to_fl;
+                }
+                }
+            }
+            return conversion;
         }
 
         public void update(GameTime gameTime, GraphicsDevice graphics, SpriteBatch spriteBatch)
@@ -167,8 +212,7 @@ namespace Test
             }
 
             backgrounds.update(gameTime, player.position);
-
-            planet.update(gameTime);
+            
             for (int i = 0; i < solar_systems.Count; i++)
             {
                 solar_systems[i].update(gameTime);
@@ -300,7 +344,6 @@ namespace Test
             backgrounds.draw(spriteBatch);
 
             //Draw planet(s)
-            planet.draw(spriteBatch);
             for (int i = 0; i < solar_systems.Count; i++)
             {
                 solar_systems[i].draw(spriteBatch);

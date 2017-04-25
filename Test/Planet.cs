@@ -19,12 +19,16 @@ namespace Test
         float rotation = 0;
 
         Color draw_color;
+        float scale;
+        float orbit_speed;
 
-        public Planet(Vector2 position, Vector2 orbit_target, Color color)
+        public Planet(Vector2 position, Vector2 orbit_target, Color color, float scale_factor, float orbit_speed)
         {
             this.position = position;
             this.orbit_target = orbit_target;
             draw_color = color;
+            scale = scale_factor;
+            this.orbit_speed = orbit_speed;
         }
 
         public void update(GameTime gameTime)
@@ -35,7 +39,7 @@ namespace Test
                 rotation = 0;
             }
 
-            position = RotateAboutOrigin(position, orbit_target, 0.01f);
+            position = RotateAboutOrigin(position, orbit_target, orbit_speed);
             //Console.WriteLine("Planet rotation: " + rotation * (180 / Math.PI));
         }
 
@@ -48,7 +52,7 @@ namespace Test
         {
             for (int i = (planet_frame_count - 1); i >= 0; i--)
             {
-                spriteBatch.Draw(Constant.planet_tex, new Vector2(position.X, position.Y + i * planet_sep), new Rectangle((planet_frame_count - i) * planet_width, 0, planet_width, planet_height), draw_color, rotation + 180 + 0.6f, new Vector2((float)(planet_width / 2), (float)(planet_height / 2)), 2f, SpriteEffects.None, 0f);
+                spriteBatch.Draw(Constant.planet_tex, new Vector2(position.X, position.Y + i * planet_sep), new Rectangle((planet_frame_count - i) * planet_width, 0, planet_width, planet_height), draw_color, rotation + 180 + 0.6f, new Vector2((float)(planet_width / 2), (float)(planet_height / 2)), scale, SpriteEffects.None, 0f);
             }
         }
     }

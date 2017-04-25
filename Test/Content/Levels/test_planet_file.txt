@@ -1,4 +1,4 @@
 SolarSystem,0,0
 Sun,0,0,Y
-Planet,100,50,R
-Planet,150,400,G
+Planet,150,50,R,0.01f
+Planet,200,200,G,0.005f
