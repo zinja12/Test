@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace Test
 {
@@ -38,6 +39,12 @@ namespace Test
             for (int i = 0; i < stars.Count; i++)
             {
                 stars[i] -= (adjustment_direction * depth_layers[i]) * 0.5f;
+
+                //Apply shake
+                if (Constant.shake || Keyboard.GetState().IsKeyDown(Keys.Space))
+                {
+                    star_shake(i);
+                }
 
                 if (stars[i].X < -100)
                 {
@@ -94,11 +101,34 @@ namespace Test
             }
         }
 
+        private void star_shake(int index)
+        {
+            float radius = 2f;
+            Random random = new Random();
+            float random_angle = random.Next(0, 360);
+            Vector2 offset = new Vector2((float)Math.Sin(random_angle) * radius, (float)Math.Cos(random_angle) * radius);
+
+            while (radius >= 2)
+            {
+                radius *= 0.9f;
+                if (random.Next(0, 100) > 50)
+                {
+                    random_angle += (180 + random.Next(0, 60));
+                }
+                else
+                {
+                    random_angle += (180 - random.Next(0, 60));
+                }
+                offset = new Vector2((float)Math.Sin(random_angle) * radius, (float)Math.Cos(random_angle) * radius);
+                stars[index] = stars[index] + offset;
+            }
+        }
+
         public void draw(SpriteBatch spriteBatch)
         {
             for (int i = 0; i < stars.Count; i++)
             {
-                spriteBatch.Draw(Constant.particle, stars[i], null, Color.White, 0f, Vector2.Zero, depth_layers[i] - 0.7f, SpriteEffects.None, 0f);
+                spriteBatch.Draw(Constant.particle, stars[i], null, Color.White, 0f, Vector2.Zero, depth_layers[i] - 0.5f, SpriteEffects.None, 0f);
             }
         }
     }

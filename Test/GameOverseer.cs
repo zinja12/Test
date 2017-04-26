@@ -49,7 +49,7 @@ namespace Test
             blocks = new Block[level_width, level_height];
             generate_level();
 
-            player = new Player(new Vector2(100, 100));
+            player = new Player(new Vector2(350, 100));
             //particle_generator = new ParticleGenerator(screen_width, 100f, Particle.ParticleType.RAIN);
             this.current_level = test_level;
             if (test_level == 0)
@@ -349,6 +349,7 @@ namespace Test
 
             //spawnBackground(spriteBatch);
             //backgrounds.draw(spriteBatch);
+            //starfield.draw(spriteBatch, camera);
 
             //Draw planet(s)
             for (int i = 0; i < solar_systems.Count; i++)
