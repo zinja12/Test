@@ -17,8 +17,14 @@ namespace Test
         protected Vector2 position;
         protected Vector2 velocity;
         private int enemy_frame_count = 9;
-		float shoot = 0;
+        private float rotation;
+        float shoot = 0;
         public bool isVisible = true;
+        public bool foundPlayer = false;
+        public bool behindPlayer = false;
+
+
+
 
         Random random = new Random();
 
@@ -37,10 +43,10 @@ namespace Test
             position = newPosition;
             bulletTexture = newBulletTexture;
             player = newPlayer;
-
-            randY = random.Next(-4, 4);
+            rotation = 0f;
+            randY = random.Next(-2, 2);
             //speed across the screen
-            randX = random.Next(-3, -1);
+            randX = -1;
 
             velocity = new Vector2(randX, randY);
         }
@@ -90,18 +96,50 @@ namespace Test
         }
         public void Update(GraphicsDevice graphics, GameTime gameTime)
         {
-            
-            position += velocity;
-            if (position.Y <= -225 || position.Y >= 350)
+            float distance = Vector2.Distance(player.position, this.position);
+            if (distance <= 200)
             {
-                velocity.Y = -velocity.Y;
+                foundPlayer = true;
+                
+
             }
-            
+
+            if (foundPlayer && !behindPlayer)
+            {
+                position += velocity;
+
+                if (position.Y == player.top_side_pt.Y-5)
+                {
+                    velocity.Y = 0;
+                } else if (position.Y > player.top_side_pt.Y-5) {
+                    velocity.Y = -2;
+
+                }
+                else if (position.Y < player.top_side_pt.Y-5)
+                {
+                    velocity.Y = 2;
+
+                }
+
+
+
+                if (position.Equals(player.position)) { isVisible = false; }
+                if (position.X < player.left_side_pt.X-10) { behindPlayer = true; }
+
+            }
+            else {
+                position += velocity;
+                if (position.Y <= -225 || position.Y >= 350)
+                {
+                    velocity.Y = -velocity.Y;
+                }
+            }
+
             if (position.X < 0 - texture.Width)
             {
                 isVisible = false;
             }
-            
+
             shoot += (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (shoot > 1)
             {
