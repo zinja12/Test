@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Content;
 using System.IO;
+using Test.Content;
 
 namespace Test
 {
@@ -17,6 +18,7 @@ namespace Test
 
         Block[,] blocks;
         Player player;
+        Asteroid asteroid;
         Camera camera;
         MapPortal map;
         Starfield starfield;
@@ -59,6 +61,7 @@ namespace Test
 
             map = new MapPortal(Vector2.Zero);
             starfield = new Starfield(1000, 800);
+            asteroid = new Asteroid(Constant.asteroid, player);
             past_player_position = Vector2.Zero;
             
             solar_systems = new List<SolarSystem>();
@@ -203,6 +206,7 @@ namespace Test
         {
             //player_level_collision();
             player.update(gameTime, spriteBatch);
+            asteroid.update(graphics, gameTime);
             camera_updates();
             spawn += (float)gameTime.ElapsedGameTime.TotalSeconds;
             foreach (Enemy enemy in enemies)
@@ -358,6 +362,7 @@ namespace Test
             }
 
             player.draw(spriteBatch);
+            asteroid.draw(spriteBatch);
             //particle_generator.draw(spriteBatch);
 
             foreach (Enemy enemy in enemies)

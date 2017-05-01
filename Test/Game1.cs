@@ -71,6 +71,8 @@ namespace Test
             Constant.health_bar = Content.Load<Texture2D>("Sprites/health.png");
             Constant.planet_tex = Content.Load<Texture2D>("Sprites/planet_sheet.png");
             Constant.laser_tex = Content.Load<Texture2D>("Sprites/laser.png");
+            Constant.asteroid = Content.Load<Texture2D>("Sprites/asteroid.png");
+
 
         }
 

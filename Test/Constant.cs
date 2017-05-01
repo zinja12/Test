@@ -28,6 +28,8 @@ namespace Test
         public static Texture2D health_bar;
         public static Texture2D planet_tex;
         public static Texture2D laser_tex;
+        public static Texture2D asteroid;
+
 
 
         public static readonly Vector2 gravity = new Vector2(0, 9.8f);
