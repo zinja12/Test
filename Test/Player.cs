@@ -139,6 +139,7 @@ namespace Test
                     elapsedTime = 0;
                 }
                 Constant.shake = true;
+                Starfield.shake_stars = true;
 
             }
             UpdateBullets();

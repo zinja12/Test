@@ -17,6 +17,8 @@ namespace Test
         List<int> depth_layers;
         Random rnd;
 
+        public static bool shake_stars = false;
+
         public Starfield(int screen_width, int screen_height)
         {
             this.screen_width = screen_width;
@@ -43,7 +45,13 @@ namespace Test
                 //Apply shake
                 if (Constant.shake || Keyboard.GetState().IsKeyDown(Keys.Space))
                 {
+                    shake_stars = true;
+                }
+
+                if (shake_stars)
+                {
                     star_shake(i);
+                    shake_stars = false;
                 }
 
                 if (stars[i].X < -100)
