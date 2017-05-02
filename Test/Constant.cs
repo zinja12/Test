@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 
 namespace Test
 {
@@ -29,6 +30,7 @@ namespace Test
         public static Texture2D planet_tex;
         public static Texture2D laser_tex;
         public static Texture2D asteroid;
+        public static Texture2D pause_tex;
 
 
 
@@ -42,5 +44,26 @@ namespace Test
         public static bool debug = true;
 
         public static bool shake = false;
+
+        public static bool paused = false;
+        public static bool pause_key_down = false;
+
+        public static void start_pause() { paused = true; }
+        public static void end_pause() { paused = false; }
+        public static void checkPauseKey(KeyboardState keyboardState, GamePadState gamePadState)
+        {
+            bool pauseKeyDownThisFrame = (keyboardState.IsKeyDown(Keys.P) ||
+                (gamePadState.Buttons.Start == ButtonState.Pressed));
+            // If key was not down before, but is down now, we toggle the
+            // pause setting
+            if (!pause_key_down && pauseKeyDownThisFrame)
+            {
+                if (!paused)
+                    start_pause();
+                else
+                    end_pause();
+            }
+            pause_key_down = pauseKeyDownThisFrame;
+        }
     }
 }

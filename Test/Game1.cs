@@ -72,6 +72,7 @@ namespace Test
             Constant.planet_tex = Content.Load<Texture2D>("Sprites/planet_sheet.png");
             Constant.laser_tex = Content.Load<Texture2D>("Sprites/laser.png");
             Constant.asteroid = Content.Load<Texture2D>("Sprites/asteroid.png");
+            Constant.pause_tex = Content.Load<Texture2D>("Sprites/pause_icon.png");
 
 
         }
@@ -97,7 +98,11 @@ namespace Test
                 Exit();
 
             // TODO: Add your update logic heres
-            game_overseer.update(gameTime, graphics.GraphicsDevice, spriteBatch);
+            Constant.checkPauseKey(Keyboard.GetState(), GamePad.GetState(PlayerIndex.One));
+            if (!Constant.paused)
+            {
+                game_overseer.update(gameTime, graphics.GraphicsDevice, spriteBatch);
+            }
             base.Update(gameTime);
         }
 
@@ -110,8 +115,15 @@ namespace Test
         {
             GraphicsDevice.Clear(Color.Black);
 
+            
             game_overseer.draw(spriteBatch);
 
+            if (Constant.paused)
+            {
+                spriteBatch.Begin();
+                spriteBatch.Draw(Constant.pause_tex, new Vector2(graphics.GraphicsDevice.Viewport.Width / 2 - 400 / 2, graphics.GraphicsDevice.Viewport.Height / 2 - 400 / 2), null, Color.White, 0f, Vector2.Zero, 2, SpriteEffects.None, 0f);
+                spriteBatch.End();
+            }
 
             base.Draw(gameTime);
         }
