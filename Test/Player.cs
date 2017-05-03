@@ -20,7 +20,7 @@ namespace Test
         //Variables
         private KeyboardState keyboard;
 
-        public Vector2 position, velocity, base_position;
+        public Vector2 position, velocity, base_position, temp_position;
         public Vector2 left_side_pt, right_side_pt, top_side_pt;
         private float rotation;
         public Rectangle other_collision_rect;
@@ -36,6 +36,8 @@ namespace Test
         public float friction = 0.08f;
         public static int width = 32, height = 32;
         public static int ship_width = 28, ship_height = 82;
+
+        public Rectangle WorldBoundaries;
 
         public bool player_debug = false;
 
@@ -57,6 +59,7 @@ namespace Test
             other_collision_rect = new Rectangle((int)this.position.X, (int)this.position.Y, width, height);
             healthDestRect = new Rectangle(-400, -200, 158, 152);
             healthSourceRect = new Rectangle(0, 0, 157, 152);
+            WorldBoundaries = new Rectangle(-100,-100, 1600,1600);
 
         }
 
@@ -90,7 +93,10 @@ namespace Test
             poll_input(gameTime);
 
             //Update points and collision rectangle
+            temp_position = position;
             position += velocity;
+            if (!WorldBoundaries.Contains(position)) { position = temp_position; }
+
             base_position += velocity;
             left_side_pt += velocity;
             right_side_pt += velocity;
