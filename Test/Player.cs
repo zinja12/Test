@@ -26,6 +26,9 @@ namespace Test
         public Rectangle other_collision_rect;
         public Rectangle healthDestRect;
         public Rectangle healthSourceRect;
+
+        public Circle collision_circle;
+        private float collision_circle_radius = 35;
         
         private int ship_frame_count = 20;
         int healthFrames = 0;
@@ -34,6 +37,7 @@ namespace Test
         public bool grounded;
         List<Bullets> bullets = new List<Bullets>();
         public float friction = 0.03f;
+        public float player_rotation_speed = 0.03f;
         public static int width = 32, height = 32;
         public static int ship_width = 28, ship_height = 82;
 
@@ -57,6 +61,9 @@ namespace Test
             other_collision_rect = new Rectangle((int)this.position.X, (int)this.position.Y, width, height);
             healthDestRect = new Rectangle(-400, -200, 158, 152);
             healthSourceRect = new Rectangle(0, 0, 157, 152);
+
+            //Set up collision geometry
+            collision_circle = new Circle(position, collision_circle_radius);
 
         }
 
@@ -98,6 +105,8 @@ namespace Test
             top_side_pt += velocity;
             other_collision_rect.X = (int)(position.X - (width / 2));
             other_collision_rect.Y = (int)(position.Y - (height / 2));
+            //Update circle position
+            collision_circle.center = position;
 
             //Handle friction
             float i = velocity.X;
@@ -105,7 +114,7 @@ namespace Test
             velocity.X = i -= friction * i;
             velocity.Y = j -= friction * j;
 
-            // Console.WriteLine("Player rotation:" + rotation);
+            //Console.WriteLine("Player rotation:" + rotation);
             //Console.WriteLine("Radians:" + to_radians(rotation));
         }
         float elapsedTime = 0;
@@ -119,17 +128,17 @@ namespace Test
             //Control rotation
             if (keyboard.IsKeyDown(Keys.D) || keyboard.IsKeyDown(Keys.Right))
             {
-                rotation += 0.03f;
+                rotation += player_rotation_speed;
             }
             if (keyboard.IsKeyDown(Keys.A) || keyboard.IsKeyDown(Keys.Left))
             {
-                rotation += -0.03f;
+                rotation -= player_rotation_speed;
             }
             if (keyboard.IsKeyDown(Keys.W) || keyboard.IsKeyDown(Keys.Up))
             {
                 Vector2 direction = new Vector2((float)Math.Cos(rotation), (float)Math.Sin(rotation));
                 direction.Normalize();
-                velocity += direction * 0.3f;
+                velocity += direction * 0.2f;
             }
             elapsedTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
             if (keyboard.IsKeyDown(Keys.Space))
@@ -179,7 +188,7 @@ namespace Test
 
         public void ShootBullets()
         {
-            Bullets newbullet = new Bullets(Constant.laser_tex, Color.White);
+            Bullets newbullet = new Bullets(Constant.laser_tex, Color.White, rotation, 1f);
             newbullet.velocity = new Vector2((float)Math.Cos(rotation), (float) Math.Sin(rotation)) * 5f +velocity;
             newbullet.position = position + newbullet.velocity *5;
             newbullet.isVisible = true;
@@ -205,6 +214,7 @@ namespace Test
             }
             //spriteBatch.Draw(Constant.bird, position, null, Color.White, rotation, new Vector2(Constant.bird.Width / 2, Constant.bird.Height / 2), 1f, SpriteEffects.None, 0f);
             //Other collision rect
+            Renderer.FillRectangle(spriteBatch, collision_circle.center, 5, 5, Color.Purple);
             if (Constant.debug && player_debug)
             {
                 //Draw position point

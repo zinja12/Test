@@ -60,11 +60,11 @@ namespace Test
             foreach (Bullets bullet in bullets)
             {
                 Vector2 bulletPos = new Vector2(bullet.position.X, bullet.position.Y);
-                if (player.other_collision_rect.Contains(bullet.position.X, bullet.position.Y)  || player.base_position.Equals(bulletPos) || player.right_side_pt.Equals(bulletPos)
-                    || player.left_side_pt.Equals(bulletPos) || player.top_side_pt.Equals(bulletPos) || player.position.Equals(bulletPos)) {
-                       Constant.shake = true;
-                       bullet.isVisible = false;
-                       player.playerHit();
+                if (player.collision_circle.contains_point(bullet.position))
+                {
+                    Constant.shake = true;
+                    bullet.isVisible = false;
+                    player.playerHit();
                 }
                 bullet.position += bullet.velocity;
                 if (bullet.position.X < -500)
@@ -84,7 +84,7 @@ namespace Test
 
        public void ShootBullets()
         {
-            Bullets newbullet = new Bullets(bulletTexture, Color.Red);
+            Bullets newbullet = new Bullets(bulletTexture, Color.Red, 0f, 4f);
             newbullet.velocity.X = velocity.X - 3f;
             newbullet.position = new Vector2(position.X + newbullet.velocity.X +30, position.Y + 
                 (texture.Height/2) - (bulletTexture.Height /2) +20 );
