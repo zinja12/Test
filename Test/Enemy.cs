@@ -17,14 +17,12 @@ namespace Test
         protected Vector2 position;
         protected Vector2 velocity;
         private int enemy_frame_count = 9;
-        private float rotation;
         float shoot = 0;
         public bool isVisible = true;
         public bool foundPlayer = false;
         public bool behindPlayer = false;
-
-
-
+        public Rectangle boundingBox;
+        public List<Bullets> player_bullets;
 
         Random random = new Random();
 
@@ -43,11 +41,11 @@ namespace Test
             position = newPosition;
             bulletTexture = newBulletTexture;
             player = newPlayer;
-            rotation = 0f;
             randY = random.Next(-2, 2);
             //speed across the screen
             randX = -1;
-
+            boundingBox = new Rectangle((int)position.X, (int)position.Y, enemy_width, enemy_height);
+            player_bullets = player.get_bullets();
             velocity = new Vector2(randX, randY);
         }
 
@@ -96,12 +94,22 @@ namespace Test
         }
         public void Update(GraphicsDevice graphics, GameTime gameTime)
         {
+            boundingBox = new Rectangle((int)position.X, (int)position.Y, enemy_width, enemy_height);
+            player_bullets = player.get_bullets();
             float distance = Vector2.Distance(player.position, this.position);
             if (distance <= 200)
             {
                 foundPlayer = true;
                 
 
+            }
+
+            foreach (Bullets bullet in player_bullets)
+            {
+                if (boundingBox.Contains(bullet.position))
+                {
+                    isVisible = false;
+                }
             }
 
             if (foundPlayer && !behindPlayer)

@@ -73,6 +73,11 @@ namespace Test
             return base_position;
         }
 
+        public List<Bullets> get_bullets()
+        {
+            return bullets;
+        }
+
         public Rectangle get_collision_rect()
         {
             return other_collision_rect;

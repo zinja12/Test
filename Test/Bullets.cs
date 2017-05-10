@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Input;
 
 namespace Test
 {
-    class Bullets
+    public class Bullets
     {
         Texture2D texture;
         public Vector2 position;
@@ -21,7 +21,6 @@ namespace Test
 
         public bool isVisible = true;
         public bool isReflected = true;
-		// test if i can commit
         public static int bullet_width = 40, bullet_height = 178;
 
 
