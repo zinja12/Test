@@ -219,7 +219,7 @@ namespace Test
             }
             //spriteBatch.Draw(Constant.bird, position, null, Color.White, rotation, new Vector2(Constant.bird.Width / 2, Constant.bird.Height / 2), 1f, SpriteEffects.None, 0f);
             //Other collision rect
-            Renderer.FillRectangle(spriteBatch, collision_circle.center, 5, 5, Color.Purple);
+            //Renderer.FillRectangle(spriteBatch, collision_circle.center, 5, 5, Color.Purple);
             if (Constant.debug && player_debug)
             {
                 //Draw position point
