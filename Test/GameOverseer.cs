@@ -367,6 +367,7 @@ namespace Test
 
             foreach (Enemy enemy in enemies)
                 enemy.Draw(spriteBatch);
+            //test
 
             map.draw(spriteBatch);
 
