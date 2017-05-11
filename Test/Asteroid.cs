@@ -22,8 +22,7 @@ namespace Test.Content
         private int asteroid_frame_count = 22;
         private float asteroid_sep = 1;
         Player player;
-
-
+        public List<Bullets> player_bullets;
 
         public Asteroid(Texture2D newTexture, Player newPlayer)
         {
@@ -38,6 +37,7 @@ namespace Test.Content
                 origin.Y = newTexture.Height / 2;
             }
             player = newPlayer;
+            player_bullets = player.get_bullets();
 
         }
 
@@ -45,6 +45,8 @@ namespace Test.Content
         {
             // Set collision for asteroid
             boundingBox = new Rectangle((int) position.X, (int) position.Y, asteroid_width, asteroid_height);
+            player_bullets = player.get_bullets();
+
 
             // Update movement for asteroid
             position.Y = position.Y + speed;
@@ -53,6 +55,14 @@ namespace Test.Content
             {
                 position.Y = -200;
                 position.X = player.position.X + 150;
+            }
+
+            foreach (Bullets bullet in player_bullets)
+            {
+                if (boundingBox.Contains(bullet.position))
+                {
+                    destroyed = true;
+                }
             }
 
             //Rotate Asteroid

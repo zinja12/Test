@@ -42,6 +42,8 @@ namespace Test
         public static int ship_width = 28, ship_height = 82;
 
         public bool player_debug = false;
+        public bool isDestroyed = false;
+
 
         //private Animation test_animation;
 
@@ -93,6 +95,9 @@ namespace Test
             if (healthFrames < 4) {
                 healthFrames++;
                 healthSourceRect = new Rectangle(157 * healthFrames, 0, 157, 152);
+            }
+            else if (healthFrames >=4) {
+                isDestroyed = true;
             }
         }
 
@@ -205,36 +210,39 @@ namespace Test
 
         public void draw(SpriteBatch spriteBatch)
         {
-            //Draw animation
-            //spriteBatch.Draw(Constant.spritesheet, position, test_animation.source_rect, Color.White);
-            //draw other
-            for (int i = (ship_frame_count - 1); i >= 0; i--)
+            if (!isDestroyed)
             {
-                spriteBatch.Draw(Constant.ship_tex, new Vector2(position.X, position.Y + i * ship_sep), new Rectangle((ship_frame_count - i) * ship_width, 0, ship_width, ship_height), Color.White, rotation + 180 + 0.6f, new Vector2((float)(ship_width / 2), (float)(ship_height / 2)), 1f, SpriteEffects.None, 0f);
-                //spriteBatch.Draw(Constant.ship_tex, new Vector2(position.X, position.Y + i * ship_sep), new Rectangle((ship_frame_count - i) * ship_width, 0, ship_width, ship_height), Color.White, to_radians(rotation) - to_radians(90), new Vector2((float)(ship_width / 2), (float)(ship_height / 2)), 1f, SpriteEffects.None, 0f);
-            }
-            foreach (Bullets bullet in bullets)
-            {
-                bullet.Draw(spriteBatch);
-            }
-            //spriteBatch.Draw(Constant.bird, position, null, Color.White, rotation, new Vector2(Constant.bird.Width / 2, Constant.bird.Height / 2), 1f, SpriteEffects.None, 0f);
-            //Other collision rect
-            //Renderer.FillRectangle(spriteBatch, collision_circle.center, 5, 5, Color.Purple);
-            if (Constant.debug && player_debug)
-            {
-                //Draw position point
-                Renderer.FillRectangle(spriteBatch, position, 5, 5, Color.Purple);
-                Renderer.FillRectangle(spriteBatch, new Vector2(other_collision_rect.X, other_collision_rect.Y), 5, 5, Color.Red);
-                //Draw Rectangle
-                Renderer.DrawALine(spriteBatch, Constant.pixel, 1, Color.Purple, new Vector2(other_collision_rect.X, other_collision_rect.Y), new Vector2(other_collision_rect.X + width, other_collision_rect.Y));
-                Renderer.DrawALine(spriteBatch, Constant.pixel, 1, Color.Purple, new Vector2(other_collision_rect.X, other_collision_rect.Y), new Vector2(other_collision_rect.X, other_collision_rect.Y + height));
-                Renderer.DrawALine(spriteBatch, Constant.pixel, 1, Color.Purple, new Vector2(other_collision_rect.X + width, other_collision_rect.Y), new Vector2(other_collision_rect.X + width, other_collision_rect.Y + height));
-                Renderer.DrawALine(spriteBatch, Constant.pixel, 1, Color.Purple, new Vector2(other_collision_rect.X, other_collision_rect.Y + height), new Vector2(other_collision_rect.X + width, other_collision_rect.Y + height));
-                //Draw points
-                Renderer.FillRectangle(spriteBatch, top_side_pt, 5, 5, Color.Orange);
-                Renderer.FillRectangle(spriteBatch, left_side_pt, 5, 5, Color.Orange);
-                Renderer.FillRectangle(spriteBatch, right_side_pt, 5, 5, Color.Orange);
-                Renderer.FillRectangle(spriteBatch, base_position, 5, 5, Color.Orange);
+                //Draw animation
+                //spriteBatch.Draw(Constant.spritesheet, position, test_animation.source_rect, Color.White);
+                //draw other
+                for (int i = (ship_frame_count - 1); i >= 0; i--)
+                {
+                    spriteBatch.Draw(Constant.ship_tex, new Vector2(position.X, position.Y + i * ship_sep), new Rectangle((ship_frame_count - i) * ship_width, 0, ship_width, ship_height), Color.White, rotation + 180 + 0.6f, new Vector2((float)(ship_width / 2), (float)(ship_height / 2)), 1f, SpriteEffects.None, 0f);
+                    //spriteBatch.Draw(Constant.ship_tex, new Vector2(position.X, position.Y + i * ship_sep), new Rectangle((ship_frame_count - i) * ship_width, 0, ship_width, ship_height), Color.White, to_radians(rotation) - to_radians(90), new Vector2((float)(ship_width / 2), (float)(ship_height / 2)), 1f, SpriteEffects.None, 0f);
+                }
+                foreach (Bullets bullet in bullets)
+                {
+                    bullet.Draw(spriteBatch);
+                }
+                //spriteBatch.Draw(Constant.bird, position, null, Color.White, rotation, new Vector2(Constant.bird.Width / 2, Constant.bird.Height / 2), 1f, SpriteEffects.None, 0f);
+                //Other collision rect
+                //Renderer.FillRectangle(spriteBatch, collision_circle.center, 5, 5, Color.Purple);
+                if (Constant.debug && player_debug)
+                {
+                    //Draw position point
+                    Renderer.FillRectangle(spriteBatch, position, 5, 5, Color.Purple);
+                    Renderer.FillRectangle(spriteBatch, new Vector2(other_collision_rect.X, other_collision_rect.Y), 5, 5, Color.Red);
+                    //Draw Rectangle
+                    Renderer.DrawALine(spriteBatch, Constant.pixel, 1, Color.Purple, new Vector2(other_collision_rect.X, other_collision_rect.Y), new Vector2(other_collision_rect.X + width, other_collision_rect.Y));
+                    Renderer.DrawALine(spriteBatch, Constant.pixel, 1, Color.Purple, new Vector2(other_collision_rect.X, other_collision_rect.Y), new Vector2(other_collision_rect.X, other_collision_rect.Y + height));
+                    Renderer.DrawALine(spriteBatch, Constant.pixel, 1, Color.Purple, new Vector2(other_collision_rect.X + width, other_collision_rect.Y), new Vector2(other_collision_rect.X + width, other_collision_rect.Y + height));
+                    Renderer.DrawALine(spriteBatch, Constant.pixel, 1, Color.Purple, new Vector2(other_collision_rect.X, other_collision_rect.Y + height), new Vector2(other_collision_rect.X + width, other_collision_rect.Y + height));
+                    //Draw points
+                    Renderer.FillRectangle(spriteBatch, top_side_pt, 5, 5, Color.Orange);
+                    Renderer.FillRectangle(spriteBatch, left_side_pt, 5, 5, Color.Orange);
+                    Renderer.FillRectangle(spriteBatch, right_side_pt, 5, 5, Color.Orange);
+                    Renderer.FillRectangle(spriteBatch, base_position, 5, 5, Color.Orange);
+                }
             }
         }
     }
