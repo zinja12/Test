@@ -24,6 +24,7 @@ namespace Test
         Starfield starfield;
         List<SolarSystem> solar_systems;
         //ParticleGenerator particle_generator;
+        Rogue rogue;
 
         KeyboardState keyboard;
 
@@ -66,6 +67,8 @@ namespace Test
             
             solar_systems = new List<SolarSystem>();
             generate_planetary_systems();
+
+            rogue = new Rogue(new Vector2(0, 0));
         }
 
         public void generate_level()
@@ -239,6 +242,8 @@ namespace Test
             {
                 solar_systems[i].update(gameTime);
             }
+
+            rogue.update(gameTime, player.position);
         }
 
         private void camera_updates()
@@ -368,6 +373,8 @@ namespace Test
             foreach (Enemy enemy in enemies)
                 enemy.Draw(spriteBatch);
             //test
+
+            rogue.draw(spriteBatch);
 
             map.draw(spriteBatch);
 
