@@ -19,6 +19,7 @@ namespace Test
     {
         //Variables
         private KeyboardState keyboard;
+        private GamePadState gamepad;
 
         public Vector2 position, velocity, base_position;
         public Vector2 left_side_pt, right_side_pt, top_side_pt;
@@ -44,6 +45,7 @@ namespace Test
         public bool player_debug = false;
         public bool isDestroyed = false;
 
+        private bool controller_vibration;
 
         //private Animation test_animation;
 
@@ -66,7 +68,7 @@ namespace Test
 
             //Set up collision geometry
             collision_circle = new Circle(position, collision_circle_radius);
-
+            controller_vibration = false;
         }
 
         //Getters
@@ -123,7 +125,7 @@ namespace Test
             float j = velocity.Y;
             velocity.X = i -= friction * i;
             velocity.Y = j -= friction * j;
-
+            
             //Console.WriteLine("Player rotation:" + rotation);
             //Console.WriteLine("Radians:" + to_radians(rotation));
         }
@@ -131,32 +133,44 @@ namespace Test
         public void poll_input(GameTime gameTime)
         {
             keyboard = Keyboard.GetState();
+            gamepad = GamePad.GetState(PlayerIndex.One);
 
             //Check input across WASD and the Arrow Keys
             //Adjust velocity being added to the players position accordingly
 
             //Control rotation
-            if (keyboard.IsKeyDown(Keys.D) || keyboard.IsKeyDown(Keys.Right))
+            if (keyboard.IsKeyDown(Keys.D) || keyboard.IsKeyDown(Keys.Right) || gamepad.ThumbSticks.Left.X > 0)
             {
                 rotation += player_rotation_speed;
             }
-            if (keyboard.IsKeyDown(Keys.A) || keyboard.IsKeyDown(Keys.Left))
+            if (keyboard.IsKeyDown(Keys.A) || keyboard.IsKeyDown(Keys.Left) || gamepad.ThumbSticks.Left.X < 0)
             {
                 rotation -= player_rotation_speed;
             }
-            if (keyboard.IsKeyDown(Keys.W) || keyboard.IsKeyDown(Keys.Up))
+            if (keyboard.IsKeyDown(Keys.W) || keyboard.IsKeyDown(Keys.Up) || gamepad.ThumbSticks.Right.Y > 0)
             {
                 Vector2 direction = new Vector2((float)Math.Cos(rotation), (float)Math.Sin(rotation));
                 direction.Normalize();
                 velocity += direction * 0.2f;
             }
+
+            if (controller_vibration && elapsedTime > 0.1f)
+            {
+                controller_vibration = false;
+                GamePad.SetVibration(PlayerIndex.One, 0f, 0f);
+            }
+
             elapsedTime += (float)gameTime.ElapsedGameTime.TotalSeconds;
-            if (keyboard.IsKeyDown(Keys.Space))
+            if (keyboard.IsKeyDown(Keys.Space) || gamepad.Triggers.Right != 0)
             {
                 if (elapsedTime > 0.5)
                 {
                     ShootBullets();
                     elapsedTime = 0;
+
+                    //Handle vibration
+                    controller_vibration = true;
+                    GamePad.SetVibration(PlayerIndex.One, 1f, 1f);
                 }
                 Constant.shake = true;
                 Starfield.shake_stars = true;

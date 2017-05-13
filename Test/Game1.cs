@@ -102,6 +102,9 @@ namespace Test
             if (!Constant.paused)
             {
                 game_overseer.update(gameTime, graphics.GraphicsDevice, spriteBatch);
+            } else
+            {
+                GamePad.SetVibration(PlayerIndex.One, 0f, 0f);
             }
             base.Update(gameTime);
         }

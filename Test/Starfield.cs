@@ -43,7 +43,7 @@ namespace Test
                 stars[i] -= (adjustment_direction * depth_layers[i]) * 0.5f;
 
                 //Apply shake
-                if (Constant.shake || Keyboard.GetState().IsKeyDown(Keys.Space))
+                if (Constant.shake || Keyboard.GetState().IsKeyDown(Keys.Space) || GamePad.GetState(PlayerIndex.One).Triggers.Right != 0)
                 {
                     shake_stars = true;
                 }
