@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
+using Microsoft.Xna.Framework.Audio;
 
 namespace Test
 {
@@ -31,6 +32,8 @@ namespace Test
         public static Texture2D laser_tex;
         public static Texture2D asteroid;
         public static Texture2D pause_tex;
+
+        public static SoundEffect laser_sound;
 
 
 

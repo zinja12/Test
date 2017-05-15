@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
+using Microsoft.Xna.Framework.Audio;
 
 namespace Test
 {
@@ -73,6 +74,8 @@ namespace Test
             Constant.laser_tex = Content.Load<Texture2D>("Sprites/laser.png");
             Constant.asteroid = Content.Load<Texture2D>("Sprites/asteroid.png");
             Constant.pause_tex = Content.Load<Texture2D>("Sprites/pause_icon.png");
+
+            Constant.laser_sound = Content.Load<SoundEffect>("Laser_Shoot2");
 
 
         }

@@ -171,6 +171,7 @@ namespace Test
                     //Handle vibration
                     controller_vibration = true;
                     GamePad.SetVibration(PlayerIndex.One, 1f, 1f);
+                    Constant.laser_sound.Play();
                 }
                 Constant.shake = true;
                 Starfield.shake_stars = true;
