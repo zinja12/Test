@@ -25,3 +25,9 @@
 /processorParam:Quality=Best
 /build:Laser_Shoot2.wav
 
+#begin Hit_Hurt.wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Hit_Hurt.wav
+

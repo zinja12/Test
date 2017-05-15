@@ -34,6 +34,8 @@ namespace Test
         public static Texture2D pause_tex;
 
         public static SoundEffect laser_sound;
+        public static SoundEffect explosion_sound;
+        public static SoundEffect damage_sound;
 
 
 

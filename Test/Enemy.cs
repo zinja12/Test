@@ -60,9 +60,11 @@ namespace Test
                 Vector2 bulletPos = new Vector2(bullet.position.X, bullet.position.Y);
                 if (player.collision_circle.contains_point(bullet.position))
                 {
+                    //Player hit, play hit sound
                     Constant.shake = true;
                     bullet.isVisible = false;
                     player.playerHit();
+                    Constant.damage_sound.Play();
                 }
                 bullet.position += bullet.velocity;
                 if (bullet.position.X < -500)
@@ -108,7 +110,9 @@ namespace Test
             {
                 if (boundingBox.Contains(bullet.position))
                 {
+                    //Player hit something
                     isVisible = false;
+                    Constant.explosion_sound.Play();
                 }
             }
 

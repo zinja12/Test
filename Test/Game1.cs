@@ -76,6 +76,8 @@ namespace Test
             Constant.pause_tex = Content.Load<Texture2D>("Sprites/pause_icon.png");
 
             Constant.laser_sound = Content.Load<SoundEffect>("Laser_Shoot2");
+            Constant.explosion_sound = Content.Load<SoundEffect>("Explosion2");
+            Constant.damage_sound = Content.Load<SoundEffect>("Hit_Hurt");
 
 
         }
