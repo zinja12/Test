@@ -29,7 +29,7 @@ namespace Test
         //Check distance between centers of circles
         public bool intersects_circle(Circle other)
         {
-            return (Vector2.Distance(other.center, center) < (other.radius - radius));
+            return (Vector2.Distance(other.center, center) <= (other.radius + radius));
         }
 
         //Check all scenarios where rectangle can intersect a circle
