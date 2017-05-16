@@ -29,7 +29,7 @@ namespace Test
         public Rectangle healthSourceRect;
 
         public Circle collision_circle;
-        private float collision_circle_radius = 35;
+        private float collision_circle_radius = 30;
         
         private int ship_frame_count = 20;
         int healthFrames = 0;
@@ -67,7 +67,7 @@ namespace Test
             healthSourceRect = new Rectangle(0, 0, 157, 152);
 
             //Set up collision geometry
-            collision_circle = new Circle(position, collision_circle_radius);
+            collision_circle = new Circle(new Vector2(position.X - 10, position.Y + 5), collision_circle_radius);
             controller_vibration = false;
         }
 
@@ -118,7 +118,7 @@ namespace Test
             other_collision_rect.X = (int)(position.X - (width / 2));
             other_collision_rect.Y = (int)(position.Y - (height / 2));
             //Update circle position
-            collision_circle.center = position;
+            collision_circle.center = new Vector2(position.X - 5, position.Y + 10);
 
             //Handle friction
             float i = velocity.X;
@@ -243,6 +243,11 @@ namespace Test
                 //spriteBatch.Draw(Constant.bird, position, null, Color.White, rotation, new Vector2(Constant.bird.Width / 2, Constant.bird.Height / 2), 1f, SpriteEffects.None, 0f);
                 //Other collision rect
                 //Renderer.FillRectangle(spriteBatch, collision_circle.center, 5, 5, Color.Purple);
+                /*Renderer.FillRectangle(spriteBatch, collision_circle.center, 5, 5, Color.CornflowerBlue);
+                Renderer.FillRectangle(spriteBatch, collision_circle.center + new Vector2(collision_circle.radius, 0), 5, 5, Color.CornflowerBlue);
+                Renderer.FillRectangle(spriteBatch, collision_circle.center + new Vector2(-collision_circle.radius, 0), 5, 5, Color.CornflowerBlue);
+                Renderer.FillRectangle(spriteBatch, collision_circle.center + new Vector2(0, collision_circle.radius), 5, 5, Color.CornflowerBlue);
+                Renderer.FillRectangle(spriteBatch, collision_circle.center + new Vector2(0, -collision_circle.radius), 5, 5, Color.CornflowerBlue);*/
                 if (Constant.debug && player_debug)
                 {
                     //Draw position point
