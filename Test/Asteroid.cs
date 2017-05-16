@@ -64,6 +64,7 @@ namespace Test.Content
                     destroyed = true;
                     //Play explosion sound
                     Constant.explosion_sound.Play();
+                    GameOverseer.particle_manager.create_explosion(position, Constant.particle);
                 }
             }
 

@@ -16,8 +16,9 @@ namespace Test
             public Texture2D particle_texture;
             public int decay_time; //in seconds
             public float elapsed, speed, scale;
+            public Color color;
 
-            public Particle(Vector2 position, Vector2 direction, float speed, Texture2D texture, int decay_time, float scale)
+            public Particle(Vector2 position, Vector2 direction, float speed, Texture2D texture, int decay_time, float scale, Color color)
             {
                 this.position = position;
                 this.direction = direction;
@@ -26,6 +27,7 @@ namespace Test
                 this.decay_time = decay_time;
                 elapsed = 0;
                 this.scale = scale;
+                this.color = color;
             }
         }
         
@@ -73,7 +75,7 @@ namespace Test
                 //Generate random variables
                 int angle = random.Next(0, 360);
                 Vector2 dir = new Vector2((float)Math.Cos(angle), -(float)Math.Sin(angle));
-                particles.Add(new Particle(position, dir, random.Next(2, 5), texture, random.Next(2, 5), random.Next(1, 3)));
+                particles.Add(new Particle(position, dir, random.Next(2, 5), texture, random.Next(2, 5), random.Next(1, 3), new Color(random.Next(65, 256), random.Next(0, 80), random.Next(0, 80))));
             }
             Console.WriteLine("Added particles");
         }
@@ -83,7 +85,7 @@ namespace Test
         {
             for (int i = 0; i < particles.Count; i++)
             {
-                spriteBatch.Draw(particles[i].particle_texture, particles[i].position, null, Color.Orange, 0f, Vector2.Zero, particles[i].scale, SpriteEffects.None, 0f);
+                spriteBatch.Draw(particles[i].particle_texture, particles[i].position, null, particles[i].color, 0f, Vector2.Zero, particles[i].scale, SpriteEffects.None, 0f);
             }
         }
     }
