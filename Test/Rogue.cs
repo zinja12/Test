@@ -26,7 +26,8 @@ namespace Test
         public void update(GameTime gameTime, Vector2 target_position)
         {
             Vector2 distance;
-            if (Vector2.Distance(position, target_position) < 400)
+            float dist = Vector2.Distance(position, target_position);
+            if (dist > 5f && dist < 400)
             {
                 distance = target_position - position;
                 distance.Normalize();

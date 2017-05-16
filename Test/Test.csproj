@@ -49,8 +49,6 @@
     <Compile Include="Game1.cs" />
     <Compile Include="GameOverseer.cs" />
     <Compile Include="MapPortal.cs" />
-    <Compile Include="Particle.cs" />
-    <Compile Include="ParticleGenerator.cs" />
     <Compile Include="Planet.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Program.cs" />
