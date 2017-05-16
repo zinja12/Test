@@ -58,7 +58,7 @@ namespace Test
             foreach (Bullets bullet in bullets)
             {
                 Vector2 bulletPos = new Vector2(bullet.position.X, bullet.position.Y);
-                if (player.collision_circle.contains_point(bullet.position))
+                if (player.collision_circle.intersects_rectangle(bullet.boundingBox))
                 {
                     //Player hit, play hit sound
                     Constant.shake = true;
@@ -109,7 +109,7 @@ namespace Test
 
             foreach (Bullets bullet in player_bullets)
             {
-                if (boundingBox.Contains(bullet.position))
+                if (boundingBox.Intersects(bullet.boundingBox))
                 {
                     //Player hit something
                     isVisible = false;

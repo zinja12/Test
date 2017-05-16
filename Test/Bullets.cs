@@ -23,6 +23,8 @@ namespace Test
         public bool isReflected = true;
         public static int bullet_width = 40, bullet_height = 178;
 
+        public Rectangle boundingBox;
+
 
 
 
@@ -36,10 +38,13 @@ namespace Test
             this.rotation = rotation;
             origin = new Vector2(newTexture.Width/2, newTexture.Height/2);
             this.scale = scale;
+            boundingBox = new Rectangle((int)position.X - 15, (int)position.Y - 15, 30, 30);
         }
 
         public void Draw(SpriteBatch spriteBatch)
         {
+            boundingBox.X = (int)position.X - 15;
+            boundingBox.Y = (int)position.Y - 15;
             spriteBatch.Draw(texture, position, null, color, rotation, origin, scale, SpriteEffects.None, 0f);
             /*for (int i = (bullet_frame_count - 1); i >= 0; i--)
             {

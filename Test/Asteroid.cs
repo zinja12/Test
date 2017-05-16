@@ -57,7 +57,7 @@ namespace Test.Content
 
             foreach (Bullets bullet in player_bullets)
             {
-                if (boundingBox.Contains(bullet.position))
+                if (boundingBox.Intersects(bullet.boundingBox))
                 {
                     destroyed = true;
                     //Play explosion sound

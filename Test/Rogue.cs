@@ -61,7 +61,7 @@ namespace Test
             if (!dead) {
                 for (int i = 0; i < player_bullets.Count; i++)
                 {
-                    if (collision_circle.contains_point(player_bullets[i].position))
+                    if (collision_circle.intersects_rectangle(player_bullets[i].boundingBox))
                     {
                         //Player hit something
                         Constant.explosion_sound.Play();
