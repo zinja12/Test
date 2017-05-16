@@ -10,17 +10,22 @@ namespace Test
 {
     public class Rogue
     {
+
+        Player player;
         public Vector2 position;
         private Vector2 start_position;
         private float rotation;
+        public Circle collision_circle;
 
         int ship_sep = 1, ship_frame_count = 20, ship_width = 28, ship_height = 82;
 
-        public Rogue(Vector2 position)
+        public Rogue(Vector2 position, Player player)
         {
             this.position = position;
             start_position = position;
             rotation = 0f;
+            collision_circle = new Circle(position + new Vector2(ship_width/2, ship_height/2), 30);
+            this.player = player;
         }
 
         public void update(GameTime gameTime, Vector2 target_position)
@@ -33,6 +38,14 @@ namespace Test
                 distance.Normalize();
                 position += distance * 3f;
                 rotation = (float)Math.Atan2(target_position.Y - position.Y, target_position.X - position.X);
+                //Keep collision circle updated with position
+                collision_circle.center += distance * 3f;
+            }
+
+            if (collision_circle.intersects_circle(player.collision_circle))
+            {
+                Constant.damage_sound.Play();
+                player.playerHit();
             }
         }
 

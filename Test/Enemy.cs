@@ -31,7 +31,7 @@ namespace Test
         //Bullets 
         List<Bullets> bullets = new List<Bullets>();
         Texture2D bulletTexture;
-        public static int enemy_width = 40, enemy_height = 178;
+        public static int enemy_width = 40, enemy_height = 40;
         private float enemy_sep = 1;
 
 
@@ -44,7 +44,7 @@ namespace Test
             randY = random.Next(-2, 2);
             //speed across the screen
             randX = -1;
-            boundingBox = new Rectangle((int)position.X, (int)position.Y, enemy_width, enemy_height);
+            boundingBox = new Rectangle((int)position.X + 15, (int)position.Y + 15, enemy_width, enemy_height);
             player_bullets = player.get_bullets();
             velocity = new Vector2(randX, randY);
         }
@@ -96,7 +96,7 @@ namespace Test
         }
         public void Update(GraphicsDevice graphics, GameTime gameTime)
         {
-            boundingBox = new Rectangle((int)position.X, (int)position.Y, enemy_width, enemy_height);
+            boundingBox = new Rectangle((int)position.X + 15, (int)position.Y + 15, enemy_width, enemy_height);
             player_bullets = player.get_bullets();
             float distance = Vector2.Distance(player.position, this.position);
             if (distance <= 200)
@@ -168,6 +168,7 @@ namespace Test
                 spriteBatch.Draw(Constant.enemy_tex, new Vector2(position.X, position.Y + i * enemy_sep), new Rectangle((enemy_frame_count - i) * enemy_width, 0, enemy_width, 
                     enemy_height), Color.White, 0, new Vector2(0,0), 2f, SpriteEffects.None, 0f);
             }
+            Renderer.FillRectangle(spriteBatch, new Vector2((float)boundingBox.X, (float)boundingBox.Y), boundingBox.Width, boundingBox.Height, Color.CornflowerBlue);
             foreach (Bullets bullet in bullets)
             {
                 bullet.Draw(spriteBatch);

@@ -68,7 +68,7 @@ namespace Test
             solar_systems = new List<SolarSystem>();
             generate_planetary_systems();
 
-            rogue = new Rogue(new Vector2(0, 0));
+            rogue = new Rogue(new Vector2(0, 0), player);
         }
 
         public void generate_level()
