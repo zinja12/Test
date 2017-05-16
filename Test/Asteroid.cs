@@ -18,7 +18,7 @@ namespace Test.Content
         public int speed;
         public bool isColliding, destroyed;
         public Rectangle boundingBox;
-        public static int asteroid_width = 40, asteroid_height = 73;
+        public static int asteroid_width = 40, asteroid_height = 40;
         private int asteroid_frame_count = 22;
         private float asteroid_sep = 1;
         Player player;
@@ -32,10 +32,7 @@ namespace Test.Content
             isColliding = false;
             destroyed = false;
             texture = newTexture;
-            if (newTexture != null) {
-                origin.X = (newTexture.Width / 22) / 2;
-                origin.Y = newTexture.Height / 2;
-            }
+            origin = new Vector2(asteroid_width/2, asteroid_height/2);
             player = newPlayer;
             player_bullets = player.get_bullets();
 
@@ -44,7 +41,7 @@ namespace Test.Content
         public void update(GraphicsDevice graphics, GameTime gameTime)
         {
             // Set collision for asteroid
-            boundingBox = new Rectangle((int) position.X, (int) position.Y, asteroid_width, asteroid_height);
+            boundingBox = new Rectangle((int)position.X - 20, (int)position.Y, asteroid_width, asteroid_height);
             player_bullets = player.get_bullets();
 
 
@@ -98,7 +95,7 @@ namespace Test.Content
                         asteroid_height), Color.White, rotationAngle, origin, 2f, SpriteEffects.None, 0f);
                 }
             }
-            
+            //Renderer.FillRectangle(spriteBatch, new Vector2(boundingBox.X, boundingBox.Y), boundingBox.Width, boundingBox.Height, Color.CornflowerBlue);
 
         }
 
