@@ -168,7 +168,7 @@ namespace Test
                 spriteBatch.Draw(Constant.enemy_tex, new Vector2(position.X, position.Y + i * enemy_sep), new Rectangle((enemy_frame_count - i) * enemy_width, 0, enemy_width, 
                     enemy_height), Color.White, 0, new Vector2(0,0), 2f, SpriteEffects.None, 0f);
             }
-            Renderer.FillRectangle(spriteBatch, new Vector2((float)boundingBox.X, (float)boundingBox.Y), boundingBox.Width, boundingBox.Height, Color.CornflowerBlue);
+            //Renderer.FillRectangle(spriteBatch, new Vector2((float)boundingBox.X, (float)boundingBox.Y), boundingBox.Width, boundingBox.Height, Color.CornflowerBlue);
             foreach (Bullets bullet in bullets)
             {
                 bullet.Draw(spriteBatch);
