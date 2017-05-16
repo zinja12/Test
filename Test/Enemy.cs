@@ -157,6 +157,12 @@ namespace Test
             {
                 shoot = 0;
                 ShootBullets();
+
+                //Close enough to player to hear laser sound
+                if (Vector2.Distance(player.position, position) <= 200)
+                {
+                    Constant.laser_sound.Play();
+                }
             }
             UpdateBullets(gameTime);
         }

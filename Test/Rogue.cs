@@ -24,7 +24,7 @@ namespace Test
             this.position = position;
             start_position = position;
             rotation = 0f;
-            collision_circle = new Circle(position + new Vector2(ship_width/2, ship_height/2), 30);
+            collision_circle = new Circle(position + new Vector2(ship_width/2, ship_height/2), 20);
             this.player = player;
         }
 

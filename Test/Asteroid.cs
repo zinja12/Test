@@ -62,6 +62,8 @@ namespace Test.Content
                 if (boundingBox.Contains(bullet.position))
                 {
                     destroyed = true;
+                    //Play explosion sound
+                    Constant.explosion_sound.Play();
                 }
             }
 
