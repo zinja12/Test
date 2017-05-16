@@ -64,7 +64,7 @@ namespace Test
         public void update_particle(Particle particle)
         {
             particle.position += particle.direction * particle.speed;
-            particle.speed -= 0.1f;
+            particle.speed -= 0.01f;
         }
 
         public void create_explosion(Vector2 position, Texture2D texture)

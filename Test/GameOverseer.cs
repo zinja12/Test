@@ -368,13 +368,13 @@ namespace Test
 
             player.draw(spriteBatch);
             asteroid.draw(spriteBatch);
-            particle_manager.draw(spriteBatch);
 
             foreach (Enemy enemy in enemies)
                 enemy.Draw(spriteBatch);
-            //test
 
             rogue.draw(spriteBatch);
+
+            particle_manager.draw(spriteBatch);
 
             map.draw(spriteBatch);
 

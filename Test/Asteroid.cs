@@ -53,8 +53,9 @@ namespace Test.Content
 
             if (position.Y >= 950)
             {
-                position.Y = -200;
-                position.X = player.position.X + 150;
+                position.Y = -400;
+                position.X = player.position.X + 200;
+                destroyed = false;
             }
 
             foreach (Bullets bullet in player_bullets)
@@ -66,6 +67,17 @@ namespace Test.Content
                     Constant.explosion_sound.Play();
                     GameOverseer.particle_manager.create_explosion(position, Constant.particle);
                 }
+            }
+
+            //Collision for player hitbox
+            if (player.collision_circle.intersects_rectangle(boundingBox))
+            {
+                destroyed = true;
+                player.playerHit();
+                Constant.damage_sound.Play();
+                GameOverseer.particle_manager.create_explosion(position, Constant.particle);
+                position.Y = -400;
+                position.X = player.position.X + 200;
             }
 
             //Rotate Asteroid
