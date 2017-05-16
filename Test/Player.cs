@@ -172,6 +172,7 @@ namespace Test
                     controller_vibration = true;
                     GamePad.SetVibration(PlayerIndex.One, 1f, 1f);
                     Constant.laser_sound.Play();
+                    GameOverseer.particle_manager.create_explosion(position, Constant.particle);
                 }
                 Constant.shake = true;
                 Starfield.shake_stars = true;

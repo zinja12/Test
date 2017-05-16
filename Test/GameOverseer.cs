@@ -23,7 +23,7 @@ namespace Test
         MapPortal map;
         Starfield starfield;
         List<SolarSystem> solar_systems;
-        //ParticleGenerator particle_generator;
+        public static ParticleManager particle_manager;
         Rogue rogue;
 
         KeyboardState keyboard;
@@ -53,7 +53,7 @@ namespace Test
             generate_level();
 
             player = new Player(new Vector2(350, 100));
-            //particle_generator = new ParticleGenerator(screen_width, 100f, Particle.ParticleType.RAIN);
+            particle_manager = new ParticleManager();
             this.current_level = test_level;
             if (test_level == 0)
             {
@@ -217,7 +217,7 @@ namespace Test
                 enemy.Update(graphics, gameTime);
             }
             LoadEnemies();
-            //particle_generator.update(gameTime, graphics);
+            particle_manager.update(gameTime);
 
             keyboard = Keyboard.GetState();
             if (keyboard.IsKeyDown(Keys.R))
@@ -368,7 +368,7 @@ namespace Test
 
             player.draw(spriteBatch);
             asteroid.draw(spriteBatch);
-            //particle_generator.draw(spriteBatch);
+            particle_manager.draw(spriteBatch);
 
             foreach (Enemy enemy in enemies)
                 enemy.Draw(spriteBatch);

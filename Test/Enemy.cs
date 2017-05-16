@@ -65,6 +65,7 @@ namespace Test
                     bullet.isVisible = false;
                     player.playerHit();
                     Constant.damage_sound.Play();
+                    GameOverseer.particle_manager.create_explosion(player.position, Constant.particle);
                 }
                 bullet.position += bullet.velocity;
                 if (bullet.position.X < -500)
@@ -113,6 +114,7 @@ namespace Test
                     //Player hit something
                     isVisible = false;
                     Constant.explosion_sound.Play();
+                    GameOverseer.particle_manager.create_explosion(new Vector2(boundingBox.X + (enemy_width / 2), boundingBox.Y + (enemy_height / 2)), Constant.particle);
                 }
             }
 
