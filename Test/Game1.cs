@@ -80,6 +80,7 @@ namespace Test
             Constant.explosion_sound = Content.Load<SoundEffect>("Explosion2");
             Constant.damage_sound = Content.Load<SoundEffect>("Hit_Hurt");
             Constant.background_music = Content.Load<Song>("song_of_earth");
+            Constant.score_font = Content.Load<SpriteFont>("Score");
 
 
         }

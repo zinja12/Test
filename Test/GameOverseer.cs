@@ -25,6 +25,8 @@ namespace Test
         List<SolarSystem> solar_systems;
         public static ParticleManager particle_manager;
         Rogue rogue;
+        private int score;
+        private int counter = 0;
 
         KeyboardState keyboard;
 
@@ -69,6 +71,7 @@ namespace Test
             generate_planetary_systems();
 
             rogue = new Rogue(new Vector2(0, 0), player);
+            score = 0;
         }
 
         public void generate_level()
@@ -215,6 +218,11 @@ namespace Test
             foreach (Enemy enemy in enemies)
             {
                 enemy.Update(graphics, gameTime);
+                if (enemy.isEnemyDead() == true)
+                {
+                    score += 7;
+                    enemy.dead = false;
+                }
             }
             LoadEnemies();
             particle_manager.update(gameTime);
@@ -244,6 +252,21 @@ namespace Test
             }
 
             rogue.update(gameTime, player.position);
+            if (rogue.dead == true)
+            {
+                addRougeScore();
+            }
+            
+            
+        }
+
+        public void addRougeScore()
+        {
+            if (counter < 1)
+            {
+                score += 50;
+                counter++;
+            }
         }
 
         private void camera_updates()
@@ -383,7 +406,10 @@ namespace Test
 
             //Draw heads up display
             spriteBatch.Begin();
+            
             spriteBatch.Draw(Constant.health_bar, Vector2.Zero, player.healthSourceRect, Color.White, 0f, Vector2.Zero, 0.7f, SpriteEffects.None, 0f);
+            spriteBatch.DrawString(Constant.score_font, "Score: " + score.ToString(), new Vector2(860, 0), Color.White);
+
             spriteBatch.End();
         }
     }

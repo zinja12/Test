@@ -37,3 +37,9 @@
 /processorParam:Quality=Best
 /build:song_of_earth.wma
 
+#begin Score.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:TextureFormat=Compressed
+/build:Score.spritefont
+

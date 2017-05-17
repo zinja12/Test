@@ -147,6 +147,10 @@
     <Folder Include="Content\Backgrounds\" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Content\Score.spritefont">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Content\8-Bit Madness.ttf" />
     <None Include="packages.config" />
     <None Include="Content\Sprites\health.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

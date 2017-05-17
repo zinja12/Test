@@ -23,6 +23,7 @@ namespace Test
         public bool behindPlayer = false;
         public Rectangle boundingBox;
         public List<Bullets> player_bullets;
+        public bool dead = false;
 
         Random random = new Random();
 
@@ -53,6 +54,12 @@ namespace Test
         {
             return position;
         }
+
+        public bool isEnemyDead()
+        {
+            return dead;
+        }
+
         public void UpdateBullets(GameTime gameTime)
         {
             foreach (Bullets bullet in bullets)
@@ -114,6 +121,7 @@ namespace Test
                     //Player hit something
                     isVisible = false;
                     Constant.explosion_sound.Play();
+                    dead = true;
                     GameOverseer.particle_manager.create_explosion(new Vector2(boundingBox.X + (enemy_width / 2), boundingBox.Y + (enemy_height / 2)), Constant.particle);
                 }
             }

@@ -39,6 +39,8 @@ namespace Test
         public static SoundEffect damage_sound;
         public static Song background_music;
         public static bool background_music_started = false;
+        public static SpriteFont score_font;
+
 
 
 

@@ -81,9 +81,13 @@ namespace Test
 
         public void draw(SpriteBatch spriteBatch)
         {
-            for (int i = (ship_frame_count - 1); i >= 0; i--)
+            if (!dead)
             {
-                spriteBatch.Draw(Constant.ship_tex, new Vector2(position.X, position.Y + i * ship_sep), new Rectangle((ship_frame_count - i) * ship_width, 0, ship_width, ship_height), Color.Red, rotation + 180 + 0.6f, new Vector2((float)(ship_width / 2), (float)(ship_height / 2)), 1f, SpriteEffects.None, 0f);
+
+                for (int i = (ship_frame_count - 1); i >= 0; i--)
+                {
+                    spriteBatch.Draw(Constant.ship_tex, new Vector2(position.X, position.Y + i * ship_sep), new Rectangle((ship_frame_count - i) * ship_width, 0, ship_width, ship_height), Color.Red, rotation + 180 + 0.6f, new Vector2((float)(ship_width / 2), (float)(ship_height / 2)), 1f, SpriteEffects.None, 0f);
+                }
             }
             //Renderer.FillRectangle(spriteBatch, collision_circle.center, 5, 5, Color.CornflowerBlue);
             //Renderer.FillRectangle(spriteBatch, collision_circle.center + new Vector2(collision_circle.radius, 0), 5, 5, Color.CornflowerBlue);
