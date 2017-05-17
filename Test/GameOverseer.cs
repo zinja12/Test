@@ -26,6 +26,7 @@ namespace Test
         MotherShip mother;
         public static ParticleManager particle_manager;
         Rogue rogue;
+
         private int score;
         private int counter = 0;
         private int counter1 = 0;
