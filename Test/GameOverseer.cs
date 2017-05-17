@@ -23,10 +23,12 @@ namespace Test
         MapPortal map;
         Starfield starfield;
         List<SolarSystem> solar_systems;
+        MotherShip mother;
         public static ParticleManager particle_manager;
         Rogue rogue;
         private int score;
         private int counter = 0;
+        public bool lose = false;
 
         KeyboardState keyboard;
 
@@ -71,6 +73,7 @@ namespace Test
             generate_planetary_systems();
 
             rogue = new Rogue(new Vector2(0, 0), player);
+            mother = new MotherShip(Constant.enemy_tex, new Vector2(800, -500), Constant.particle, player);
             score = 0;
         }
 
@@ -226,6 +229,7 @@ namespace Test
             }
             LoadEnemies();
             particle_manager.update(gameTime);
+            mother.Update(graphics, gameTime);
 
             keyboard = Keyboard.GetState();
             if (keyboard.IsKeyDown(Keys.R))
@@ -256,7 +260,6 @@ namespace Test
             {
                 addRougeScore();
             }
-            
             
         }
 
@@ -361,7 +364,7 @@ namespace Test
 
             for (int i = 0; i < enemies.Count; i++)
             {
-                if (!enemies[i].isVisible)
+                if (!enemies[i].isVisible || mother.motherShipArrived == true)
                 {
                     enemies.RemoveAt(i);
                     i--;
@@ -394,7 +397,7 @@ namespace Test
 
             foreach (Enemy enemy in enemies)
                 enemy.Draw(spriteBatch);
-
+            mother.Draw(spriteBatch);
             rogue.draw(spriteBatch);
 
             particle_manager.draw(spriteBatch);
@@ -409,6 +412,12 @@ namespace Test
             
             spriteBatch.Draw(Constant.health_bar, Vector2.Zero, player.healthSourceRect, Color.White, 0f, Vector2.Zero, 0.7f, SpriteEffects.None, 0f);
             spriteBatch.DrawString(Constant.score_font, "Score: " + score.ToString(), new Vector2(860, 0), Color.White);
+
+            if (player.isDestroyed)
+            {
+                spriteBatch.DrawString(Constant.score_font, "YOU LOSE!", new Vector2(450, 300), Color.Red);
+
+            }
 
             spriteBatch.End();
         }
