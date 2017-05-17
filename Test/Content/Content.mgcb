@@ -31,3 +31,9 @@
 /processorParam:Quality=Best
 /build:Hit_Hurt.wav
 
+#begin song_of_earth.wma
+/importer:WmaImporter
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:song_of_earth.wma
+

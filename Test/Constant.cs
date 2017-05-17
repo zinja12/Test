@@ -7,6 +7,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Media;
 
 namespace Test
 {
@@ -36,6 +37,8 @@ namespace Test
         public static SoundEffect laser_sound;
         public static SoundEffect explosion_sound;
         public static SoundEffect damage_sound;
+        public static Song background_music;
+        public static bool background_music_started = false;
 
 
 

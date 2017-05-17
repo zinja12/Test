@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Input;
 using System;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework.Audio;
+using Microsoft.Xna.Framework.Media;
 
 namespace Test
 {
@@ -78,6 +79,7 @@ namespace Test
             Constant.laser_sound = Content.Load<SoundEffect>("Laser_Shoot2");
             Constant.explosion_sound = Content.Load<SoundEffect>("Explosion2");
             Constant.damage_sound = Content.Load<SoundEffect>("Hit_Hurt");
+            Constant.background_music = Content.Load<Song>("song_of_earth");
 
 
         }
@@ -110,6 +112,13 @@ namespace Test
             } else
             {
                 GamePad.SetVibration(PlayerIndex.One, 0f, 0f);
+            }
+
+            if (!Constant.background_music_started)
+            {
+                Constant.background_music_started = true;
+                MediaPlayer.IsRepeating = true;
+                MediaPlayer.Play(Constant.background_music);
             }
             base.Update(gameTime);
         }
