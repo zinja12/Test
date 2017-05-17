@@ -109,83 +109,12 @@ namespace Test
         }
         public void Update(GraphicsDevice graphics, GameTime gameTime)
         {
-            /*boundingBox = new Rectangle((int)position.X + 15, (int)position.Y + 15, enemy_width, enemy_height);
-            player_bullets = player.get_bullets();
-            float distance = Vector2.Distance(player.position, this.position);
-            if (distance <= 200)
-            {
-                foundPlayer = true;
-                
-
-            }
-
-            foreach (Bullets bullet in player_bullets)
-            {
-                if (boundingBox.Intersects(bullet.boundingBox))
-                {
-                    //Player hit something
-                    isVisible = false;
-                    Constant.explosion_sound.Play();
-                    dead = true;
-                    GameOverseer.particle_manager.create_explosion(new Vector2(boundingBox.X + (enemy_width / 2), boundingBox.Y + (enemy_height / 2)), Constant.particle);
-                }
-            }
-
-            if (foundPlayer && !behindPlayer)
-            {
-                position += velocity;
-
-                if (position.Y == player.top_side_pt.Y-5)
-                {
-                    velocity.Y = 0;
-                } else if (position.Y > player.top_side_pt.Y-5) {
-                    velocity.Y = -2;
-
-                }
-                else if (position.Y < player.top_side_pt.Y-5)
-                {
-                    velocity.Y = 2;
-
-                }
-
-
-
-                if (position.Equals(player.position)) { isVisible = false; }
-                if (position.X < player.left_side_pt.X-10) { behindPlayer = true; }
-
-            }
-            else {
-                position += velocity;
-                if (position.Y <= -225 || position.Y >= 350)
-                {
-                    velocity.Y = -velocity.Y;
-                }
-            }
-
-            if (position.X < 0 - texture.Width)
-            {
-                isVisible = false;
-            }
-
-            shoot += (float)gameTime.ElapsedGameTime.TotalSeconds;
-            if (shoot > 1)
-            {
-                shoot = 0;
-                ShootBullets();
-
-                //Close enough to player to hear laser sound
-                if (Vector2.Distance(player.position, position) <= 200)
-                {
-                    Constant.laser_sound.Play();
-                }
-            }
-            UpdateBullets();*/
             update_enemy(gameTime);
         }
 
         public void update_enemy(GameTime gameTime)
         {
-            boundingBox = new Rectangle((int)position.X + 15, (int)position.Y + 15, enemy_width, enemy_height);
+            boundingBox = new Rectangle((int)position.X - 15, (int)position.Y - 15, enemy_width, enemy_height);
             player_bullets = player.get_bullets();
 
             Vector2 distance;
