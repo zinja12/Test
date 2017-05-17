@@ -110,7 +110,6 @@ namespace Test
 
             //Update points and collision rectangle
             position += velocity;
-
             base_position += velocity;
             left_side_pt += velocity;
             right_side_pt += velocity;

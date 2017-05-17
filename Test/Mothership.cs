@@ -28,6 +28,7 @@ namespace Test
         public bool dead = false;
 
         public int motherHealth;
+        public int motherXCollider = 1900;
 
         Random random = new Random();
 
@@ -50,7 +51,8 @@ namespace Test
             randY = random.Next(-2, 2);
             //speed across the screen
             randX = -1;
-            boundingBox = new Rectangle((int)position.X + 15, (int)position.Y + 15, enemy_width, enemy_height);
+            boundingBox = new Rectangle(motherXCollider, -100, 450, 200);
+            ;
             player_bullets = player.get_bullets();
             motherHealth = 5;
             velocity = new Vector2(randX, 0);
@@ -128,8 +130,14 @@ namespace Test
         }
         public void Update(GraphicsDevice graphics, GameTime gameTime)
         {
+            if (position.X > 200)
+            {
 
-            boundingBox = new Rectangle((int)position.X + 15, (int)position.Y + 15, enemy_width, enemy_height);
+                motherXCollider += (int)velocity.X;
+
+
+            }
+            boundingBox = new Rectangle(motherXCollider, -100, 450, 200);
             player_bullets = player.get_bullets();
 
             foreach (Bullets bullet in player_bullets)
@@ -137,9 +145,20 @@ namespace Test
                 if (boundingBox.Intersects(bullet.boundingBox))
                 {
                     //Player hit something
-                    isVisible = false;
                     Constant.explosion_sound.Play();
-                    dead = true;
+                    bullet.isVisible = false;
+
+                    if (motherShipArrived)
+                    {
+                        motherHealth--;
+                    }
+                    if (motherHealth <= 0)
+                    {
+                        dead = true;
+                        isVisible = false;
+
+
+                    }
                     GameOverseer.particle_manager.create_explosion(new Vector2(boundingBox.X + (enemy_width / 2), boundingBox.Y + (enemy_height / 2)), Constant.particle);
                 }
             }
@@ -172,17 +191,20 @@ namespace Test
         public void Draw(SpriteBatch spriteBatch)
         {
 
-
-            for (int i = (enemy_frame_count - 1); i >= 0; i--)
+            if (!dead)
             {
-                spriteBatch.Draw(Constant.enemy_tex, new Vector2(position.X, position.Y + i * enemy_sep), new Rectangle((enemy_frame_count - i) * enemy_width, 0, enemy_width,
-                    enemy_height), Color.Purple, 0, new Vector2(0, 0), 30f, SpriteEffects.None, 0f);
+                for (int i = (enemy_frame_count - 1); i >= 0; i--)
+                {
+                    spriteBatch.Draw(Constant.enemy_tex, new Vector2(position.X, position.Y + i * enemy_sep), new Rectangle((enemy_frame_count - i) * enemy_width, 0, enemy_width,
+                        enemy_height), Color.Purple, 0, new Vector2(0, 0), 30f, SpriteEffects.None, 0f);
+                }
+                //Renderer.FillRectangle(spriteBatch, new Vector2((float)boundingBox.X, (float)boundingBox.Y), boundingBox.Width, boundingBox.Height, Color.CornflowerBlue);
+                foreach (Bullets bullet in bullets)
+                {
+                    bullet.Draw(spriteBatch);
+                }
             }
-            //Renderer.FillRectangle(spriteBatch, new Vector2((float)boundingBox.X, (float)boundingBox.Y), boundingBox.Width, boundingBox.Height, Color.CornflowerBlue);
-            foreach (Bullets bullet in bullets)
-            {
-                bullet.Draw(spriteBatch);
-            }
+            
 
         }
 

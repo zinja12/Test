@@ -28,6 +28,8 @@ namespace Test
         Rogue rogue;
         private int score;
         private int counter = 0;
+        private int counter1 = 0;
+
         public bool lose = false;
 
         KeyboardState keyboard;
@@ -73,7 +75,7 @@ namespace Test
             generate_planetary_systems();
 
             rogue = new Rogue(new Vector2(0, 0), player);
-            mother = new MotherShip(Constant.enemy_tex, new Vector2(800, -500), Constant.particle, player);
+            mother = new MotherShip(Constant.enemy_tex, new Vector2(1500, -500), Constant.particle, player);
             score = 0;
         }
 
@@ -271,6 +273,14 @@ namespace Test
                 counter++;
             }
         }
+        public void addMotherShipScore()
+        {
+            if (counter1 < 1)
+            {
+                score += 1500;
+                counter1++;
+            }
+        }
 
         private void camera_updates()
         {
@@ -409,16 +419,19 @@ namespace Test
 
             //Draw heads up display
             spriteBatch.Begin();
-            
+
             spriteBatch.Draw(Constant.health_bar, Vector2.Zero, player.healthSourceRect, Color.White, 0f, Vector2.Zero, 0.7f, SpriteEffects.None, 0f);
             spriteBatch.DrawString(Constant.score_font, "Score: " + score.ToString(), new Vector2(860, 0), Color.White);
 
             if (player.isDestroyed)
             {
-                spriteBatch.DrawString(Constant.score_font, "YOU LOSE!", new Vector2(450, 300), Color.Red);
+                spriteBatch.DrawString(Constant.score_font, "YOU LOSE!", new Vector2(450, 200), Color.Red);
 
+            } else if (mother.dead)
+            {
+                addMotherShipScore();
+                spriteBatch.DrawString(Constant.score_font, "YOU WIN!", new Vector2(450, 200), Color.Green);
             }
-
             spriteBatch.End();
         }
     }
