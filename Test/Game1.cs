@@ -137,19 +137,20 @@ namespace Test
                     {
                         GamePad.SetVibration(PlayerIndex.One, 0f, 0f);
                     }
-
-                    if (!Constant.background_music_started)
-                    {
-                        Constant.background_music_started = true;
-                        MediaPlayer.IsRepeating = true;
-                        MediaPlayer.Play(Constant.background_music);
-                    }
                     break;
 
             }
-           
-           
-            
+
+            //Start music no matter what
+            if (!Constant.background_music_started)
+            {
+                Constant.background_music_started = true;
+                MediaPlayer.IsRepeating = true;
+                MediaPlayer.Play(Constant.background_music);
+            }
+
+
+
             base.Update(gameTime);
         }
 
