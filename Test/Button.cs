@@ -19,10 +19,12 @@ namespace Test
         Color color = new Color(255,255,255,255);
         public Vector2 size;
 
+        public Texture2D texture;
+
 
         public Button(Texture2D newTexture, GraphicsDevice graphics)
         {
-
+            texture = newTexture;
             size = new Vector2(400, 400);
 
 
@@ -72,7 +74,7 @@ namespace Test
 
         public void Draw(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(Constant.start_button, rectangle,color);
+            spriteBatch.Draw(texture, rectangle,color);
         }
     }
 }
