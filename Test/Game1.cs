@@ -128,7 +128,7 @@ namespace Test
             switch (current_game_state)
             {
                 case GameState.MainMenu:
-                    if (btnStart.isClicked)
+                    if (btnStart.isClicked || GamePad.GetState(PlayerIndex.One).Buttons.A == ButtonState.Pressed || GamePad.GetState(PlayerIndex.One).Buttons.Start == ButtonState.Pressed)
                     {
                         current_game_state = GameState.Playing;
                     }
