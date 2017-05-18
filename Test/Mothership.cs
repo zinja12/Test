@@ -32,6 +32,9 @@ namespace Test
 
         Random random = new Random();
 
+        public float rotation;
+        public Vector2 target_position;
+
         int randX, randY;
 
         //Bullets
@@ -41,7 +44,7 @@ namespace Test
         private float enemy_sep = 1;
 
 
-        public MotherShip(Texture2D newTexture, Vector2 newPosition, Texture2D newBulletTexture, Player newPlayer)
+        public MotherShip(Texture2D newTexture, Vector2 newPosition, Texture2D newBulletTexture, Player newPlayer, Vector2 target_position)
         {
 
             texture = Constant.enemy_tex;
@@ -56,6 +59,9 @@ namespace Test
             player_bullets = player.get_bullets();
             motherHealth = 5;
             velocity = new Vector2(randX, 0);
+            rotation = 0;
+            this.target_position = target_position;
+            Console.WriteLine("Mothership added");
         }
 
         public Vector2 get_position()
@@ -101,57 +107,60 @@ namespace Test
 
         public void ShootBullets()
         {
-            bulletTexture = Constant.particle;
-            texture = Constant.enemy_tex;
-
-            Bullets bullet1 = new Bullets(bulletTexture, Color.Lavender, 0f, 4f);
-            Bullets bullet2 = new Bullets(bulletTexture, Color.Lavender, 0f, 4f);
-            Bullets bullet3 = new Bullets(bulletTexture, Color.Lavender, 0f, 4f);
-
-
-            bullet1.velocity.X = velocity.X - 2f;
-            bullet1.position = new Vector2((position.X + bullet1.velocity.X + 30) *3 + 100, position.Y + 500);
-            bullet1.isVisible = true;
-
-            bullet2.velocity.X = velocity.X - 2f;
-            bullet2.velocity.Y = -2f;
-            bullet2.position = new Vector2((position.X + bullet2.velocity.X + 30) *3 +100, position.Y + 500);
-            bullet2.isVisible = true;
-
-            bullet3.velocity.X = velocity.X - 2f;
-            bullet3.velocity.Y = 2f;
-            bullet3.position = new Vector2((position.X + bullet3.velocity.X + 30)*3 +100, position.Y+500);
-            bullet3.isVisible = true;
-
-            bullets.Add(bullet1);
-            bullets.Add(bullet2);
-            bullets.Add(bullet3);
-
+            Bullets newbullet = new Bullets(Constant.laser_tex, Color.White, rotation, 1f);
+            newbullet.velocity = new Vector2((float)Math.Cos(rotation), (float)Math.Sin(rotation)) * -5f + velocity;
+            newbullet.velocity = -newbullet.velocity;
+            newbullet.position = position + newbullet.velocity * 5;
+            newbullet.isVisible = true;
+            if (bullets.Count < 500)
+            {
+                bullets.Add(newbullet);
+            }
+            Bullets newbullet1 = new Bullets(Constant.laser_tex, Color.White, rotation, 1f);
+            newbullet1.velocity = new Vector2((float)Math.Cos(rotation), (float)Math.Sin(rotation)) * -3f + velocity;
+            newbullet1.velocity = -newbullet1.velocity;
+            newbullet1.position = position + newbullet1.velocity * 5;
+            newbullet1.isVisible = true;
+            if (bullets.Count < 500)
+            {
+                bullets.Add(newbullet1);
+            }
+            Bullets newbullet2 = new Bullets(Constant.laser_tex, Color.White, rotation, 1f);
+            newbullet2.velocity = new Vector2((float)Math.Cos(rotation), (float)Math.Sin(rotation)) * -1f + velocity;
+            newbullet2.velocity = -newbullet2.velocity;
+            newbullet2.position = position + newbullet2.velocity * 5;
+            newbullet2.isVisible = true;
+            if (bullets.Count < 500)
+            {
+                bullets.Add(newbullet2);
+            }
         }
         public void Update(GraphicsDevice graphics, GameTime gameTime)
         {
-            if (position.X > 200)
-            {
-
-                motherXCollider += (int)velocity.X;
-
-
-            }
-            boundingBox = new Rectangle(motherXCollider, -100, 450, 200);
+            boundingBox = new Rectangle((int)position.X - 250, (int)position.Y - 150, 450, 450);
             player_bullets = player.get_bullets();
 
-            foreach (Bullets bullet in player_bullets)
+            Vector2 distance;
+            float dist = Vector2.Distance(position, target_position);
+            if (dist > 200)
             {
-                if (boundingBox.Intersects(bullet.boundingBox))
+                distance = target_position - position;
+                distance.Normalize();
+                position += distance * 1.5f;
+                rotation = (float)Math.Atan2(target_position.Y - position.Y, target_position.X - position.X);
+                //Keep collision circle updated with position
+            }
+
+            for (int i = 0; i < player_bullets.Count; i++)
+            {
+                if (boundingBox.Intersects(player_bullets[i].boundingBox))
                 {
                     //Player hit something
                     Constant.explosion_sound.Play();
-                    bullet.isVisible = false;
+                    player_bullets[i].isVisible = false;
 
-                    if (motherShipArrived)
-                    {
-                        motherHealth--;
-                    }
+                    motherHealth--;
+
                     if (motherHealth <= 0)
                     {
                         dead = true;
@@ -172,30 +181,19 @@ namespace Test
                 }
             }
 
-            if (position.X > 200)
+            shoot += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            if (shoot > 5)
             {
+                shoot = 0;
+                ShootBullets();
 
-                position += velocity;
-
-            }
-            else
-            {
-                motherShipArrived = true;
-                shoot += (float)gameTime.ElapsedGameTime.TotalSeconds;
-                if (shoot > 5)
+                //Close enough to player to hear laser sound
+                if (Vector2.Distance(player.position, position) <= 400)
                 {
-                    shoot = 0;
-                    ShootBullets();
-
-                    //Close enough to player to hear laser sound
-                    if (Vector2.Distance(player.position, position) <= 200)
-                    {
-                        Constant.laser_sound.Play();
-                    }
+                    Constant.laser_sound.Play();
                 }
-                UpdateBullets(gameTime);
-
             }
+            UpdateBullets(gameTime);
         }
         public void Draw(SpriteBatch spriteBatch)
         {
@@ -205,9 +203,10 @@ namespace Test
                 for (int i = (enemy_frame_count - 1); i >= 0; i--)
                 {
                     spriteBatch.Draw(Constant.enemy_tex, new Vector2(position.X, position.Y + i * enemy_sep), new Rectangle((enemy_frame_count - i) * enemy_width, 0, enemy_width,
-                        enemy_height), Color.Purple, 0, new Vector2(0, 0), 30f, SpriteEffects.None, 0f);
+                        enemy_height), Color.Purple, rotation + (float)Math.PI, new Vector2(enemy_width/2, enemy_height/2), 30f, SpriteEffects.None, 0f);
                 }
-                //Renderer.FillRectangle(spriteBatch, new Vector2((float)boundingBox.X, (float)boundingBox.Y), boundingBox.Width, boundingBox.Height, Color.CornflowerBlue);
+                Renderer.FillRectangle(spriteBatch, new Vector2((float)boundingBox.X, (float)boundingBox.Y), boundingBox.Width, boundingBox.Height, Color.CornflowerBlue);
+                Renderer.FillRectangle(spriteBatch, new Vector2((float)boundingBox.X, (float)boundingBox.Y), 5, 5, Color.Purple);
                 foreach (Bullets bullet in bullets)
                 {
                     bullet.Draw(spriteBatch);

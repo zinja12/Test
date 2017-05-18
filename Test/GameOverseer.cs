@@ -23,7 +23,6 @@ namespace Test
         MapPortal map;
         Starfield starfield;
         List<SolarSystem> solar_systems;
-        MotherShip mother;
         public static ParticleManager particle_manager;
         Rogue rogue;
 
@@ -41,8 +40,10 @@ namespace Test
 
         //Enemy objects
         List<Enemy> enemies = new List<Enemy>();
+        List<MotherShip> mother_ships = new List<MotherShip>();
         Random random = new Random();
         float spawn = 0;
+        float spawn_mothership = 0;
 
         Vector2 past_player_position;
 
@@ -76,7 +77,7 @@ namespace Test
             generate_planetary_systems();
 
             rogue = new Rogue(new Vector2(0, 0), player);
-            mother = new MotherShip(Constant.enemy_tex, new Vector2(1500, -500), Constant.particle, player);
+            mother_ships = new List<MotherShip>();
             score = 0;
         }
 
@@ -232,7 +233,11 @@ namespace Test
             }
             load_enemies(solar_systems[0].system_center);
             particle_manager.update(gameTime);
-            mother.Update(graphics, gameTime);
+            spawn_motherships(gameTime, solar_systems[0].system_center);
+            for (int i = 0; i < mother_ships.Count; i++)
+            {
+                mother_ships[i].Update(graphics, gameTime);
+            }
 
             keyboard = Keyboard.GetState();
             if (keyboard.IsKeyDown(Keys.R))
@@ -359,6 +364,32 @@ namespace Test
             LoadEnemies();
         }*/
 
+        public void spawn_motherships(GameTime gameTime, Vector2 center_position)
+        {
+            spawn_mothership += (float)gameTime.ElapsedGameTime.TotalSeconds;
+            
+            if (spawn_mothership > 120)
+            {
+                spawn_mothership = 0;
+
+                float rand_x = random.Next(-2000, 2001);
+                float rand_y = random.Next(-2000, 2001);
+
+                if (Vector2.Distance(new Vector2(rand_x, rand_y), center_position) < 1000)
+                {
+                    //Calculate the difference in the vectors
+                    Vector2 v = new Vector2(rand_x - center_position.X, rand_y - center_position.Y);
+                    v.Normalize();
+                    Vector2 dest = new Vector2(rand_x + v.X * 7, rand_y + v.Y * 7);
+                    rand_x = dest.X;
+                    rand_y = dest.Y;
+
+                }
+
+                mother_ships.Add(new MotherShip(Constant.enemy_tex, new Vector2(rand_x, rand_y), Constant.particle, player, center_position));
+            }
+        }
+
         public void load_enemies(Vector2 center_position)
         {
             float rand_x = random.Next(-2000, 2001);
@@ -391,31 +422,6 @@ namespace Test
             }
         }
 
-        /*public void LoadEnemies()
-        {
-            int randY = random.Next(100, 200);
-            if (spawn >= 1)
-            {
-                spawn = 0;
-                if (enemies.Count < 4)
-                {
-
-                    enemies.Add(new Enemy(Constant.enemy_tex, new Vector2(1000, randY), Constant.particle, player));
-
-                }
-            }
-
-            for (int i = 0; i < enemies.Count; i++)
-            {
-                if (!enemies[i].isVisible || mother.motherShipArrived == true)
-                {
-                    enemies.RemoveAt(i);
-                    i--;
-                }
-
-            }
-        }*/
-
         public void draw(SpriteBatch spriteBatch)
         {
             spriteBatch.Begin();
@@ -440,7 +446,11 @@ namespace Test
 
             foreach (Enemy enemy in enemies)
                 enemy.Draw(spriteBatch);
-            mother.Draw(spriteBatch);
+
+            for (int i = 0; i < mother_ships.Count; i++)
+            {
+                mother_ships[i].Draw(spriteBatch);
+            }
             rogue.draw(spriteBatch);
 
             particle_manager.draw(spriteBatch);
@@ -460,10 +470,6 @@ namespace Test
             {
                 spriteBatch.DrawString(Constant.score_font, "YOU LOSE!", new Vector2(450, 200), Color.Red);
 
-            } else if (mother.dead)
-            {
-                addMotherShipScore();
-                spriteBatch.DrawString(Constant.score_font, "YOU WIN!", new Vector2(450, 200), Color.Green);
             }
             spriteBatch.End();
         }
