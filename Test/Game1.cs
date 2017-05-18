@@ -19,12 +19,14 @@ namespace Test
         public enum GameState
         {
             MainMenu,
+            Controls,
             Playing,
         }
 
         public static GameState current_game_state = GameState.MainMenu;
 
         TitleScreen title_screen;
+        ControlsScreen controls_screen;
 
         //Game object
         GameOverseer game_overseer;
@@ -56,6 +58,7 @@ namespace Test
         protected override void Initialize()
         {
             title_screen = new TitleScreen(graphics.GraphicsDevice);
+            controls_screen = new ControlsScreen();
             game_overseer = new GameOverseer(0, graphics.GraphicsDevice.Viewport.Width, graphics.GraphicsDevice.Viewport.Height, Content, graphics.GraphicsDevice.Viewport);
 
             base.Initialize();
@@ -127,6 +130,9 @@ namespace Test
                 case GameState.MainMenu:
                     title_screen.update(gameTime);
                     break;
+                case GameState.Controls:
+                    controls_screen.update(gameTime);
+                    break;
                 case GameState.Playing:
                     Constant.checkPauseKey(Keyboard.GetState(), GamePad.GetState(PlayerIndex.One));
                     if (!Constant.paused)
@@ -171,8 +177,9 @@ namespace Test
                 case GameState.MainMenu:
                     title_screen.draw(spriteBatch);
                     break;
-
-
+                case GameState.Controls:
+                    controls_screen.draw(spriteBatch);
+                    break;
                 case GameState.Playing:
                     game_overseer.draw(spriteBatch);
 
