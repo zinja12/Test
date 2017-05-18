@@ -67,6 +67,8 @@ namespace Test
             spriteBatch.DrawString(Constant.score_font, "Start - Pause", new Vector2(600, 300), Color.White, 0f, Vector2.Zero, 2f, SpriteEffects.None, 0f);
             spriteBatch.DrawString(Constant.score_font, "LS/W - Thrusters", new Vector2(600, 350), Color.White, 0f, Vector2.Zero, 2f, SpriteEffects.None, 0f);
             spriteBatch.DrawString(Constant.score_font, "RS/A/D - Turn", new Vector2(600, 400), Color.White, 0f, Vector2.Zero, 2f, SpriteEffects.None, 0f);
+
+            spriteBatch.DrawString(Constant.score_font, "It is highly recommended that you play with an Xbox360/XboxOne GamePad", new Vector2(80, 550), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
         }
     }
 }
