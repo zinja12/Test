@@ -33,6 +33,8 @@ namespace Test
         public static Texture2D laser_tex;
         public static Texture2D asteroid;
         public static Texture2D pause_tex;
+        public static Texture2D start_button;
+
 
         public static SoundEffect laser_sound;
         public static SoundEffect explosion_sound;

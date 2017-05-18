@@ -424,6 +424,8 @@ namespace Test
 
         public void draw(SpriteBatch spriteBatch)
         {
+            spriteBatch.End();
+
             spriteBatch.Begin();
             starfield.draw(spriteBatch);
             spriteBatch.End();
