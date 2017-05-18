@@ -470,7 +470,7 @@ namespace Test
 
             if (player.isDestroyed)
             {
-                spriteBatch.DrawString(Constant.score_font, "YOU LOSE!", new Vector2(450, 200), Color.Red);
+                spriteBatch.DrawString(Constant.score_font, "Game Over!", new Vector2(450, 200), Color.Red);
 
             }
             spriteBatch.End();
