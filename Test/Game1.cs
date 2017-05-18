@@ -15,18 +15,16 @@ namespace Test
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-        int planet_frame_count = 40;
-        int planet_width = 40, planet_height = 40;
-        float rotation = 0;
-        enum GameState
+
+        public enum GameState
         {
             MainMenu,
             Playing,
         }
 
-        GameState current_game_state = GameState.MainMenu;
-        Button btnStart;
-        float planet_sep = 1f;
+        public static GameState current_game_state = GameState.MainMenu;
+
+        TitleScreen title_screen;
 
         //Game object
         GameOverseer game_overseer;
@@ -47,8 +45,6 @@ namespace Test
             graphics.SynchronizeWithVerticalRetrace = true;
             graphics.ApplyChanges();
             IsMouseVisible = true;
-            btnStart = new Button(Constant.start_button, graphics.GraphicsDevice);
-            btnStart.setPosition(new Vector2(300, 150));
         }
 
         /// <summary>
@@ -59,6 +55,7 @@ namespace Test
         /// </summary>
         protected override void Initialize()
         {
+            title_screen = new TitleScreen(graphics.GraphicsDevice);
             game_overseer = new GameOverseer(0, graphics.GraphicsDevice.Viewport.Width, graphics.GraphicsDevice.Viewport.Height, Content, graphics.GraphicsDevice.Viewport);
 
             base.Initialize();
@@ -128,16 +125,7 @@ namespace Test
             switch (current_game_state)
             {
                 case GameState.MainMenu:
-                    if (btnStart.isClicked || GamePad.GetState(PlayerIndex.One).Buttons.A == ButtonState.Pressed || GamePad.GetState(PlayerIndex.One).Buttons.Start == ButtonState.Pressed)
-                    {
-                        current_game_state = GameState.Playing;
-                    }
-                    btnStart.Update(mouse);
-                    rotation += 0.01f;
-                    if (rotation * (180 / Math.PI) >= 360)
-                    {
-                        rotation = 0;
-                    }
+                    title_screen.update(gameTime);
                     break;
                 case GameState.Playing:
                     Constant.checkPauseKey(Keyboard.GetState(), GamePad.GetState(PlayerIndex.One));
@@ -180,16 +168,7 @@ namespace Test
             switch (current_game_state)
             {
                 case GameState.MainMenu:
-                    spriteBatch.Draw(Constant.background, new Rectangle(0, 0, 1000, 600), Color.White);
-                    btnStart.Draw(spriteBatch);
-                    for (int i = (planet_frame_count - 1); i >= 0; i--)
-                    {
-                        spriteBatch.Draw(Constant.planet_tex, new Vector2(200, 400 + i * planet_sep), new Rectangle((planet_frame_count - i) * planet_width, 0, planet_width, planet_height), Color.DeepSkyBlue, rotation + 180 + 0.6f, new Vector2((float)(planet_width / 2), (float)(planet_height / 2)), 4f, SpriteEffects.None, 0f);
-                    }
-                    for (int i = (planet_frame_count - 1); i >= 0; i--)
-                    {
-                        spriteBatch.Draw(Constant.planet_tex, new Vector2(800, 100 + i * planet_sep), new Rectangle((planet_frame_count - i) * planet_width, 0, planet_width, planet_height), Color.Yellow, rotation + 180 + 0.6f, new Vector2((float)(planet_width / 2), (float)(planet_height / 2)), 4f, SpriteEffects.None, 0f);
-                    }
+                    title_screen.draw(spriteBatch);
                     break;
 
 
