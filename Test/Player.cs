@@ -45,6 +45,8 @@ namespace Test
         public bool player_debug = false;
         public bool isDestroyed = false;
 
+        public bool odd = false;
+
         private bool controller_vibration;
 
         //private Animation test_animation;
@@ -94,13 +96,19 @@ namespace Test
 
         public void playerHit()
         {
-            if (healthFrames < 4) {
-                healthFrames++;
-                healthSourceRect = new Rectangle(157 * healthFrames, 0, 157, 152);
+            if (odd)
+            {
+                if (healthFrames < 4)
+                {
+                    healthFrames++;
+                    healthSourceRect = new Rectangle(157 * healthFrames, 0, 157, 152);
+                }
+                else if (healthFrames >= 4)
+                {
+                    isDestroyed = true;
+                }
             }
-            else if (healthFrames >=4) {
-                isDestroyed = true;
-            }
+            odd = !odd;
         }
 
         public void update(GameTime gameTime, SpriteBatch spriteBatch)
