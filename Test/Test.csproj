@@ -41,6 +41,7 @@
     <Compile Include="Animation.cs" />
     <Compile Include="Block.cs" />
     <Compile Include="Bullets.cs" />
+    <Compile Include="Button.cs" />
     <Compile Include="Camera.cs" />
     <Compile Include="Circle.cs" />
     <Compile Include="Asteroid.cs" />
@@ -128,6 +129,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Sprites\stars.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\Sprites\startbutton.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Content\Sprites\symb_spritesheet.png">

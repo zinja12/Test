@@ -15,6 +15,18 @@ namespace Test
     {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
+        int planet_frame_count = 40;
+        int planet_width = 40, planet_height = 40;
+        float rotation = 0;
+        enum GameState
+        {
+            MainMenu,
+            Playing,
+        }
+
+        GameState current_game_state = GameState.MainMenu;
+        Button btnStart;
+        float planet_sep = 1f;
 
         //Game object
         GameOverseer game_overseer;
@@ -34,6 +46,9 @@ namespace Test
             }
             graphics.SynchronizeWithVerticalRetrace = true;
             graphics.ApplyChanges();
+            IsMouseVisible = true;
+            btnStart = new Button(Constant.start_button, graphics.GraphicsDevice);
+            btnStart.setPosition(new Vector2(300, 150));
         }
 
         /// <summary>
@@ -75,12 +90,15 @@ namespace Test
             Constant.laser_tex = Content.Load<Texture2D>("Sprites/laser.png");
             Constant.asteroid = Content.Load<Texture2D>("Sprites/asteroid.png");
             Constant.pause_tex = Content.Load<Texture2D>("Sprites/pause_icon.png");
+            Constant.start_button = Content.Load<Texture2D>("Sprites/startbutton.png");
+
 
             Constant.laser_sound = Content.Load<SoundEffect>("Laser_Shoot2");
             Constant.explosion_sound = Content.Load<SoundEffect>("Explosion2");
             Constant.damage_sound = Content.Load<SoundEffect>("Hit_Hurt");
             Constant.background_music = Content.Load<Song>("song_of_earth");
             Constant.score_font = Content.Load<SpriteFont>("Score");
+
 
 
         }
@@ -102,25 +120,48 @@ namespace Test
         /// 
         protected override void Update(GameTime gameTime)
         {
+            MouseState mouse = Mouse.GetState();
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
                 Exit();
 
             // TODO: Add your update logic heres
-            Constant.checkPauseKey(Keyboard.GetState(), GamePad.GetState(PlayerIndex.One));
-            if (!Constant.paused)
+            switch (current_game_state)
             {
-                game_overseer.update(gameTime, graphics.GraphicsDevice, spriteBatch);
-            } else
-            {
-                GamePad.SetVibration(PlayerIndex.One, 0f, 0f);
-            }
+                case GameState.MainMenu:
+                    if (btnStart.isClicked)
+                    {
+                        current_game_state = GameState.Playing;
+                    }
+                    btnStart.Update(mouse);
+                    rotation += 0.01f;
+                    if (rotation * (180 / Math.PI) >= 360)
+                    {
+                        rotation = 0;
+                    }
+                    break;
+                case GameState.Playing:
+                    Constant.checkPauseKey(Keyboard.GetState(), GamePad.GetState(PlayerIndex.One));
+                    if (!Constant.paused)
+                    {
+                        game_overseer.update(gameTime, graphics.GraphicsDevice, spriteBatch);
+                    }
+                    else
+                    {
+                        GamePad.SetVibration(PlayerIndex.One, 0f, 0f);
+                    }
 
-            if (!Constant.background_music_started)
-            {
-                Constant.background_music_started = true;
-                MediaPlayer.IsRepeating = true;
-                MediaPlayer.Play(Constant.background_music);
+                    if (!Constant.background_music_started)
+                    {
+                        Constant.background_music_started = true;
+                        MediaPlayer.IsRepeating = true;
+                        MediaPlayer.Play(Constant.background_music);
+                    }
+                    break;
+
             }
+           
+           
+            
             base.Update(gameTime);
         }
 
@@ -133,8 +174,33 @@ namespace Test
         {
             GraphicsDevice.Clear(Color.Black);
 
-            
-            game_overseer.draw(spriteBatch);
+
+            spriteBatch.Begin();
+
+            switch (current_game_state)
+            {
+                case GameState.MainMenu:
+                    spriteBatch.Draw(Constant.background, new Rectangle(0, 0, 1000, 600), Color.White);
+                    btnStart.Draw(spriteBatch);
+                    for (int i = (planet_frame_count - 1); i >= 0; i--)
+                    {
+                        spriteBatch.Draw(Constant.planet_tex, new Vector2(200, 400 + i * planet_sep), new Rectangle((planet_frame_count - i) * planet_width, 0, planet_width, planet_height), Color.DeepSkyBlue, rotation + 180 + 0.6f, new Vector2((float)(planet_width / 2), (float)(planet_height / 2)), 4f, SpriteEffects.None, 0f);
+                    }
+                    for (int i = (planet_frame_count - 1); i >= 0; i--)
+                    {
+                        spriteBatch.Draw(Constant.planet_tex, new Vector2(800, 100 + i * planet_sep), new Rectangle((planet_frame_count - i) * planet_width, 0, planet_width, planet_height), Color.Yellow, rotation + 180 + 0.6f, new Vector2((float)(planet_width / 2), (float)(planet_height / 2)), 4f, SpriteEffects.None, 0f);
+                    }
+                    break;
+
+
+                case GameState.Playing:
+                    game_overseer.draw(spriteBatch);
+
+                    break;
+
+            }
+            spriteBatch.End();
+
 
             if (Constant.paused)
             {
