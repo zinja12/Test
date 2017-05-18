@@ -33,6 +33,8 @@ namespace Test
             health = 2;
             dead = false;
             this.player = player;
+
+            Console.WriteLine("Added rogue at: " + position);
         }
 
         public void update(GameTime gameTime, Vector2 target_position)

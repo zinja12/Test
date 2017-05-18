@@ -267,6 +267,7 @@ namespace Test
             if (rogue.dead == true)
             {
                 addRougeScore();
+                rogue = new Rogue(new Vector2(0, 0), player);
             }
             
         }
