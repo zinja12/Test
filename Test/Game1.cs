@@ -88,7 +88,7 @@ namespace Test
             Constant.asteroid = Content.Load<Texture2D>("Sprites/asteroid.png");
             Constant.pause_tex = Content.Load<Texture2D>("Sprites/pause_icon.png");
             Constant.start_button = Content.Load<Texture2D>("Sprites/startbutton.png");
-
+            Constant.controls_button = Content.Load<Texture2D>("Sprites/controls_button.png");
 
             Constant.laser_sound = Content.Load<SoundEffect>("Laser_Shoot2");
             Constant.explosion_sound = Content.Load<SoundEffect>("Explosion2");

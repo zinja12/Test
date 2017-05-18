@@ -13,6 +13,7 @@ namespace Test
     {
         Starfield starfield;
         Button btnStart;
+        Button btnControls;
         float rotation;
 
         int planet_frame_count = 40;
@@ -39,19 +40,23 @@ namespace Test
             }
 
             btnStart = new Button(Constant.start_button, graphics);
+            btnControls = new Button(Constant.controls_button, graphics);
             btnStart.setPosition(new Vector2(300, 150));
+            btnControls.setPosition(new Vector2(305, 250));
 
             if (btnStart.isClicked || GamePad.GetState(PlayerIndex.One).Buttons.A == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Space) || Keyboard.GetState().IsKeyDown(Keys.Enter))
             {
                 Game1.current_game_state = Game1.GameState.Playing;
             }
             btnStart.Update(Mouse.GetState());
+            btnControls.Update(Mouse.GetState());
+
         }
 
         public void draw(SpriteBatch spriteBatch)
         {
             starfield.draw(spriteBatch);
-
+            btnControls.Draw(spriteBatch);
             btnStart.Draw(spriteBatch);
 
             for (int i = (planet_frame_count - 1); i >= 0; i--)
