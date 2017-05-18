@@ -156,10 +156,19 @@ namespace Test
                     {
                         dead = true;
                         isVisible = false;
-
+                        GameOverseer.particle_manager.create_explosion(new Vector2(boundingBox.X + (boundingBox.Width / 2), boundingBox.Y + (boundingBox.Height / 2)), Constant.particle);
+                        GameOverseer.particle_manager.create_explosion(new Vector2(boundingBox.X + (boundingBox.Width / 2), boundingBox.Y + (boundingBox.Height / 2)), Constant.particle);
+                        GameOverseer.particle_manager.create_explosion(new Vector2(boundingBox.X + (boundingBox.Width / 2), boundingBox.Y + (boundingBox.Height / 2)), Constant.particle);
+                        GameOverseer.particle_manager.create_explosion(new Vector2(boundingBox.X + (boundingBox.Width / 2), boundingBox.Y + (boundingBox.Height / 2)), Constant.particle);
+                        GameOverseer.particle_manager.create_explosion(new Vector2(boundingBox.X + (boundingBox.Width / 2), boundingBox.Y + (boundingBox.Height / 2)), Constant.particle);
+                        GameOverseer.particle_manager.create_explosion(new Vector2(boundingBox.X + (boundingBox.Width / 2), boundingBox.Y + (boundingBox.Height / 2)), Constant.particle);
+                        GameOverseer.particle_manager.create_explosion(new Vector2(boundingBox.X + (boundingBox.Width / 2), boundingBox.Y + (boundingBox.Height / 2)), Constant.particle);
+                        GameOverseer.particle_manager.create_explosion(new Vector2(boundingBox.X + (boundingBox.Width / 2), boundingBox.Y + (boundingBox.Height / 2)), Constant.particle);
+                        GameOverseer.particle_manager.create_explosion(new Vector2(boundingBox.X + (boundingBox.Width / 2), boundingBox.Y + (boundingBox.Height / 2)), Constant.particle);
+                        GameOverseer.particle_manager.create_explosion(new Vector2(boundingBox.X + (boundingBox.Width / 2), boundingBox.Y + (boundingBox.Height / 2)), Constant.particle);
 
                     }
-                    GameOverseer.particle_manager.create_explosion(new Vector2(boundingBox.X + (enemy_width / 2), boundingBox.Y + (enemy_height / 2)), Constant.particle);
+                    GameOverseer.particle_manager.create_explosion(new Vector2(boundingBox.X + (boundingBox.Width / 2), boundingBox.Y + (boundingBox.Height / 2)), Constant.particle);
                 }
             }
 

@@ -26,6 +26,7 @@ namespace Test
         MotherShip mother;
         public static ParticleManager particle_manager;
         Rogue rogue;
+
         private int score;
         private int counter = 0;
         private int counter1 = 0;
@@ -229,7 +230,7 @@ namespace Test
                     enemy.dead = false;
                 }
             }
-            LoadEnemies();
+            load_enemies(solar_systems[0].system_center);
             particle_manager.update(gameTime);
             mother.Update(graphics, gameTime);
 
@@ -358,7 +359,39 @@ namespace Test
             LoadEnemies();
         }*/
 
-        public void LoadEnemies()
+        public void load_enemies(Vector2 center_position)
+        {
+            float rand_x = random.Next(-2000, 2001);
+            float rand_y = random.Next(-2000, 2001);
+            
+            if (Vector2.Distance(new Vector2(rand_x, rand_y), center_position) < 1000)
+            {
+                //Calculate the difference in the vectors
+                Vector2 v = new Vector2(rand_x - center_position.X, rand_y - center_position.Y);
+                v.Normalize();
+                Vector2 dest = new Vector2(rand_x + v.X * 7, rand_y + v.Y * 7);
+                rand_x = dest.X;
+                rand_y = dest.Y;
+
+            }
+
+            if (spawn >= 3)
+            {
+                spawn = 0;
+                enemies.Add(new Enemy(Constant.enemy_tex, new Vector2(rand_x, rand_y), Constant.particle, player, center_position));
+            }
+
+            for (int i = 0; i < enemies.Count; i++)
+            {
+                if (!enemies[i].isVisible)
+                {
+                    enemies.RemoveAt(i);
+                    i--;
+                }
+            }
+        }
+
+        /*public void LoadEnemies()
         {
             int randY = random.Next(100, 200);
             if (spawn >= 1)
@@ -381,7 +414,7 @@ namespace Test
                 }
 
             }
-        }
+        }*/
 
         public void draw(SpriteBatch spriteBatch)
         {
