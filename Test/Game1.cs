@@ -21,15 +21,18 @@ namespace Test
             MainMenu,
             Controls,
             Playing,
+            GameOver,
         }
 
         public static GameState current_game_state = GameState.MainMenu;
 
         TitleScreen title_screen;
         ControlsScreen controls_screen;
+        GameOverScreen gameover_screen;
 
         //Game object
         GameOverseer game_overseer;
+        public static bool reset;
 
         public Game1()
         {
@@ -59,7 +62,9 @@ namespace Test
         {
             title_screen = new TitleScreen(graphics.GraphicsDevice);
             controls_screen = new ControlsScreen();
+            reset = true;
             game_overseer = new GameOverseer(0, graphics.GraphicsDevice.Viewport.Width, graphics.GraphicsDevice.Viewport.Height, Content, graphics.GraphicsDevice.Viewport);
+            gameover_screen = new GameOverScreen();
 
             base.Initialize();
         }
@@ -144,6 +149,14 @@ namespace Test
                         GamePad.SetVibration(PlayerIndex.One, 0f, 0f);
                     }
                     break;
+                case GameState.GameOver:
+                    if (reset)
+                    {
+                        game_overseer = new GameOverseer(0, graphics.GraphicsDevice.Viewport.Width, graphics.GraphicsDevice.Viewport.Height, Content, graphics.GraphicsDevice.Viewport);
+                        reset = false;
+                    }
+                    gameover_screen.update(gameTime);
+                    break;
 
             }
 
@@ -182,7 +195,9 @@ namespace Test
                     break;
                 case GameState.Playing:
                     game_overseer.draw(spriteBatch);
-
+                    break;
+                case GameState.GameOver:
+                    gameover_screen.draw(spriteBatch);
                     break;
 
             }

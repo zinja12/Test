@@ -61,8 +61,15 @@ namespace Test
 
             if (btnStart.isClicked || GamePad.GetState(PlayerIndex.One).Buttons.A == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Space) || Keyboard.GetState().IsKeyDown(Keys.Enter))
             {
-                if (menu_option == 0) Game1.current_game_state = Game1.GameState.Playing;
-                else if (menu_option == 1) Game1.current_game_state = Game1.GameState.Controls;
+                if (menu_option == 0)
+                {
+                    Game1.reset = true;
+                    Game1.current_game_state = Game1.GameState.Playing;
+                }
+                else if (menu_option == 1)
+                {
+                    Game1.current_game_state = Game1.GameState.Controls;
+                }
 
             }
 

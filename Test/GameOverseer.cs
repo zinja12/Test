@@ -268,6 +268,7 @@ namespace Test
             {
                 addRougeScore();
                 rogue = new Rogue(new Vector2(0, 0), player);
+                counter--;
             }
             
         }
@@ -472,6 +473,8 @@ namespace Test
             if (player.isDestroyed)
             {
                 spriteBatch.DrawString(Constant.score_font, "Game Over!", new Vector2(450, 200), Color.Red);
+                GameOverScreen.score = score;
+                Game1.current_game_state = Game1.GameState.GameOver;
 
             }
             spriteBatch.End();

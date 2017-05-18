@@ -49,6 +49,7 @@
     <Compile Include="Enemy.cs" />
     <Compile Include="Constant.cs" />
     <Compile Include="Game1.cs" />
+    <Compile Include="GameOverScreen.cs" />
     <Compile Include="GameOverseer.cs" />
     <Compile Include="MapPortal.cs" />
     <Compile Include="Mothership.cs" />
