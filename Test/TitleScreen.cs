@@ -102,6 +102,8 @@ namespace Test
             btnControls.Draw(spriteBatch);
             btnStart.Draw(spriteBatch);
 
+            spriteBatch.DrawString(Constant.score_font, "Planet Protectors", new Vector2(280, 200), Color.White, 0f, Vector2.Zero, 2f, SpriteEffects.None, 0f);
+
             for (int i = (planet_frame_count - 1); i >= 0; i--)
             {
                 spriteBatch.Draw(Constant.planet_tex, new Vector2(150, 400 + i * planet_sep), new Rectangle((planet_frame_count - i) * planet_width, 0, planet_width, planet_height), Color.DeepSkyBlue, rotation + 180 + 0.6f, new Vector2((float)(planet_width / 2), (float)(planet_height / 2)), 4f, SpriteEffects.None, 0f);

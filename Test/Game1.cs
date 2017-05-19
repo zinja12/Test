@@ -50,6 +50,7 @@ namespace Test
             graphics.SynchronizeWithVerticalRetrace = true;
             graphics.ApplyChanges();
             IsMouseVisible = true;
+            this.Window.Title = "Planet Protectors";
         }
 
         /// <summary>
